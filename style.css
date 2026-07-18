@@ -126,3 +126,30 @@ animation:blink 1.5s infinite;
 opacity:.6;
 }
 }
+
+.search-area{
+    text-align:center;
+    padding:20px;
+    background:#ffffff;
+}
+
+.search-area input{
+    width:60%;
+    max-width:400px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.search-area button{
+    padding:10px 20px;
+    background:#c40000;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.search-area button:hover{
+    background:#900000;
+}
