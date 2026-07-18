@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Sheen</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f4f4f4;
+}
+
+header{
+background:#c40000;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+nav{
+background:#111;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+nav a{
+color:white;
+padding:15px 20px;
+text-decoration:none;
+}
+
+nav a:hover{
+background:#c40000;
+}
+
+.breaking{
+background:#ffeb3b;
+padding:10px;
+font-weight:bold;
+text-align:center;
+}
+
+.hero{
+background:white;
+margin:20px;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+.hero img{
+width:100%;
+border-radius:10px;
+}
+
+.news{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:white;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 0 8px rgba(0,0,0,.1);
+}
+
+.card img{
+width:100%;
+}
+
+.card h3{
+padding:10px;
+}
+
+.card p{
+padding:0 10px 15px;
+}
+
+footer{
+background:#111;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>Daily Sheen</h1>
+<p>Truth • Speed • Reliability</p>
+</header>
+
+<div class="breaking">
+🛑 Breaking News: Welcome to Daily Sheen News Portal
+</div>
+
+<nav>
+<a href="#">Home</a>
+<a href="#">বাংলা</a>
+<a href="#">English</a>
+<a href="#">Bangladesh</a>
+<a href="#">International</a>
+<a href="#">Sports</a>
+<a href="#">Technology</a>
+<a href="#">Entertainment</a>
+<a href="#">Contact</a>
+</nav>
+
+<section class="hero">
+<img src="https://picsum.photos/1200/450" alt="">
+<h2>Welcome to Daily Sheen</h2>
+<p>বাংলা ও ইংরেজি ভাষায় সর্বশেষ সংবাদ, খেলাধুলা, প্রযুক্তি ও আন্তর্জাতিক খবর পড়ুন।</p>
+</section>
+
+<section class="news">
+
+<div class="card">
+<img src="https://picsum.photos/400/250?1">
+<h3>জাতীয় সংবাদ</h3>
+<p>এখানে জাতীয় সংবাদের বিস্তারিত দেখানো হবে।</p>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/400/250?2">
+<h3>আন্তর্জাতিক</h3>
+<p>বিশ্বের সর্বশেষ খবর এখানে প্রকাশিত হবে।</p>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/400/250?3">
+<h3>খেলাধুলা</h3>
+<p>সর্বশেষ ক্রীড়া সংবাদ।</p>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/400/250?4">
+<h3>প্রযুক্তি</h3>
+<p>নতুন প্রযুক্তির খবর।</p>
+</div>
+
+</section>
+
+<footer>
+© 2026 Daily Sheen | All Rights Reserved
+</footer>
+
+</body>
+</html>
