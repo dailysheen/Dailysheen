@@ -367,3 +367,39 @@ border-radius:20px;
 ::-webkit-scrollbar-track{
 background:#e5e5e5;
 }
+
+/* Footer */
+
+.footer-content{
+    width:90%;
+    margin:auto;
+}
+
+.footer-content h3{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.footer-content p{
+    margin:10px 0;
+}
+
+.footer-links{
+    margin:20px 0;
+}
+
+.footer-links a{
+    color:white;
+    text-decoration:none;
+    margin:0 10px;
+}
+
+.footer-links a:hover{
+    text-decoration:underline;
+}
+
+.copyright{
+    margin-top:20px;
+    font-size:14px;
+    opacity:.8;
+}
