@@ -261,3 +261,109 @@ nav a{
     margin-top:10px;
 }
 }
+
+/* ==========================
+   Daily Sheen V2 - Part 4
+   Premium Effects
+========================== */
+
+/* Sticky Navigation */
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+/* Hero Banner */
+
+.hero{
+    background:linear-gradient(135deg,#ffffff,#f3f3ff);
+}
+
+/* Featured Cards */
+
+.card{
+    overflow:hidden;
+}
+
+.card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.card:hover{
+    box-shadow:0 10px 25px rgba(106,13,173,.25);
+}
+
+/* Category Badge */
+
+.badge{
+    display:inline-block;
+    background:#2E8B57;
+    color:white;
+    padding:6px 12px;
+    border-radius:30px;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+/* Buttons */
+
+.btn{
+    display:inline-block;
+    background:#6A0DAD;
+    color:#fff;
+    padding:10px 18px;
+    text-decoration:none;
+    border-radius:8px;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#2E8B57;
+}
+
+/* Smooth Animation */
+
+html{
+    scroll-behavior:smooth;
+}
+
+.card,
+.news-item,
+.hero{
+    animation:fadeIn .6s ease;
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#6A0DAD;
+border-radius:20px;
+}
+
+::-webkit-scrollbar-track{
+background:#e5e5e5;
+}
