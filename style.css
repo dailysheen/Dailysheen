@@ -476,3 +476,32 @@ footer{
 .footer-links a:hover{
     color:#86efac;
 }
+
+/* ===== V3 Header ===== */
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+}
+
+.logo-area img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:#fff;
+    padding:6px;
+}
+
+header h1{
+    font-size:42px;
+    margin:0;
+}
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:999;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
