@@ -2,95 +2,74 @@
 <html lang="bn">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Daily Sheen | News & Health</title>
+<meta name="description" content="Daily Sheen - বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ, স্বাস্থ্য, রোগ ও চিকিৎসা, শিক্ষা, প্রযুক্তি ও চাকরির খবর">
+
+<meta name="keywords" content="Daily Sheen, News, Bangladesh News, Health, Disease, Treatment, Jobs">
+
+<meta name="author" content="Daily Sheen">
+
+<title>Daily Sheen | Breaking News & Health</title>
 
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<header class="header">
+<header>
+
+<div class="top-header">
 
 <div class="logo">
 
-<img src="logo.png" alt="Daily Sheen">
+<img src="assets/logo.png" alt="Daily Sheen">
 
-<div>
-
-<div class="logo-area">
-    <img src="logo.png" alt="Daily Sheen Logo">
-    <h1>Daily Sheen</h1>
-</div>
-
-<p>Truth • Speed • Reliability</p>
+<h1>Daily Sheen</h1>
 
 </div>
 
-</div>
-
-<div class="header-btn">
+<div class="top-right">
 
 <button id="darkBtn">
+
 🌙 Dark Mode
+
 </button>
 
 </div>
-
-</header>
-
-<div class="breaking">
-
-<marquee>
-
-🔴 Breaking News | Daily Sheen এ আপনাকে স্বাগতম | স্বাস্থ্য | চাকরি | শিক্ষা | প্রযুক্তি | আন্তর্জাতিক |
-
-</marquee>
 
 </div>
 
 <nav>
 
-<a href="news.html">হোম</a>
+<a href="index.html">Home</a>
 
-<a href="news.html">বাংলাদেশ</a>
+<a href="category.html?cat=bangladesh">বাংলাদেশ</a>
 
-<a href="news.html">আন্তর্জাতিক</a>
+<a href="category.html?cat=health">স্বাস্থ্য</a>
 
-<a href="news.html">স্বাস্থ্য</a>
+<a href="category.html?cat=treatment">রোগ ও চিকিৎসা</a>
 
-<a href="news.html">রোগ ও চিকিৎসা</a>
+<a href="category.html?cat=jobs">চাকরি</a>
 
-<a href="news.html">চাকরি</a>
+<a href="category.html?cat=technology">প্রযুক্তি</a>
 
-<a href="news.html">শিক্ষা</a>
+<a href="category.html?cat=sports">খেলাধুলা</a>
 
-<a href="news.html">প্রযুক্তি</a>
-
-<a href="news.html">খেলাধুলা</a>
-
-<a href="news.html">যোগাযোগ</a>
+<a href="contact.html">যোগাযোগ</a>
 
 </nav>
 
-<div class="search-area">
-
-<input
-type="text"
-id="searchBox"
-placeholder="সংবাদ খুঁজুন...">
-
-<button onclick="searchNews()">
-
-Search
-
-</button>
-
-</div>
+</header>
 
 <section class="hero">
+
+<div class="hero-text">
 
 <h2>
 
@@ -100,144 +79,99 @@ Search
 
 <p>
 
-সংবাদ • স্বাস্থ্য • রোগ ও চিকিৎসা • চাকরি • প্রযুক্তি
+বিশ্বস্ত সংবাদ • স্বাস্থ্য • শিক্ষা • চাকরি • প্রযুক্তি
 
 </p>
 
-<a href="#" class="btn">
+<a class="btn" href="#latest">
 
 সর্বশেষ সংবাদ
 
 </a>
 
-</section>
-
- <section class="trending-news">
-
-<h2>🔥 ট্রেন্ডিং সংবাদ</h2>
-
-<div class="trending-grid">
-
-<div class="trend-card">
-<img src="https://picsum.photos/500/300?random=10">
-<h3>বাংলাদেশের সর্বশেষ খবর</h3>
-<p>সারাদেশের গুরুত্বপূর্ণ খবর এক নজরে।</p>
-<a href="#">বিস্তারিত</a>
 </div>
 
-<div class="trend-card">
-<img src="https://picsum.photos/500/300?random=11">
-<h3>স্বাস্থ্য ও চিকিৎসা</h3>
-<p>রোগ, চিকিৎসা ও স্বাস্থ্য পরামর্শ।</p>
-<a href="#">বিস্তারিত</a>
-</div>
+<div class="hero-image">
 
-<div class="trend-card">
-<img src="https://picsum.photos/500/300?random=12">
-<h3>প্রযুক্তি সংবাদ</h3>
-<p>AI, মোবাইল ও নতুন প্রযুক্তির আপডেট।</p>
-<a href="#">বিস্তারিত</a>
-</div>
+<img src="assets/banner.jpg" alt="Daily Sheen Banner">
 
 </div>
 
 </section>
 
- <section class="featured-news">
+ <!-- Breaking News -->
 
-<div class="featured-left">
+<section class="breaking-news">
 
-<img src="https://picsum.photos/800/450?random=10" alt="Top News">
+<h2>🔥 Breaking News</h2>
 
-<h2>বাংলাদেশের শীর্ষ সংবাদ</h2>
+<div class="breaking-container">
 
-<p>আজকের সবচেয়ে গুরুত্বপূর্ণ খবর এখানে দেখানো হবে।</p>
+<div class="breaking-card">
 
-<a href="#" class="btn">বিস্তারিত পড়ুন</a>
-
-</div>
-
-<div class="featured-right">
-
-<div class="side-news">
-<h4>🏥 স্বাস্থ্য</h4>
-<p>ডেঙ্গু প্রতিরোধে করণীয়</p>
-</div>
-
-<div class="side-news">
-<h4>💼 চাকরি</h4>
-<p>নতুন সরকারি নিয়োগ</p>
-</div>
-
-<div class="side-news">
-<h4>💻 প্রযুক্তি</h4>
-<p>AI-এর নতুন আপডেট</p>
-</div>
-
-<div class="side-news">
-<h4>⚽ খেলাধুলা</h4>
-<p>আজকের ম্যাচের খবর</p>
-</div>
-
-</div>
-
-</section>
-
-<section class="cards">
-
-<div class="card">
-
-<img src="https://picsum.photos/400/250?random=1" alt="Bangladesh News">
-
-<span class="badge">বাংলাদেশ</span>
+<img src="https://picsum.photos/600/350?random=1" alt="News">
 
 <h3>বাংলাদেশের সর্বশেষ সংবাদ</h3>
 
-<p>দেশের গুরুত্বপূর্ণ ও নির্ভরযোগ্য সংবাদ প্রতিদিন আপডেট করা হবে।</p>
+<p>আজকের গুরুত্বপূর্ণ জাতীয় সংবাদ এখানে প্রকাশিত হবে।</p>
 
-<a href="#" class="btn">বিস্তারিত পড়ুন</a>
+<a href="article.html" class="btn">বিস্তারিত পড়ুন</a>
 
 </div>
 
-<div class="card">
+<div class="breaking-card">
 
-<img src="https://picsum.photos/400/250?random=2" alt="Health">
+<img src="https://picsum.photos/600/350?random=2" alt="Health">
 
-<span class="badge">স্বাস্থ্য</span>
+<h3>স্বাস্থ্য ও চিকিৎসা</h3>
 
+<p>স্বাস্থ্য, রোগ, চিকিৎসা ও প্রতিরোধ সম্পর্কে নির্ভরযোগ্য তথ্য।</p>
+
+<a href="article.html" class="btn">বিস্তারিত পড়ুন</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Categories -->
+
+<section class="categories">
+
+<h2>সংবাদ বিভাগ</h2>
+
+<div class="category-grid">
+
+<a href="category.html?cat=bangladesh" class="category-card">
+🇧🇩
+<h3>বাংলাদেশ</h3>
+</a>
+
+<a href="category.html?cat=health" class="category-card">
+🏥
+<h3>স্বাস্থ্য</h3>
+</a>
+
+<a href="category.html?cat=treatment" class="category-card">
+💊
 <h3>রোগ ও চিকিৎসা</h3>
+</a>
 
-<p>স্বাস্থ্য, রোগের লক্ষণ, প্রতিরোধ ও চিকিৎসা বিষয়ক তথ্য।</p>
+<a href="category.html?cat=jobs" class="category-card">
+💼
+<h3>চাকরি</h3>
+</a>
 
-<a href="#" class="btn">বিস্তারিত পড়ুন</a>
+<a href="category.html?cat=technology" class="category-card">
+💻
+<h3>প্রযুক্তি</h3>
+</a>
 
-</div>
-
-<div class="card">
-
-<img src="https://picsum.photos/400/250?random=3" alt="Jobs">
-
-<span class="badge">চাকরি</span>
-
-<h3>সরকারি ও বেসরকারি চাকরি</h3>
-
-<p>সর্বশেষ চাকরির বিজ্ঞপ্তি ও পরীক্ষার আপডেট।</p>
-
-<a href="#" class="btn">বিস্তারিত পড়ুন</a>
-
-</div>
-
-<div class="card">
-
-<img src="https://picsum.photos/400/250?random=4" alt="Technology">
-
-<span class="badge">প্রযুক্তি</span>
-
-<h3>প্রযুক্তির সর্বশেষ খবর</h3>
-
-<p>AI, মোবাইল, কম্পিউটার ও নতুন প্রযুক্তির আপডেট।</p>
-
-<a href="#" class="btn">বিস্তারিত পড়ুন</a>
+<a href="category.html?cat=sports" class="category-card">
+⚽
+<h3>খেলাধুলা</h3>
+</a>
 
 </div>
 
@@ -245,56 +179,144 @@ Search
 
 <!-- Latest News -->
 
-<section class="latest-news">
+<section id="latest" class="latest-news">
 
 <h2>📰 সর্বশেষ সংবাদ</h2>
 
-<div class="news-item">
+<div class="news-grid">
 
-<h3>বাংলাদেশে নতুন স্বাস্থ্য কর্মসূচি শুরু</h3>
+<article class="news-card">
 
-<p>স্বাস্থ্য ও পরিবার কল্যাণ সংক্রান্ত গুরুত্বপূর্ণ আপডেট এখানে প্রকাশ করা হবে।</p>
+<img src="https://picsum.photos/500/300?random=11">
 
-</div>
+<h3>আজকের প্রধান সংবাদ</h3>
 
-<div class="news-item">
+<p>এখানে সর্বশেষ জাতীয় সংবাদ দেখানো হবে।</p>
 
-<h3>নতুন সরকারি চাকরির বিজ্ঞপ্তি প্রকাশ</h3>
+<a href="article.html" class="btn">বিস্তারিত</a>
 
-<p>বিভিন্ন মন্ত্রণালয় ও সরকারি প্রতিষ্ঠানের নিয়োগ সংবাদ।</p>
+</article>
 
-</div>
+<article class="news-card">
 
-<div class="news-item">
+<img src="https://picsum.photos/500/300?random=12">
 
-<h3>AI প্রযুক্তিতে নতুন অগ্রগতি</h3>
+<h3>ডেঙ্গু প্রতিরোধে করণীয়</h3>
 
-<p>কৃত্রিম বুদ্ধিমত্তা ও প্রযুক্তির নতুন আপডেট।</p>
+<p>ডেঙ্গু সম্পর্কে সচেতনতা ও প্রতিরোধের উপায়।</p>
+
+<a href="article.html" class="btn">বিস্তারিত</a>
+
+</article>
+
+<article class="news-card">
+
+<img src="https://picsum.photos/500/300?random=13">
+
+<h3>নতুন সরকারি চাকরি</h3>
+
+<p>সরকারি চাকরির সর্বশেষ নিয়োগ বিজ্ঞপ্তি।</p>
+
+<a href="article.html" class="btn">বিস্তারিত</a>
+
+</article>
 
 </div>
 
 </section>
 
+<!-- About Section -->
+
+<section class="about-site">
+
+<h2>Daily Sheen সম্পর্কে</h2>
+
+<p>
+Daily Sheen একটি বাংলা নিউজ ও স্বাস্থ্যবিষয়ক ওয়েবসাইট। এখানে বাংলাদেশ ও আন্তর্জাতিক সংবাদ, স্বাস্থ্য, রোগ ও চিকিৎসা, শিক্ষা, চাকরি, প্রযুক্তি এবং খেলাধুলার নির্ভরযোগ্য তথ্য প্রকাশ করা হবে।
+</p>
+
+</section>
+
+<!-- Newsletter -->
+
+<section class="newsletter">
+
+<h2>নতুন সংবাদ পেতে সাবস্ক্রাইব করুন</h2>
+
+<form>
+
+<input
+type="email"
+placeholder="আপনার ইমেইল লিখুন">
+
+<button type="submit">
+
+Subscribe
+
+</button>
+
+</form>
+
+</section>
+
 <!-- Footer -->
 
-< <footer>
-  <div class="footer-content">
-    <h3>Daily Sheen</h3>
-    <p>Truth • Speed • Reliability</p>
+<footer>
 
-    <div class="footer-links">
-      <a href="#">About</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Contact</a>
-      <a href="#">Terms</a>
-    </div>
+<div class="footer-grid">
 
-    <p>© 2026 Daily Sheen. All Rights Reserved.</p>
-  </div>
+<div>
+
+<h3>Daily Sheen</h3>
+
+<p>
+Truth • Speed • Reliability
+</p>
+
+</div>
+
+<div>
+
+<h3>Quick Links</h3>
+
+<a href="about.html">About</a><br>
+
+<a href="contact.html">Contact</a><br>
+
+<a href="privacy.html">Privacy Policy</a><br>
+
+<a href="category.html">Categories</a>
+
+</div>
+
+<div>
+
+<h3>Categories</h3>
+
+<a href="category.html?cat=health">স্বাস্থ্য</a><br>
+
+<a href="category.html?cat=jobs">চাকরি</a><br>
+
+<a href="category.html?cat=technology">প্রযুক্তি</a><br>
+
+<a href="category.html?cat=sports">খেলাধুলা</a>
+
+</div>
+
+</div>
+
+<hr>
+
+<p style="text-align:center; margin-top:20px;">
+
+© 2026 Daily Sheen. All Rights Reserved.
+
+</p>
 
 </footer>
 
 <script src="app.js"></script>
 
 </body>
+
 </html>
