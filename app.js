@@ -24,3 +24,13 @@ btn.onclick=function(){
 document.body.classList.toggle("dark");
 
 }
+
+// Dark Mode
+
+const darkBtn = document.getElementById("darkBtn");
+
+if(darkBtn){
+    darkBtn.addEventListener("click", function(){
+        document.body.classList.toggle("dark");
+    });
+}
