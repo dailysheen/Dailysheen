@@ -215,3 +215,15 @@ border-radius:5px;
 cursor:pointer;
 font-weight:bold;
 }
+
+.dark{
+background:#111;
+color:white;
+}
+
+.dark .hero,
+.dark .card,
+.dark .news-item{
+background:#222;
+color:white;
+}
