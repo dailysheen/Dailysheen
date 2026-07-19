@@ -16,3 +16,11 @@ function searchNews(){
         alert("আপনি খুঁজেছেন: " + text);
     }
 }
+
+const btn=document.getElementById("darkBtn");
+
+btn.onclick=function(){
+
+document.body.classList.toggle("dark");
+
+}
