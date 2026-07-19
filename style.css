@@ -564,3 +564,47 @@ nav{
 .trend-card a:hover{
     background:#2e7d32;
 }
+
+.article{
+
+max-width:900px;
+
+margin:40px auto;
+
+background:white;
+
+padding:30px;
+
+border-radius:15px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+
+.article img{
+
+width:100%;
+
+border-radius:10px;
+
+margin:20px 0;
+
+}
+
+.article h1{
+
+color:#6a1b9a;
+
+margin-bottom:20px;
+
+}
+
+.article p{
+
+font-size:18px;
+
+line-height:1.8;
+
+margin-bottom:20px;
+
+}
