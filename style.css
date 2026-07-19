@@ -453,3 +453,26 @@ grid-template-columns:1fr;
 }
 
 }
+
+footer{
+    background:#5b21b6;
+    color:white;
+    text-align:center;
+    padding:40px 20px;
+    margin-top:40px;
+}
+
+.footer-links{
+    margin:20px 0;
+}
+
+.footer-links a{
+    color:white;
+    text-decoration:none;
+    margin:0 12px;
+    font-weight:bold;
+}
+
+.footer-links a:hover{
+    color:#86efac;
+}
