@@ -1,8 +1,3 @@
-/* ==========================
-   Daily Sheen V2
-   Purple + Green Theme
-========================== */
-
 *{
     margin:0;
     padding:0;
@@ -55,4 +50,85 @@ nav a{
 
 nav a:hover{
     background:#6A0DAD;
+}
+
+/* Hero Section */
+
+.hero{
+    width:90%;
+    margin:30px auto;
+    background:#fff;
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    border-top:6px solid #6A0DAD;
+}
+
+.hero h2{
+    font-size:36px;
+    color:#6A0DAD;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:18px;
+    color:#555;
+}
+
+/* Cards */
+
+.cards{
+    width:90%;
+    margin:30px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    transition:.3s;
+    border-bottom:5px solid #2E8B57;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h3{
+    color:#6A0DAD;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#555;
+}
+
+/* Latest News */
+
+.latest-news{
+    width:90%;
+    margin:40px auto;
+}
+
+.latest-news h2{
+    color:#6A0DAD;
+    margin-bottom:20px;
+}
+
+.news-item{
+    background:#fff;
+    padding:20px;
+    margin-bottom:15px;
+    border-left:6px solid #2E8B57;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.news-item h3{
+    margin-bottom:10px;
 }
