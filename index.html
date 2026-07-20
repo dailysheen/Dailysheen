@@ -4,16 +4,12 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Daily Sheen - বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ, স্বাস্থ্য, রোগ ও চিকিৎসা, শিক্ষা, প্রযুক্তি ও চাকরির খবর">
+<title>Daily Sheen | বাংলা নিউজ পোর্টাল</title>
 
-<meta name="keywords" content="Daily Sheen, News, Bangladesh News, Health, Disease, Treatment, Jobs">
-
-<meta name="author" content="Daily Sheen">
-
-<title>Daily Sheen | Breaking News & Health</title>
+<meta name="description"
+content="Daily Sheen - বাংলাদেশ, আন্তর্জাতিক, স্বাস্থ্য, প্রযুক্তি, খেলাধুলা ও সর্বশেষ সংবাদ">
 
 <link rel="stylesheet" href="style.css">
 
@@ -21,19 +17,27 @@
 
 <body>
 
+<!-- Header -->
+
 <header>
 
 <div class="top-header">
 
 <div class="logo">
 
-<img src="assets/logo.png" alt="Daily Sheen" class="logo">
+<img src="assets/logo.png" alt="Daily Sheen Logo">
+
+<div>
 
 <h1>Daily Sheen</h1>
 
+<p>Truth • Speed • Reliability</p>
+
 </div>
 
-<div class="top-right">
+</div>
+
+<div class="header-right">
 
 <button id="darkBtn">
 
@@ -45,27 +49,35 @@
 
 </div>
 
+<!-- Navigation -->
+
 <nav>
 
-<a href="index.html">Home</a>
+<a href="#">হোম</a>
 
-<a href="category.html?cat=bangladesh">বাংলাদেশ</a>
+<a href="#">বাংলাদেশ</a>
 
-<a href="category.html?cat=health">স্বাস্থ্য</a>
+<a href="#">আন্তর্জাতিক</a>
 
-<a href="category.html?cat=treatment">রোগ ও চিকিৎসা</a>
+<a href="#">রাজনীতি</a>
 
-<a href="category.html?cat=jobs">চাকরি</a>
+<a href="#">স্বাস্থ্য</a>
 
-<a href="category.html?cat=technology">প্রযুক্তি</a>
+<a href="#">রোগ ও চিকিৎসা</a>
 
-<a href="category.html?cat=sports">খেলাধুলা</a>
+<a href="#">প্রযুক্তি</a>
 
-<a href="contact.html">যোগাযোগ</a>
+<a href="#">খেলাধুলা</a>
+
+<a href="#">চাকরি</a>
+
+<a href="#">যোগাযোগ</a>
 
 </nav>
 
- <div class="search-box">
+<!-- Search -->
+
+<div class="search-box">
 
 <input
 type="text"
@@ -73,31 +85,40 @@ id="searchBox"
 placeholder="সংবাদ খুঁজুন...">
 
 <button onclick="searchNews()">
+
 🔍 Search
+
 </button>
 
 </div>
- 
- <div id="today"></div>
- 
+
 </header>
 
- <section class="breaking-ticker">
+<!-- Breaking News -->
 
-<div class="ticker-title">
+<section class="breaking-news">
+
+<div class="breaking-title">
+
 🔴 Breaking News
+
 </div>
 
-<div class="ticker">
-<marquee behavior="scroll" direction="left" scrollamount="6">
+<div class="breaking-scroll">
 
-Daily Sheen এ আপনাকে স্বাগতম |
-বাংলাদেশ |
-আন্তর্জাতিক |
-খেলাধুলা |
+<marquee
+behavior="scroll"
+direction="left"
+scrollamount="6">
+
+Daily Sheen-এ আপনাকে স্বাগতম |
+বাংলাদেশের সর্বশেষ খবর |
+আন্তর্জাতিক সংবাদ |
 স্বাস্থ্য |
 প্রযুক্তি |
-সর্বশেষ খবর প্রতিনিয়ত আপডেট হচ্ছে।
+খেলাধুলা |
+চাকরির খবর |
+প্রতিনিয়ত আপডেট হচ্ছে।
 
 </marquee>
 
@@ -105,117 +126,64 @@ Daily Sheen এ আপনাকে স্বাগতম |
 
 </section>
 
- <section class="weather-section">
+<!-- Hero Section -->
+
+<section class="hero">
+
+<div class="hero-left">
+
+<img
+src="assets/banner.png"
+alt="Daily Sheen Banner"
+class="hero-banner">
+
+</div>
+
+<div class="hero-right">
 
 <div class="weather-card">
 
 <h3>🌤 আবহাওয়া</h3>
 
-<p id="weatherCity">Rajshahi, Bangladesh</p>
+<p id="weatherCity">
 
-<h2 id="weatherTemp">31°C</h2>
+Rajshahi, Bangladesh
 
-<p id="weatherStatus">Sunny</p>
+</p>
 
-</div>
+<h2 id="weatherTemp">
 
-</section>
-
- <section class="live-datetime">
-
-<div class="datetime-card">
-
-<h3>🕒 বর্তমান সময়</h3>
-
-<h2 id="liveClock">00:00:00</h2>
-
-<p id="liveDate">Loading...</p>
-
-</div>
-
-</section>
-
- <section class="slider">
-
-<div class="slides">
-
-<img src="assets/banner.png" class="slide active">
-
-<img src="assets/news1.jpg" class="slide">
-
-<img src="assets/news2.jpg" class="slide">
-
-<img src="assets/news3.jpg" class="slide">
-
-</div>
-
-<button class="prev" onclick="prevSlide()">❮</button>
-
-<button class="next" onclick="nextSlide()">❯</button>
-
-</section>
- 
-<section class="hero">
-
-<div class="hero-text">
-
-<h2>
-
-বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ
+31°C
 
 </h2>
 
-<p>
+<p id="weatherStatus">
 
-বিশ্বস্ত সংবাদ • স্বাস্থ্য • শিক্ষা • চাকরি • প্রযুক্তি
+Sunny
 
 </p>
 
-<a class="btn" href="#latest">
-
-সর্বশেষ সংবাদ
-
-</a>
-
 </div>
 
-<div class="hero-image">
+<div class="clock-card">
 
-<img src="assets/banner.png" alt="Daily Sheen Banner" class="banner-img">
+<h3>
 
-</div>
+🕒 বর্তমান সময়
 
-</section>
+</h3>
 
- <!-- Breaking News -->
+<h2 id="liveClock">
 
-<section class="breaking-news">
+00:00:00
 
-<h2>🔥 Breaking News</h2>
+</h2>
 
-<div class="breaking-container">
+<p id="liveDate">
 
-<div class="breaking-card">
+Loading...
 
-<img src="https://picsum.photos/600/350?random=1" alt="News">
-
-<h3>বাংলাদেশের সর্বশেষ সংবাদ</h3>
-
-<p>আজকের গুরুত্বপূর্ণ জাতীয় সংবাদ এখানে প্রকাশিত হবে।</p>
-
-<a href="article.html" class="btn">বিস্তারিত পড়ুন</a>
-
-</div>
-
-<div class="breaking-card">
-
-<img src="https://picsum.photos/600/350?random=2" alt="Health">
-
-<h3>স্বাস্থ্য ও চিকিৎসা</h3>
-
-<p>স্বাস্থ্য, রোগ, চিকিৎসা ও প্রতিরোধ সম্পর্কে নির্ভরযোগ্য তথ্য।</p>
-
-<a href="article.html" class="btn">বিস্তারিত পড়ুন</a>
+</p>
 
 </div>
 
@@ -223,113 +191,305 @@ Daily Sheen এ আপনাকে স্বাগতম |
 
 </section>
 
-<!-- Categories -->
+ <!-- ===========================
+     Featured News
+=========================== -->
 
-<section class="categories">
+<section class="featured-news">
 
-<h2>সংবাদ বিভাগ</h2>
+<h2 class="section-title">
+⭐ Featured News
+</h2>
 
-<div class="category-grid">
+<div class="featured-grid">
 
-<a href="category.html?cat=bangladesh" class="category-card">
-🇧🇩
-<h3>বাংলাদেশ</h3>
-</a>
+<article class="featured-card">
 
-<a href="category.html?cat=health" class="category-card">
-🏥
-<h3>স্বাস্থ্য</h3>
-</a>
+<img src="assets/news1.jpg" alt="News 1">
 
-<a href="category.html?cat=treatment" class="category-card">
-💊
-<h3>রোগ ও চিকিৎসা</h3>
-</a>
+<div class="featured-content">
 
-<a href="category.html?cat=jobs" class="category-card">
-💼
-<h3>চাকরি</h3>
-</a>
+<span class="badge">বাংলাদেশ</span>
 
-<a href="category.html?cat=technology" class="category-card">
-💻
-<h3>প্রযুক্তি</h3>
-</a>
+<h3>বাংলাদেশের সর্বশেষ গুরুত্বপূর্ণ সংবাদ এখানে দেখানো হবে</h3>
 
-<a href="category.html?cat=sports" class="category-card">
-⚽
-<h3>খেলাধুলা</h3>
-</a>
+<p>
+এখানে সংক্ষিপ্ত নিউজের বিবরণ থাকবে। বিস্তারিত জানতে Read More চাপুন।
+</p>
+
+<a href="#">Read More →</a>
+
+</div>
+
+</article>
+
+<article class="featured-card">
+
+<img src="assets/news2.jpg" alt="News 2">
+
+<div class="featured-content">
+
+<span class="badge">আন্তর্জাতিক</span>
+
+<h3>আন্তর্জাতিক অঙ্গনের গুরুত্বপূর্ণ খবর</h3>
+
+<p>
+বিশ্বের গুরুত্বপূর্ণ ঘটনাগুলোর সংক্ষিপ্ত বিবরণ এখানে থাকবে।
+</p>
+
+<a href="#">Read More →</a>
+
+</div>
+
+</article>
 
 </div>
 
 </section>
 
-<!-- Latest News -->
 
-<section id="latest" class="latest-news">
+<!-- ===========================
+     Latest News
+=========================== -->
 
-<h2>📰 সর্বশেষ সংবাদ</h2>
+<section class="latest-news">
+
+<h2 class="section-title">
+📰 সর্বশেষ সংবাদ
+</h2>
 
 <div class="news-grid">
 
-<article class="news-card">
+<div class="news-card">
 
-<img src="https://picsum.photos/500/300?random=11">
+<img src="assets/news1.jpg" alt="News">
 
-<h3>আজকের প্রধান সংবাদ</h3>
+<h3>বাংলাদেশ</h3>
 
-<p>এখানে সর্বশেষ জাতীয় সংবাদ দেখানো হবে।</p>
+<p>বাংলাদেশের সর্বশেষ আপডেট প্রকাশিত হবে এখানে।</p>
 
-<a href="article.html" class="btn">বিস্তারিত</a>
+<a href="#">বিস্তারিত পড়ুন</a>
 
-</article>
+</div>
 
-<article class="news-card">
+<div class="news-card">
 
-<img src="https://picsum.photos/500/300?random=12">
+<img src="assets/news2.jpg" alt="News">
 
-<h3>ডেঙ্গু প্রতিরোধে করণীয়</h3>
+<h3>আন্তর্জাতিক</h3>
 
-<p>ডেঙ্গু সম্পর্কে সচেতনতা ও প্রতিরোধের উপায়।</p>
+<p>বিশ্বজুড়ে ঘটে যাওয়া গুরুত্বপূর্ণ সংবাদ।</p>
 
-<a href="article.html" class="btn">বিস্তারিত</a>
+<a href="#">বিস্তারিত পড়ুন</a>
 
-</article>
+</div>
 
-<article class="news-card">
+<div class="news-card">
 
-<img src="https://picsum.photos/500/300?random=13">
+<img src="assets/news3.jpg" alt="News">
 
-<h3>নতুন সরকারি চাকরি</h3>
+<h3>স্বাস্থ্য</h3>
 
-<p>সরকারি চাকরির সর্বশেষ নিয়োগ বিজ্ঞপ্তি।</p>
+<p>রোগ, চিকিৎসা ও স্বাস্থ্যবিষয়ক নির্ভরযোগ্য তথ্য।</p>
 
-<a href="article.html" class="btn">বিস্তারিত</a>
+<a href="#">বিস্তারিত পড়ুন</a>
 
-</article>
+</div>
+
+<div class="news-card">
+
+<img src="assets/news1.jpg" alt="News">
+
+<h3>প্রযুক্তি</h3>
+
+<p>নতুন প্রযুক্তি ও গ্যাজেট সম্পর্কিত সংবাদ।</p>
+
+<a href="#">বিস্তারিত পড়ুন</a>
+
+</div>
+
+<div class="news-card">
+
+<img src="assets/news2.jpg" alt="News">
+
+<h3>খেলাধুলা</h3>
+
+<p>দেশি ও আন্তর্জাতিক খেলাধুলার সর্বশেষ খবর।</p>
+
+<a href="#">বিস্তারিত পড়ুন</a>
+
+</div>
+
+<div class="news-card">
+
+<img src="assets/news3.jpg" alt="News">
+
+<h3>চাকরি</h3>
+
+<p>নিয়োগ বিজ্ঞপ্তি ও ক্যারিয়ার বিষয়ক আপডেট।</p>
+
+<a href="#">বিস্তারিত পড়ুন</a>
+
+</div>
 
 </div>
 
 </section>
 
-<!-- About Section -->
 
-<section class="about-site">
+<!-- ===========================
+     Categories
+=========================== -->
 
-<h2>Daily Sheen সম্পর্কে</h2>
+<section class="categories">
 
-<p>
-Daily Sheen একটি বাংলা নিউজ ও স্বাস্থ্যবিষয়ক ওয়েবসাইট। এখানে বাংলাদেশ ও আন্তর্জাতিক সংবাদ, স্বাস্থ্য, রোগ ও চিকিৎসা, শিক্ষা, চাকরি, প্রযুক্তি এবং খেলাধুলার নির্ভরযোগ্য তথ্য প্রকাশ করা হবে।
-</p>
+<h2 class="section-title">
+📂 বিভাগসমূহ
+</h2>
+
+<div class="category-grid">
+
+<div class="category-card">🇧🇩 বাংলাদেশ</div>
+
+<div class="category-card">🌍 আন্তর্জাতিক</div>
+
+<div class="category-card">🏛 রাজনীতি</div>
+
+<div class="category-card">🏥 স্বাস্থ্য</div>
+
+<div class="category-card">💊 রোগ ও চিকিৎসা</div>
+
+<div class="category-card">💻 প্রযুক্তি</div>
+
+<div class="category-card">⚽ খেলাধুলা</div>
+
+<div class="category-card">💼 চাকরি</div>
+
+</div>
 
 </section>
 
-<!-- Newsletter -->
+ <!-- ===========================
+     Trending + Sidebar
+=========================== -->
+
+<section class="main-content">
+
+<div class="content-area">
+
+<h2 class="section-title">🔥 ট্রেন্ডিং সংবাদ</h2>
+
+<div class="trending-news">
+
+<article class="trend-card">
+
+<img src="assets/news1.jpg" alt="Trending News">
+
+<div>
+
+<h3>আজকের সবচেয়ে আলোচিত সংবাদ</h3>
+
+<p>সারাদিনের আলোচিত খবর এখানে সংক্ষেপে দেখানো হবে।</p>
+
+<a href="#">আরও পড়ুন →</a>
+
+</div>
+
+</article>
+
+<article class="trend-card">
+
+<img src="assets/news2.jpg" alt="Trending News">
+
+<div>
+
+<h3>বিশ্বজুড়ে গুরুত্বপূর্ণ আপডেট</h3>
+
+<p>আন্তর্জাতিক সংবাদ দ্রুত আপডেট করা হবে।</p>
+
+<a href="#">আরও পড়ুন →</a>
+
+</div>
+
+</article>
+
+<article class="trend-card">
+
+<img src="assets/news3.jpg" alt="Trending News">
+
+<div>
+
+<h3>স্বাস্থ্য ও চিকিৎসা</h3>
+
+<p>বিশ্বস্ত স্বাস্থ্যবিষয়ক তথ্য ও পরামর্শ।</p>
+
+<a href="#">আরও পড়ুন →</a>
+
+</div>
+
+</article>
+
+</div>
+
+</div>
+
+<aside class="sidebar">
+
+<div class="widget">
+
+<h3>📈 জনপ্রিয় সংবাদ</h3>
+
+<ul>
+
+<li><a href="#">বাংলাদেশের আজকের প্রধান খবর</a></li>
+
+<li><a href="#">বিশ্ব সংবাদ</a></li>
+
+<li><a href="#">স্বাস্থ্য আপডেট</a></li>
+
+<li><a href="#">প্রযুক্তির নতুন খবর</a></li>
+
+<li><a href="#">খেলাধুলার সর্বশেষ ফলাফল</a></li>
+
+</ul>
+
+</div>
+
+<div class="widget">
+
+<h3>🏷 জনপ্রিয় ট্যাগ</h3>
+
+<div class="tags">
+
+<span>বাংলাদেশ</span>
+
+<span>স্বাস্থ্য</span>
+
+<span>প্রযুক্তি</span>
+
+<span>খেলাধুলা</span>
+
+<span>চাকরি</span>
+
+<span>আন্তর্জাতিক</span>
+
+</div>
+
+</div>
+
+</aside>
+
+</section>
+
+<!-- ===========================
+     Newsletter
+=========================== -->
 
 <section class="newsletter">
 
-<h2>নতুন সংবাদ পেতে সাবস্ক্রাইব করুন</h2>
+<h2>📧 Daily Sheen Newsletter</h2>
+
+<p>নতুন সংবাদ সবার আগে পেতে আপনার ইমেইল দিন।</p>
 
 <form>
 
@@ -347,18 +507,83 @@ Subscribe
 
 </section>
 
-<!-- Footer -->
+<!-- ===========================
+     About
+=========================== -->
+
+<section class="about-site">
+
+<h2>Daily Sheen সম্পর্কে</h2>
+
+<p>
+
+Daily Sheen একটি আধুনিক বাংলা নিউজ পোর্টাল।
+এখানে বাংলাদেশ, আন্তর্জাতিক, স্বাস্থ্য,
+রোগ ও চিকিৎসা, প্রযুক্তি, খেলাধুলা এবং চাকরির
+বিশ্বস্ত সংবাদ প্রকাশ করা হবে।
+
+</p>
+
+</section>
+
+ <!-- ===========================
+     Social Media
+=========================== -->
+
+<section class="social-section">
+
+<h2 class="section-title">
+🌐 আমাদের সাথে যুক্ত থাকুন
+</h2>
+
+<div class="social-links">
+
+<a href="#" class="facebook">📘 Facebook</a>
+
+<a href="#" class="youtube">▶ YouTube</a>
+
+<a href="#" class="telegram">✈ Telegram</a>
+
+<a href="#" class="whatsapp">💬 WhatsApp</a>
+
+</div>
+
+</section>
+
+
+<!-- ===========================
+     Contact
+=========================== -->
+
+<section class="contact-box">
+
+<h2>📞 যোগাযোগ</h2>
+
+<p>📧 Email : info@dailysheen.com</p>
+
+<p>🌐 Website : www.dailysheen.com</p>
+
+<p>📍 Rajshahi, Bangladesh</p>
+
+</section>
+
+
+<!-- ===========================
+     Footer
+=========================== -->
 
 <footer>
 
-<div class="footer-grid">
+<div class="footer-container">
 
 <div>
 
 <h3>Daily Sheen</h3>
 
 <p>
-Truth • Speed • Reliability
+বাংলাদেশ, আন্তর্জাতিক, স্বাস্থ্য,
+প্রযুক্তি, খেলাধুলা ও চাকরির
+বিশ্বস্ত সংবাদ।
 </p>
 
 </div>
@@ -367,13 +592,17 @@ Truth • Speed • Reliability
 
 <h3>Quick Links</h3>
 
-<a href="about.html">About</a><br>
+<ul>
 
-<a href="contact.html">Contact</a><br>
+<li><a href="#">Home</a></li>
 
-<a href="privacy.html">Privacy Policy</a><br>
+<li><a href="#">About</a></li>
 
-<a href="category.html">Categories</a>
+<li><a href="#">Privacy Policy</a></li>
+
+<li><a href="#">Contact</a></li>
+
+</ul>
 
 </div>
 
@@ -381,39 +610,42 @@ Truth • Speed • Reliability
 
 <h3>Categories</h3>
 
-<a href="category.html?cat=health">স্বাস্থ্য</a><br>
+<ul>
 
-<a href="category.html?cat=jobs">চাকরি</a><br>
+<li>বাংলাদেশ</li>
 
-<a href="category.html?cat=technology">প্রযুক্তি</a><br>
+<li>আন্তর্জাতিক</li>
 
-<a href="category.html?cat=sports">খেলাধুলা</a>
+<li>স্বাস্থ্য</li>
+
+<li>প্রযুক্তি</li>
+
+<li>খেলাধুলা</li>
+
+</ul>
+
+</div>
 
 </div>
 
-</div>
+<div class="copyright">
 
-<hr>
-
-<p style="text-align:center; margin-top:20px;">
-
-© 2026 Daily Sheen. All Rights Reserved.
-
-</p>
-
- <div class="social-links">
-
-<a href="#">📘 Facebook</a>
-
-<a href="#">▶ YouTube</a>
-
-<a href="#">✈ Telegram</a>
-
-<a href="#">💬 WhatsApp</a>
+© 2026 Daily Sheen.
+All Rights Reserved.
 
 </div>
- 
+
 </footer>
+
+
+<!-- Back To Top -->
+
+<button id="topBtn">
+
+⬆
+
+</button>
+
 
 <script src="app.js"></script>
 
