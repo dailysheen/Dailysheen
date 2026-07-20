@@ -564,3 +564,19 @@ hero-image{
     height:70px;
     object-fit:contain;
 }
+
+.social-links{
+    text-align:center;
+    margin-top:20px;
+}
+
+.social-links a{
+    text-decoration:none;
+    margin:0 10px;
+    color:white;
+    font-weight:bold;
+}
+
+.social-links a:hover{
+    color:#ffd700;
+}
