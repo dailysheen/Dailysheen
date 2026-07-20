@@ -232,3 +232,82 @@ nav a:hover{
     margin-top:10px;
     font-size:20px;
 }
+
+/* ===========================
+   Latest News
+=========================== */
+
+.latest-news{
+    padding:60px 8%;
+    background:#ffffff;
+}
+
+.latest-news h2{
+    text-align:center;
+    color:#6a11cb;
+    font-size:32px;
+    margin-bottom:35px;
+}
+
+.news-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+}
+
+.news-card{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.1);
+    transition:.35s;
+}
+
+.news-card:hover{
+    transform:translateY(-8px);
+}
+
+.news-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.news-card h3{
+    padding:15px;
+    color:#6a11cb;
+    font-size:22px;
+}
+
+.news-card p{
+    padding:0 15px 15px;
+    color:#555;
+}
+
+.news-card .btn{
+    margin:0 15px 20px;
+}
+
+/* ===========================
+   About Section
+=========================== */
+
+.about-site{
+    padding:60px 8%;
+    background:#f8f9ff;
+    text-align:center;
+}
+
+.about-site h2{
+    font-size:34px;
+    color:#6a11cb;
+    margin-bottom:20px;
+}
+
+.about-site p{
+    max-width:900px;
+    margin:auto;
+    font-size:18px;
+    color:#444;
+    line-height:1.8;
+}
