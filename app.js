@@ -1,36 +1,62 @@
-// Daily Sheen
-
-console.log("Daily Sheen Loaded");
-
-// Welcome Message
-window.onload = function () {
-    alert("Welcome to Daily Sheen");
-};
-
-function searchNews(){
-    let text=document.getElementById("searchBox").value;
-
-    if(text==""){
-        alert("অনুগ্রহ করে কিছু লিখুন");
-    }else{
-        alert("আপনি খুঁজেছেন: " + text);
-    }
-}
-
-const btn=document.getElementById("darkBtn");
-
-btn.onclick=function(){
-
-document.body.classList.toggle("dark");
-
-}
+// ==============================
+// Daily Sheen V4
+// app.js - Part 1
+// ==============================
 
 // Dark Mode
 
 const darkBtn = document.getElementById("darkBtn");
 
-if(darkBtn){
-    darkBtn.addEventListener("click", function(){
+if (darkBtn) {
+
+    // আগের সেটিং থাকলে সেটি লোড হবে
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
+        darkBtn.innerHTML = "☀️ Light Mode";
+    }
+
+    darkBtn.addEventListener("click", () => {
+
         document.body.classList.toggle("dark");
+
+        if (document.body.classList.contains("dark")) {
+
+            localStorage.setItem("theme", "dark");
+            darkBtn.innerHTML = "☀️ Light Mode";
+
+        } else {
+
+            localStorage.setItem("theme", "light");
+            darkBtn.innerHTML = "🌙 Dark Mode";
+
+        }
+
     });
+
+}
+
+
+
+// ==============================
+// Current Date
+// ==============================
+
+const dateBox = document.getElementById("today");
+
+if(dateBox){
+
+const today = new Date();
+
+dateBox.innerHTML = today.toLocaleDateString("bn-BD",{
+
+weekday:"long",
+
+year:"numeric",
+
+month:"long",
+
+day:"numeric"
+
+});
+
 }
