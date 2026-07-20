@@ -184,3 +184,32 @@ el.style.transition=".6s";
 observer.observe(el);
 
 });
+
+// ==============================
+// Weather Demo
+// ==============================
+
+const weatherList=[
+    {temp:"31°C",status:"☀️ Sunny"},
+    {temp:"29°C",status:"🌤 Partly Cloudy"},
+    {temp:"27°C",status:"🌧 Rain"},
+    {temp:"30°C",status:"⛅ Cloudy"}
+];
+
+let weatherIndex=0;
+
+setInterval(()=>{
+
+weatherIndex++;
+
+if(weatherIndex>=weatherList.length){
+weatherIndex=0;
+}
+
+document.getElementById("weatherTemp").innerHTML=
+weatherList[weatherIndex].temp;
+
+document.getElementById("weatherStatus").innerHTML=
+weatherList[weatherIndex].status;
+
+},5000);
