@@ -213,3 +213,37 @@ document.getElementById("weatherStatus").innerHTML=
 weatherList[weatherIndex].status;
 
 },5000);
+
+// ==============================
+// Live Clock & Date
+// ==============================
+
+function updateClock(){
+
+const now = new Date();
+
+const time = now.toLocaleTimeString("en-GB");
+
+const date = now.toLocaleDateString("bn-BD",{
+
+weekday:"long",
+
+year:"numeric",
+
+month:"long",
+
+day:"numeric"
+
+});
+
+const clock = document.getElementById("liveClock");
+const liveDate = document.getElementById("liveDate");
+
+if(clock) clock.innerHTML = time;
+if(liveDate) liveDate.innerHTML = date;
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
