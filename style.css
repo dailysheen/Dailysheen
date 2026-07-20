@@ -583,3 +583,53 @@ hero-image{
 .social-links a:hover{
     color:#ffd700;
 }
+
+/* Breaking Ticker */
+
+.breaking-ticker{
+
+display:flex;
+
+align-items:center;
+
+background:#fff;
+
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+margin:15px 0;
+
+overflow:hidden;
+
+}
+
+.ticker-title{
+
+background:#d50000;
+
+color:#fff;
+
+padding:12px 18px;
+
+font-weight:bold;
+
+white-space:nowrap;
+
+}
+
+.ticker{
+
+flex:1;
+
+padding:0 10px;
+
+font-weight:600;
+
+color:#333;
+
+}
+
+.ticker marquee{
+
+padding:12px 0;
+
+}
