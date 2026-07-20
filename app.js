@@ -247,3 +247,50 @@ if(liveDate) liveDate.innerHTML = date;
 setInterval(updateClock,1000);
 
 updateClock();
+
+// ==============================
+// Image Slider
+// ==============================
+
+const slides=document.querySelectorAll(".slide");
+
+let currentSlide=0;
+
+function showSlide(index){
+
+slides.forEach(slide=>slide.classList.remove("active"));
+
+slides[index].classList.add("active");
+
+}
+
+function nextSlide(){
+
+currentSlide++;
+
+if(currentSlide>=slides.length){
+
+currentSlide=0;
+
+}
+
+showSlide(currentSlide);
+
+}
+
+function prevSlide(){
+
+currentSlide--;
+
+if(currentSlide<0){
+
+currentSlide=slides.length-1;
+
+}
+
+showSlide(currentSlide);
+
+}
+
+// প্রতি ৪ সেকেন্ডে স্লাইড পরিবর্তন হবে
+setInterval(nextSlide,4000);
