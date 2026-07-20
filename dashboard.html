@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Daily Sheen Admin Dashboard</title>
+
+<link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Daily Sheen Dashboard</h1>
+
+<div class="card">
+
+<input
+type="text"
+id="title"
+placeholder="News Title">
+
+<input
+type="text"
+id="image"
+placeholder="Image URL">
+
+<textarea
+id="details"
+placeholder="Write full news here..."></textarea>
+
+<button id="publishBtn">
+Publish News
+</button>
+
+</div>
+
+<hr>
+
+<h2>Published News</h2>
+
+<div id="newsList"></div>
+
+</div>
+
+<script type="module" src="dashboard.js"></script>
+
+</body>
+</html>
