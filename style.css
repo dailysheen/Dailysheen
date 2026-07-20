@@ -311,3 +311,104 @@ nav a:hover{
     color:#444;
     line-height:1.8;
 }
+
+/* ===========================
+   Newsletter
+=========================== */
+
+.newsletter{
+    padding:60px 8%;
+    text-align:center;
+    background:#ffffff;
+}
+
+.newsletter h2{
+    color:#6a11cb;
+    margin-bottom:20px;
+}
+
+.newsletter form{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.newsletter input{
+    width:350px;
+    max-width:100%;
+    padding:14px;
+    border:2px solid #6a11cb;
+    border-radius:30px;
+    outline:none;
+    font-size:16px;
+}
+
+.newsletter button{
+    padding:14px 28px;
+    background:#6a11cb;
+    color:#fff;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.newsletter button:hover{
+    background:#2575fc;
+}
+
+/* ===========================
+   Footer
+=========================== */
+
+footer{
+    background:#1d1d1d;
+    color:#fff;
+    padding:50px 8%;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:30px;
+}
+
+.footer-grid h3{
+    margin-bottom:15px;
+    color:#ffffff;
+}
+
+.footer-grid a{
+    color:#ddd;
+    text-decoration:none;
+    line-height:2;
+}
+
+.footer-grid a:hover{
+    color:#6a11cb;
+}
+
+footer hr{
+    margin:30px 0;
+    border:0;
+    border-top:1px solid #444;
+}
+
+/* ===========================
+   Dark Mode
+=========================== */
+
+body.dark{
+    background:#111;
+    color:#eee;
+}
+
+body.dark .breaking-news,
+body.dark .latest-news,
+body.dark .newsletter{
+    background:#181818;
+}
+
+body.dark .categories,
+body.dark .
