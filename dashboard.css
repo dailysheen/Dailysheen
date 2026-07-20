@@ -1,0 +1,156 @@
+/* ============================
+   Daily Sheen Dashboard CSS
+============================ */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6fb;
+    color:#333;
+}
+
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:40px auto;
+}
+
+h1{
+    text-align:center;
+    color:#6C63FF;
+    margin-bottom:30px;
+}
+
+.card{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+input,
+textarea{
+    width:100%;
+    padding:14px;
+    margin:12px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    font-size:16px;
+}
+
+textarea{
+    min-height:180px;
+    resize:vertical;
+}
+
+button{
+    background:#6C63FF;
+    color:#fff;
+    border:none;
+    padding:14px 24px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+button:hover{
+    background:#00C896;
+}
+
+hr{
+    margin:40px 0;
+    border:none;
+    border-top:1px solid #ddd;
+}
+
+h2{
+    margin-bottom:20px;
+    color:#444;
+}
+
+#newsList{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.news-card{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.1);
+}
+
+.news-card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+
+.news-content{
+    padding:15px;
+}
+
+.news-content h3{
+    margin-bottom:10px;
+}
+
+.news-content p{
+    color:#666;
+    margin-bottom:15px;
+}
+
+.news-actions{
+    display:flex;
+    gap:10px;
+}
+
+.news-actions button{
+    flex:1;
+}
+
+.delete-btn{
+    background:#E53935;
+}
+
+.delete-btn:hover{
+    background:#C62828;
+}
+
+.edit-btn{
+    background:#FF9800;
+}
+
+.edit-btn:hover{
+    background:#F57C00;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.container{
+    width:95%;
+}
+
+h1{
+    font-size:28px;
+}
+
+button{
+    width:100%;
+}
+
+.news-actions{
+    flex-direction:column;
+}
+
+}
