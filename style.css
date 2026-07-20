@@ -1,7 +1,25 @@
-/* ===========================
-   Daily Sheen V4
-   Part 1
-=========================== */
+/* ======================================
+   Daily Sheen V6 Professional
+   Part 1 - Base + Header + Navigation
+====================================== */
+
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* Variables */
+:root{
+    --primary:#6C63FF;
+    --secondary:#00C896;
+    --danger:#E53935;
+    --dark:#121212;
+    --light:#ffffff;
+    --bg:#f4f6fb;
+    --text:#333;
+    --shadow:0 12px 30px rgba(0,0,0,.12);
+    --radius:18px;
+}
+
+/* Reset */
 
 *{
     margin:0;
@@ -14,91 +32,168 @@ html{
 }
 
 body{
-    font-family:Arial, Helvetica, sans-serif;
-    background:#f4f6fb;
-    color:#222;
-    line-height:1.6;
-   padding-top: 170px;
-}
+    font-family:'Poppins',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
 }
 
-/* Header */
+img{
+    max-width:100%;
+    display:block;
+}
+
+a{
+    text-decoration:none;
+}
+
+ul{
+    list-style:none;
+}
+
+/* ======================
+   Header
+====================== */
+
 header{
+
     position:sticky;
+
     top:0;
+
     z-index:9999;
 
-    background:rgba(255,255,255,.12);
-    backdrop-filter:blur(18px);
+    background:rgba(255,255,255,.95);
 
-    border-bottom:1px solid rgba(255,255,255,.2);
+    backdrop-filter:blur(14px);
 
-    padding:15px 8%;
+    box-shadow:var(--shadow);
 
-    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    padding:18px 8%;
+
 }
+
+/* Top Header */
 
 .top-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:15px;
+
 }
 
+/* Logo */
+
 .logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
 }
 
 .logo img{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    transition:.4s;
+
+width:65px;
+
+height:65px;
+
+border-radius:50%;
+
+transition:.4s;
+
 }
 
 .logo img:hover{
 
-transform:rotate(10deg) scale(1.08);
+transform:rotate(8deg) scale(1.08);
 
 }
+
 .logo h1{
-    font-size:32px;
-    font-weight:bold;
+
+font-size:30px;
+
+font-weight:700;
+
+color:var(--primary);
+
 }
+
+.logo p{
+
+font-size:14px;
+
+color:#666;
+
+}
+
+/* Dark Button */
 
 #darkBtn{
-    background:#fff;
-    color:#6a11cb;
-    border:none;
-    padding:10px 18px;
-    border-radius:30px;
-    cursor:pointer;
-    font-weight:bold;
-    transition:.3s;
+
+background:var(--primary);
+
+color:#fff;
+
+border:none;
+
+padding:12px 22px;
+
+border-radius:40px;
+
+cursor:pointer;
+
+font-weight:600;
+
+transition:.35s;
+
 }
 
 #darkBtn:hover{
-    background:#222;
-    color:#fff;
+
+background:var(--secondary);
+
 }
 
-/* Navigation */
+/* ======================
+   Navigation
+====================== */
 
 nav{
-    margin-top:20px;
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:15px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:12px;
+
+margin-top:20px;
+
+flex-wrap:wrap;
+
 }
 
 nav a{
 
-padding:12px 18px;
+padding:10px 18px;
 
 border-radius:30px;
+
+font-weight:600;
+
+color:var(--text);
 
 transition:.35s;
 
@@ -106,7 +201,7 @@ transition:.35s;
 
 nav a:hover{
 
-background:#6a11cb;
+background:var(--primary);
 
 color:#fff;
 
@@ -114,172 +209,336 @@ transform:translateY(-3px);
 
 }
 
-/* Hero */
+/* ======================
+   Search Box
+====================== */
+
+.search-box{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:10px;
+
+margin:25px auto;
+
+flex-wrap:wrap;
+
+}
+
+.search-box input{
+
+width:360px;
+
+max-width:100%;
+
+padding:14px 18px;
+
+border:2px solid var(--primary);
+
+border-radius:30px;
+
+outline:none;
+
+font-size:16px;
+
+}
+
+.search-box button{
+
+padding:14px 24px;
+
+background:var(--primary);
+
+color:#fff;
+
+border:none;
+
+border-radius:30px;
+
+cursor:pointer;
+
+font-weight:600;
+
+transition:.35s;
+
+}
+
+.search-box button:hover{
+
+background:var(--secondary);
+
+}
+
+/* Section Title */
+
+.section-title{
+
+text-align:center;
+
+font-size:34px;
+
+margin:50px 0 30px;
+
+color:var(--primary);
+
+font-weight:700;
+
+}
+
+/* ======================================
+   Daily Sheen V6 Professional
+   Part 2 - Breaking News + Hero + Cards
+====================================== */
+
+/* ======================
+   Breaking News
+====================== */
+
+.breaking-news{
+    display:flex;
+    align-items:center;
+    background:#fff;
+    margin:20px 8%;
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.breaking-title{
+    background:var(--danger);
+    color:#fff;
+    padding:16px 22px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.breaking-scroll{
+    flex:1;
+    padding:0 15px;
+    font-weight:600;
+}
+
+/* ======================
+   Hero
+====================== */
 
 .hero{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    align-items:center;
-    gap:40px;
-    padding:60px 8%;
-}
-
-.hero-text h2{
-    font-size:45px;
-    color:#6a11cb;
-    margin-bottom:20px;
-}
-
-.hero-text p{
-    font-size:18px;
-    margin-bottom:25px;
-}
-
-.btn{
-    display:inline-block;
-    padding:14px 28px;
-    background:#6a11cb;
-    color:white;
-    text-decoration:none;
-    border-radius:30px;
-    transition:.3s;
-}
-
-.btn:hover{
-    background:#2575fc;
-    transform:translateY(-4px);
-    box-shadow:0 10px 20px rgba(0,0,0,.25);
-}
-
-.hero-image img{
-    width:100%;
-    border-radius:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
-}
-
-/* ===========================
-   Breaking News
-=========================== */
-
-.breaking-news{
-    padding:60px 8%;
-    background:#fff;
-}
-
-.breaking-news h2{
-    color:#6a11cb;
-    font-size:32px;
-    margin-bottom:30px;
-}
-
-.breaking-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    grid-template-columns:2fr 1fr;
     gap:25px;
+    padding:20px 8% 40px;
+    align-items:start;
 }
 
-.breaking-card{
-    background:#fff;
-    border-radius:15px;
-    overflow:hidden;
-    box-shadow:0 8px 20px rgba(0,0,0,.12);
-    transition:.35s;
-}
+/* Banner */
 
-.breaking-card:hover{
-    transform:translateY(-8px);
-}
-
-.breaking-card img{
+.hero-banner{
     width:100%;
-    height:220px;
+    height:450px;
     object-fit:cover;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
 }
 
-.breaking-card h3{
-    padding:15px;
-    color:#6a11cb;
-}
+/* Right Side */
 
-.breaking-card p{
-    padding:0 15px 15px;
-    color:#555;
-}
-
-.breaking-card .btn{
-    margin:0 15px 20px;
-}
-
-/* ===========================
-   Categories
-=========================== */
-
-.categories{
-    padding:60px 8%;
-    background:#f8f9ff;
-}
-
-.categories h2{
-    text-align:center;
-    color:#6a11cb;
-    margin-bottom:30px;
-}
-
-.category-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+.hero-right{
+    display:flex;
+    flex-direction:column;
     gap:20px;
 }
 
-.category-card{
-    background:white;
+/* Weather */
+
+.weather-card{
+
+    background:linear-gradient(135deg,#00c6ff,#0072ff);
+
+    color:#fff;
+
+    padding:25px;
+
+    border-radius:var(--radius);
+
     text-align:center;
-    text-decoration:none;
-    color:#333;
-    padding:30px 20px;
-    border-radius:15px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    box-shadow:var(--shadow);
+
+}
+
+.weather-card h2{
+
+    font-size:48px;
+
+    margin:12px 0;
+
+}
+
+.weather-card p{
+
+    font-size:18px;
+
+}
+
+/* Clock */
+
+.clock-card{
+
+    background:linear-gradient(135deg,#6a11cb,#2575fc);
+
+    color:#fff;
+
+    padding:25px;
+
+    border-radius:var(--radius);
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+.clock-card h2{
+
+    font-size:38px;
+
+    margin:15px 0;
+
+    letter-spacing:2px;
+
+}
+
+/* ======================
+   Featured News
+====================== */
+
+.featured-news{
+    padding:20px 8% 40px;
+}
+
+.featured-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.featured-card{
+    background:#fff;
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
     transition:.3s;
 }
 
-.category-card:hover{
-    background:#6a11cb;
-    color:white;
+.featured-card:hover{
     transform:translateY(-8px);
 }
 
-.category-card h3{
-    margin-top:10px;
-    font-size:20px;
+.featured-card img{
+    width:100%;
+    height:260px;
+    object-fit:cover;
 }
 
-/* ===========================
+.featured-content{
+    padding:20px;
+}
+
+.badge{
+    display:inline-block;
+    background:var(--primary);
+    color:#fff;
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:14px;
+    margin-bottom:12px;
+}
+
+.featured-content h3{
+    margin-bottom:12px;
+}
+
+.featured-content p{
+    margin-bottom:15px;
+}
+
+.featured-content a{
+    color:var(--primary);
+    font-weight:700;
+}
+
+/* ======================
+   Responsive
+====================== */
+
+@media(max-width:992px){
+
+.hero{
+    grid-template-columns:1fr;
+}
+
+.featured-grid{
+    grid-template-columns:1fr;
+}
+
+.hero-banner{
+    height:300px;
+}
+
+}
+
+@media(max-width:768px){
+
+.breaking-news{
+    margin:15px;
+}
+
+.hero{
+    padding:15px;
+}
+
+.featured-news{
+    padding:15px;
+}
+
+.weather-card h2{
+    font-size:38px;
+}
+
+.clock-card h2{
+    font-size:30px;
+}
+
+}
+
+/* ======================================
+   Daily Sheen V6 Professional
+   Part 3 - News + Categories + Sidebar
+====================================== */
+
+/* ======================
    Latest News
-=========================== */
+====================== */
 
 .latest-news{
-    padding:60px 8%;
-    background:#ffffff;
-}
-
-.latest-news h2{
-    text-align:center;
-    color:#6a11cb;
-    font-size:32px;
-    margin-bottom:35px;
+    padding:40px 8%;
 }
 
 .news-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    grid-template-columns:repeat(3,1fr);
     gap:25px;
 }
 
 .news-card{
     background:#fff;
-    border-radius:15px;
+    border-radius:18px;
     overflow:hidden;
-    box-shadow:0 8px 20px rgba(0,0,0,.1);
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
     transition:.35s;
 }
 
@@ -294,485 +553,438 @@ transform:translateY(-3px);
 }
 
 .news-card h3{
-    padding:15px;
-    color:#6a11cb;
+    padding:18px 18px 10px;
     font-size:22px;
 }
 
 .news-card p{
-    padding:0 15px 15px;
-    color:#555;
+    padding:0 18px;
+    color:#666;
 }
 
-.news-card .btn{
-    margin:0 15px 20px;
-}
-
-/* ===========================
-   About Section
-=========================== */
-
-.about-site{
-    padding:60px 8%;
-    background:#f8f9ff;
-    text-align:center;
-}
-
-.about-site h2{
-    font-size:34px;
-    color:#6a11cb;
-    margin-bottom:20px;
-}
-
-.about-site p{
-    max-width:900px;
-    margin:auto;
-    font-size:18px;
-    color:#444;
-    line-height:1.8;
-}
-
-/* ===========================
-   Newsletter
-=========================== */
-
-.newsletter{
-    padding:60px 8%;
-    text-align:center;
-    background:#ffffff;
-}
-
-.newsletter h2{
-    color:#6a11cb;
-    margin-bottom:20px;
-}
-
-.newsletter form{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:15px;
-}
-
-.newsletter input{
-    width:350px;
-    max-width:100%;
-    padding:14px;
-    border:2px solid #6a11cb;
-    border-radius:30px;
-    outline:none;
-    font-size:16px;
-}
-
-.newsletter button{
-    padding:14px 28px;
-    background:#6a11cb;
+.news-card a{
+    display:inline-block;
+    margin:18px;
+    padding:10px 18px;
+    background:var(--primary);
     color:#fff;
-    border:none;
     border-radius:30px;
-    cursor:pointer;
     transition:.3s;
 }
 
-.newsletter button:hover{
-    background:#2575fc;
+.news-card a:hover{
+    background:var(--secondary);
 }
 
-/* ===========================
-   Footer
-=========================== */
+/* ======================
+   Categories
+====================== */
 
-footer{
-    background:#1d1d1d;
-    color:#fff;
-    padding:50px 8%;
+.categories{
+    padding:40px 8%;
 }
 
-.footer-grid{
+.category-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.category-card{
+    background:#fff;
+    padding:25px;
+    text-align:center;
+    border-radius:18px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+
+.category-card:hover{
+    background:var(--primary);
+    color:#fff;
+    transform:translateY(-5px);
+}
+
+/* ======================
+   Main Content
+====================== */
+
+.main-content{
+    display:grid;
+    grid-template-columns:2fr 1fr;
     gap:30px;
+    padding:40px 8%;
 }
 
-.footer-grid h3{
-    margin-bottom:15px;
-    color:#ffffff;
+.trending-news{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
 }
 
-.footer-grid a{
-    color:#ddd;
-    text-decoration:none;
-    line-height:2;
+.trend-card{
+    display:flex;
+    gap:20px;
+    background:#fff;
+    padding:18px;
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    transition:.3s;
 }
 
-.footer-grid a:hover{
-    color:#6a11cb;
+.trend-card:hover{
+    transform:translateY(-5px);
 }
 
-footer hr{
-    margin:30px 0;
-    border:0;
-    border-top:1px solid #444;
+.trend-card img{
+    width:180px;
+    height:120px;
+    object-fit:cover;
+    border-radius:12px;
 }
 
-/* ===========================
-   Dark Mode
-=========================== */
-
-body.dark{
-    background:#111;
-    color:#eee;
+.trend-card h3{
+    margin-bottom:10px;
 }
 
-body.dark .breaking-news,
-body.dark .latest-news,
-body.dark .newsletter{
-    background:#181818;
+.trend-card a{
+    color:var(--primary);
+    font-weight:700;
 }
 
-body.dark .categories,
-body.dark .about-site{
-    background:#222;
+/* ======================
+   Sidebar
+====================== */
+
+.sidebar{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
 }
 
-body.dark .breaking-card,
-body.dark .news-card,
-body.dark .category-card{
-    background:#2b2b2b;
+.widget{
+    background:#fff;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:var(--shadow);
+}
+
+.widget h3{
+    margin-bottom:18px;
+    color:var(--primary);
+}
+
+.widget ul li{
+    margin:12px 0;
+}
+
+.widget ul li a{
+    color:#444;
+}
+
+.widget ul li a:hover{
+    color:var(--primary);
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.tags span{
+    background:#eef1ff;
+    padding:8px 15px;
+    border-radius:30px;
+    transition:.3s;
+}
+
+.tags span:hover{
+    background:var(--primary);
     color:#fff;
 }
 
-body.dark .breaking-card p,
-body.dark .news-card p,
-body.dark .about-site p{
-    color:#ddd;
-}
-
-body.dark footer{
-    background:#000;
-}
-
-/* ===========================
+/* ======================
    Responsive
-=========================== */
+====================== */
 
 @media(max-width:992px){
 
-.hero{
+.news-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.category-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.main-content{
     grid-template-columns:1fr;
-    text-align:center;
-}
-
-.hero-text h2{
-    font-size:36px;
-}
-
-.hero-image{
-    margin-top:30px;
 }
 
 }
 
 @media(max-width:768px){
 
-.logo h1{
-    font-size:24px;
-}
-
-nav{
-    flex-direction:column;
-    align-items:center;
-}
-
-nav a{
-    width:100%;
-    text-align:center;
-}
-
-.hero{
-    padding:40px 20px;
-}
-
-.hero-text h2{
-    font-size:30px;
-}
-
-.breaking-news,
-.categories,
-.latest-news,
-.about-site,
-.newsletter{
-    padding:40px 20px;
-}
-
-.footer-grid{
+.news-grid{
     grid-template-columns:1fr;
-    text-align:center;
 }
 
-.newsletter input,
-.newsletter button{
+.category-grid{
+    grid-template-columns:1fr;
+}
+
+.trend-card{
+    flex-direction:column;
+}
+
+.trend-card img{
     width:100%;
+    height:220px;
 }
 
 }
 
-@media(max-width:480px){
+/* ======================================
+   Daily Sheen V6 Professional
+   Part 4 - Newsletter + Footer + Dark Mode
+====================================== */
 
-.hero-text h2{
-    font-size:26px;
-}
+/* ======================
+   Newsletter
+====================== */
 
-.logo img{
-    width:45px;
-    height:45px;
-}
-
-.btn{
-    width:100%;
+.newsletter{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
     text-align:center;
+    padding:60px 8%;
+    margin-top:50px;
 }
 
+.newsletter h2{
+    font-size:36px;
+    margin-bottom:15px;
 }
 
-.search-box{
-    width:90%;
-    margin:20px auto;
+.newsletter p{
+    margin-bottom:25px;
+}
+
+.newsletter form{
     display:flex;
     justify-content:center;
     gap:10px;
     flex-wrap:wrap;
 }
 
-.search-box input{
-    width:350px;
+.newsletter input{
+    width:380px;
     max-width:100%;
-    padding:12px;
-    border:2px solid #6a11cb;
-    border-radius:30px;
-    font-size:16px;
-}
-
-.search-box button{
-    padding:12px 25px;
-    background:#6a11cb;
-    color:#fff;
+    padding:15px;
     border:none;
     border-radius:30px;
+    outline:none;
+}
+
+.newsletter button{
+    padding:15px 28px;
+    border:none;
+    border-radius:30px;
+    background:#fff;
+    color:var(--primary);
+    font-weight:700;
     cursor:pointer;
+    transition:.3s;
 }
 
-.search-box button:hover{
-    background:#2575fc;
+.newsletter button:hover{
+    transform:translateY(-3px);
 }
 
-hero-image{
-    margin:20px auto;
+/* ======================
+   About
+====================== */
+
+.about-site,
+.contact-box{
+    padding:50px 8%;
     text-align:center;
 }
-.banner-img{
-    width:100%;
-    max-width:1200px;
-    display:block;
-    margin:30px auto;
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
+
+.about-site p,
+.contact-box p{
+    max-width:800px;
+    margin:15px auto;
+    color:#666;
 }
 
-.logo{
-    width:70px;
-    height:70px;
-    object-fit:contain;
+/* ======================
+   Social
+====================== */
+
+.social-section{
+    padding:50px 8%;
+    text-align:center;
 }
 
 .social-links{
-    text-align:center;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
     margin-top:20px;
 }
 
 .social-links a{
-    text-decoration:none;
-    margin:0 10px;
-    color:white;
-    font-weight:bold;
+    padding:14px 22px;
+    border-radius:30px;
+    color:#fff;
+    font-weight:600;
+    transition:.3s;
 }
+
+.facebook{background:#1877F2;}
+.youtube{background:#FF0000;}
+.telegram{background:#229ED9;}
+.whatsapp{background:#25D366;}
 
 .social-links a:hover{
-    color:#ffd700;
+    transform:translateY(-5px);
 }
 
-/* Breaking Ticker */
+/* ======================
+   Footer
+====================== */
 
-.breaking-ticker{
-
-display:flex;
-
-align-items:center;
-
-background:#fff;
-
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-
-margin:15px 0;
-
-overflow:hidden;
-
-}
-
-.ticker-title{
-
-background:#d50000;
-
-color:#fff;
-
-padding:12px 18px;
-
-font-weight:bold;
-
-white-space:nowrap;
-
-}
-
-.ticker{
-
-flex:1;
-
-padding:0 10px;
-
-font-weight:600;
-
-color:#333;
-
-}
-
-.ticker marquee{
-
-padding:12px 0;
-
-}
-
-/* ==========================
-   Weather Widget
-========================== */
-
-.weather-section{
-    padding:30px 8%;
-}
-
-.weather-card{
-    max-width:350px;
-    margin:auto;
-    text-align:center;
-    background:linear-gradient(135deg,#00c6ff,#0072ff);
+footer{
+    background:#111827;
     color:#fff;
-    padding:25px;
-    border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    margin-top:50px;
 }
 
-.weather-card h3{
-    font-size:24px;
-    margin-bottom:10px;
+.footer-container{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+    padding:60px 8%;
 }
 
-.weather-card h2{
-    font-size:48px;
-    margin:15px 0;
-}
-
-.weather-card p{
-    font-size:18px;
-}
-
-/* ==========================
-   Live Date & Time
-========================== */
-
-.live-datetime{
-    padding:40px 8%;
-}
-
-.datetime-card{
-    max-width:420px;
-    margin:auto;
-    background:linear-gradient(135deg,#6a11cb,#2575fc);
-    color:#fff;
-    text-align:center;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
-}
-
-.datetime-card h3{
-    font-size:24px;
+.footer-container h3{
     margin-bottom:15px;
 }
 
-.datetime-card h2{
-    font-size:42px;
-    margin-bottom:15px;
-    letter-spacing:2px;
+.footer-container p,
+.footer-container li{
+    color:#d1d5db;
+    margin:10px 0;
 }
 
-.datetime-card p{
-    font-size:18px;
+.footer-container a{
+    color:#d1d5db;
 }
 
-/* ==========================
-   Image Slider
-========================== */
-
-.slider{
-    position:relative;
-    width:90%;
-    max-width:1200px;
-    margin:40px auto;
-    overflow:hidden;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
-}
-
-.slide{
-    display:none;
-    width:100%;
-    height:450px;
-    object-fit:cover;
-}
-
-.slide.active{
-    display:block;
-}
-
-.prev,
-.next{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    background:rgba(0,0,0,.5);
+.footer-container a:hover{
     color:#fff;
+}
+
+.copyright{
+    border-top:1px solid rgba(255,255,255,.1);
+    text-align:center;
+    padding:20px;
+    color:#ccc;
+}
+
+/* ======================
+   Back To Top
+====================== */
+
+#topBtn{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    width:50px;
+    height:50px;
     border:none;
-    font-size:28px;
-    padding:12px 18px;
+    border-radius:50%;
+    background:var(--primary);
+    color:#fff;
     cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:.3s;
 }
 
-.prev{
-    left:15px;
+#topBtn:hover{
+    background:var(--secondary);
+    transform:translateY(-5px);
 }
 
-.next{
-    right:15px;
+/* ======================
+   Dark Mode
+====================== */
+
+body.dark{
+    background:#121212;
+    color:#f1f1f1;
 }
 
-.prev:hover,
-.next:hover{
-    background:#6a11cb;
+body.dark header,
+body.dark .news-card,
+body.dark .featured-card,
+body.dark .widget,
+body.dark .category-card,
+body.dark .trend-card,
+body.dark .breaking-news{
+    background:#1e1e1e;
+    color:#f1f1f1;
+}
+
+body.dark .news-card p,
+body.dark .about-site p,
+body.dark .contact-box p{
+    color:#ccc;
+}
+
+/* ======================
+   Responsive Footer
+====================== */
+
+@media(max-width:992px){
+
+.footer-container{
+    grid-template-columns:1fr;
+    text-align:center;
+}
+
 }
 
 @media(max-width:768px){
 
-.slide{
-    height:250px;
+.newsletter h2{
+    font-size:28px;
+}
+
+.section-title{
+    font-size:28px;
+}
+
+.logo h1{
+    font-size:24px;
+}
+
+.logo img{
+    width:55px;
+    height:55px;
+}
+
+nav{
+    gap:8px;
+}
+
+nav a{
+    padding:8px 14px;
 }
 
 }
