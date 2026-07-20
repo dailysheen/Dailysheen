@@ -18,6 +18,8 @@ body{
     background:#f4f6fb;
     color:#222;
     line-height:1.6;
+   padding-top: 170px;
+}
 }
 
 /* Header */
@@ -88,11 +90,13 @@ nav a{
     border-radius:30px;
     transition:.3s;
     font-weight:bold;
+    transition: all .3s ease;
 }
 
 nav a:hover{
     background:white;
-    color:#6a11cb;
+    color:#ffd700;
+    transform: translateY(-2px);
 }
 
 /* Hero */
