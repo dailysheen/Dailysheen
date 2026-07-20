@@ -554,3 +554,9 @@ nav a{
     border-radius:18px;
     box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
+
+.logo{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+}
