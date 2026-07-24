@@ -114,7 +114,7 @@ onAuthStateChanged(auth, async (user) => {
     console.log("No Admin Logged In");
 
     // User login না করলে Admin Login Page-এ পাঠাবে
-    window.location.href = "admin.html";
+    window.location.href = "admin-login.html";
 
     return;
   }
