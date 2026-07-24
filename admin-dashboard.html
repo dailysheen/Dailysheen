@@ -10,8 +10,15 @@
     content="width=device-width, initial-scale=1.0"
   >
 
+  <meta
+    name="description"
+    content="Daily Sheen Admin Dashboard"
+  >
+
   <title>Daily Sheen Admin Dashboard</title>
 
+
+  <!-- Admin CSS -->
   <link
     rel="stylesheet"
     href="admin.css"
@@ -23,9 +30,9 @@
 <body>
 
 
-<!-- ==========================================
-     Admin Header
-========================================== -->
+<!-- ==================================================
+     ADMIN HEADER
+================================================== -->
 
 <header class="admin-header">
 
@@ -33,14 +40,18 @@
 
     <img
       src="assets/logo.png"
-      alt="Daily Sheen"
+      alt="Daily Sheen Logo"
     >
 
-    <div>
+    <div class="admin-logo-text">
 
-      <h2>Daily Sheen</h2>
+      <h2>
+        Daily Sheen
+      </h2>
 
-      <p>Admin Dashboard</p>
+      <p>
+        Admin Dashboard
+      </p>
 
     </div>
 
@@ -48,6 +59,7 @@
 
 
   <button
+    type="button"
     id="logoutBtn"
     class="logout-btn"
   >
@@ -60,16 +72,16 @@
 
 
 
-<!-- ==========================================
-     Main Dashboard
-========================================== -->
+<!-- ==================================================
+     MAIN DASHBOARD
+================================================== -->
 
 <main class="dashboard">
 
 
-  <!-- ========================================
-       Welcome Section
-  ========================================= -->
+  <!-- ==================================================
+       WELCOME CARD
+  ================================================== -->
 
   <section class="welcome-card">
 
@@ -78,48 +90,94 @@
     </h1>
 
     <p>
-      এখান থেকে আপনার ওয়েবসাইটের News
-      পরিচালনা করতে পারবেন।
+      এখান থেকে আপনার ওয়েবসাইটের News পরিচালনা করতে পারবেন।
     </p>
 
   </section>
 
 
 
-  <!-- ========================================
-       Statistics
-  ========================================= -->
+  <!-- ==================================================
+       DASHBOARD MESSAGE
+  ================================================== -->
+
+  <div
+    id="dashboardMsg"
+    class="dashboard-message"
+    aria-live="polite"
+  ></div>
+
+
+
+  <!-- ==================================================
+       STATISTICS
+  ================================================== -->
 
   <section class="stats-grid">
 
 
+    <!-- Total News -->
+
     <div class="stat-card">
 
-      <h3>📰 Total News</h3>
+      <div class="stat-icon">
+        📰
+      </div>
 
-      <strong id="totalNews">
+      <h3>
+        Total News
+      </h3>
+
+      <strong
+        id="totalNews"
+        class="number"
+      >
         0
       </strong>
 
     </div>
 
 
+
+    <!-- Total Categories -->
+
     <div class="stat-card">
 
-      <h3>🏷️ Categories</h3>
+      <div class="stat-icon">
+        🏷️
+      </div>
 
-      <strong id="totalCategories">
+      <h3>
+        Categories
+      </h3>
+
+      <strong
+        id="totalCategories"
+        class="number"
+      >
         0
       </strong>
 
     </div>
 
 
+
+    <!-- Admin Email -->
+
     <div class="stat-card">
 
-      <h3>👤 Admin</h3>
+      <div class="stat-icon">
+        👤
+      </div>
 
-      <strong id="adminEmail">
+      <h3>
+        Admin
+      </h3>
+
+      <strong
+        id="adminEmail"
+        class="admin-email"
+      >
         Loading...
       </strong>
 
@@ -130,121 +188,147 @@
 
 
 
-  <!-- ========================================
-       Add News
-  ========================================= -->
+  <!-- ==================================================
+       ADD NEWS CARD
+  ================================================== -->
 
-  <section class="news-form-card">
-
-
-    <h2>
-      ➕ Add New News
-    </h2>
+  <section class="dashboard-card news-form-card">
 
 
-    <form id="newsForm">
+    <div class="card-header">
+
+      <h2>
+        ➕ Add New News
+      </h2>
+
+    </div>
+
+
+
+    <!-- NEWS FORM -->
+
+    <form
+      id="newsForm"
+      autocomplete="off"
+    >
 
 
       <!-- Category -->
 
-      <label for="newsCategory">
-        Category
-      </label>
+      <div class="form-group">
 
+        <label for="newsCategory">
+          Category
+        </label>
 
-      <select
-        id="newsCategory"
-        required
-      >
+        <select
+          id="newsCategory"
+          name="category"
+          required
+        >
 
-        <option value="">
-          Select Category
-        </option>
+          <option value="">
+            Select Category
+          </option>
 
-        <option value="বাংলাদেশ">
-          বাংলাদেশ
-        </option>
+          <option value="বাংলাদেশ">
+            বাংলাদেশ
+          </option>
 
-        <option value="আন্তর্জাতিক">
-          আন্তর্জাতিক
-        </option>
+          <option value="আন্তর্জাতিক">
+            আন্তর্জাতিক
+          </option>
 
-        <option value="রাজনীতি">
-          রাজনীতি
-        </option>
+          <option value="রাজনীতি">
+            রাজনীতি
+          </option>
 
-        <option value="স্বাস্থ্য">
-          স্বাস্থ্য
-        </option>
+          <option value="স্বাস্থ্য">
+            স্বাস্থ্য
+          </option>
 
-        <option value="রোগ ও চিকিৎসা">
-          রোগ ও চিকিৎসা
-        </option>
+          <option value="রোগ ও চিকিৎসা">
+            রোগ ও চিকিৎসা
+          </option>
 
-        <option value="প্রযুক্তি">
-          প্রযুক্তি
-        </option>
+          <option value="প্রযুক্তি">
+            প্রযুক্তি
+          </option>
 
-        <option value="খেলাধুলা">
-          খেলাধুলা
-        </option>
+          <option value="খেলাধুলা">
+            খেলাধুলা
+          </option>
 
-        <option value="চাকরি">
-          চাকরি
-        </option>
+          <option value="চাকরি">
+            চাকরি
+          </option>
 
-      </select>
+        </select>
+
+      </div>
 
 
 
       <!-- News Title -->
 
-      <label for="newsTitle">
-        News Title
-      </label>
+      <div class="form-group">
 
+        <label for="newsTitle">
+          News Title
+        </label>
 
-      <input
-        type="text"
-        id="newsTitle"
-        placeholder="সংবাদের শিরোনাম লিখুন"
-        required
-      >
+        <input
+          type="text"
+          id="newsTitle"
+          name="title"
+          placeholder="সংবাদের শিরোনাম লিখুন"
+          required
+        >
+
+      </div>
 
 
 
       <!-- News Description -->
 
-      <label for="newsDescription">
-        News Description
-      </label>
+      <div class="form-group">
 
+        <label for="newsDescription">
+          News Description
+        </label>
 
-      <textarea
-        id="newsDescription"
-        rows="6"
-        placeholder="সংবাদের বিস্তারিত লিখুন..."
-        required
-      ></textarea>
+        <textarea
+          id="newsDescription"
+          name="description"
+          rows="6"
+          placeholder="সংবাদের বিস্তারিত লিখুন..."
+          required
+        ></textarea>
+
+      </div>
 
 
 
       <!-- Image URL -->
 
-      <label for="newsImage">
-        Image URL
-      </label>
+      <div class="form-group">
+
+        <label for="newsImage">
+          Image URL
+        </label>
+
+        <input
+          type="url"
+          id="newsImage"
+          name="image"
+          placeholder="https://example.com/image.jpg"
+        >
+
+      </div>
 
 
-      <input
-        type="url"
-        id="newsImage"
-        placeholder="https://example.com/image.jpg"
-      >
 
-
-
-      <!-- Submit -->
+      <!-- Save Button -->
 
       <button
         type="submit"
@@ -257,9 +341,13 @@
       </button>
 
 
-      <!-- Message -->
+      <!-- Form Message -->
 
-      <p id="dashboardMsg"></p>
+      <p
+        id="formMessage"
+        class="form-message"
+        aria-live="polite"
+      ></p>
 
 
     </form>
@@ -269,12 +357,14 @@
 
 
 
-  <!-- ========================================
-       News List
-  ========================================= -->
+  <!-- ==================================================
+       RECENT NEWS CARD
+  ================================================== -->
 
-  <section class="news-list-card">
+  <section class="dashboard-card news-list-card">
 
+
+    <!-- Section Header -->
 
     <div class="section-header">
 
@@ -284,6 +374,7 @@
 
 
       <button
+        type="button"
         id="refreshBtn"
         class="refresh-btn"
       >
@@ -295,11 +386,19 @@
     </div>
 
 
-    <div id="newsList">
 
-      <p class="empty-message">
+    <!-- News List -->
+
+    <div
+      id="newsList"
+      class="news-grid"
+    >
+
+      <div class="empty-message">
+
         এখনো কোনো News যোগ করা হয়নি।
-      </p>
+
+      </div>
 
     </div>
 
@@ -311,10 +410,9 @@
 
 
 
-<!-- ==========================================
-     Firebase Dashboard JS
-========================================== -->
-
+<!-- ==================================================
+     FIREBASE ADMIN DASHBOARD JAVASCRIPT
+================================================== -->
 
 <script
   type="module"
