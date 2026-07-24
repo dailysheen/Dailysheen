@@ -15,8 +15,7 @@
     content="Daily Sheen Admin Dashboard"
   >
 
-  <title>Daily Sheen Admin Dashboard</title>
-
+  <title>Daily Sheen | Admin Dashboard</title>
 
   <!-- Admin CSS -->
   <link
@@ -36,14 +35,15 @@
 
 <header class="admin-header">
 
-  <div class="admin-logo">
+  <div class="admin-brand">
 
     <img
       src="assets/logo.png"
       alt="Daily Sheen Logo"
+      class="admin-logo"
     >
 
-    <div class="admin-logo-text">
+    <div class="brand-text">
 
       <h2>
         Daily Sheen
@@ -80,7 +80,7 @@
 
 
   <!-- ==================================================
-       WELCOME CARD
+       WELCOME
   ================================================== -->
 
   <section class="welcome-card">
@@ -98,7 +98,7 @@
 
 
   <!-- ==================================================
-       DASHBOARD MESSAGE
+       GLOBAL MESSAGE
   ================================================== -->
 
   <div
@@ -116,7 +116,7 @@
   <section class="stats-grid">
 
 
-    <!-- Total News -->
+    <!-- TOTAL NEWS -->
 
     <div class="stat-card">
 
@@ -124,22 +124,23 @@
         📰
       </div>
 
-      <h3>
-        Total News
-      </h3>
+      <div class="stat-info">
 
-      <strong
-        id="totalNews"
-        class="number"
-      >
-        0
-      </strong>
+        <h3>
+          Total News
+        </h3>
+
+        <strong id="totalNews">
+          0
+        </strong>
+
+      </div>
 
     </div>
 
 
 
-    <!-- Total Categories -->
+    <!-- TOTAL CATEGORIES -->
 
     <div class="stat-card">
 
@@ -147,22 +148,23 @@
         🏷️
       </div>
 
-      <h3>
-        Categories
-      </h3>
+      <div class="stat-info">
 
-      <strong
-        id="totalCategories"
-        class="number"
-      >
-        0
-      </strong>
+        <h3>
+          Categories
+        </h3>
+
+        <strong id="totalCategories">
+          0
+        </strong>
+
+      </div>
 
     </div>
 
 
 
-    <!-- Admin Email -->
+    <!-- ADMIN -->
 
     <div class="stat-card">
 
@@ -170,16 +172,20 @@
         👤
       </div>
 
-      <h3>
-        Admin
-      </h3>
+      <div class="stat-info">
 
-      <strong
-        id="adminEmail"
-        class="admin-email"
-      >
-        Loading...
-      </strong>
+        <h3>
+          Admin
+        </h3>
+
+        <strong
+          id="adminEmail"
+          class="admin-email"
+        >
+          Loading...
+        </strong>
+
+      </div>
 
     </div>
 
@@ -189,13 +195,13 @@
 
 
   <!-- ==================================================
-       ADD NEWS CARD
+       ADD NEWS
   ================================================== -->
 
-  <section class="dashboard-card news-form-card">
+  <section class="dashboard-card">
 
 
-    <div class="card-header">
+    <div class="card-title">
 
       <h2>
         ➕ Add New News
@@ -205,15 +211,14 @@
 
 
 
-    <!-- NEWS FORM -->
-
     <form
       id="newsForm"
+      class="news-form"
       autocomplete="off"
     >
 
 
-      <!-- Category -->
+      <!-- CATEGORY -->
 
       <div class="form-group">
 
@@ -223,7 +228,6 @@
 
         <select
           id="newsCategory"
-          name="category"
           required
         >
 
@@ -269,7 +273,7 @@
 
 
 
-      <!-- News Title -->
+      <!-- TITLE -->
 
       <div class="form-group">
 
@@ -280,7 +284,6 @@
         <input
           type="text"
           id="newsTitle"
-          name="title"
           placeholder="সংবাদের শিরোনাম লিখুন"
           required
         >
@@ -289,7 +292,7 @@
 
 
 
-      <!-- News Description -->
+      <!-- DESCRIPTION -->
 
       <div class="form-group">
 
@@ -299,8 +302,7 @@
 
         <textarea
           id="newsDescription"
-          name="description"
-          rows="6"
+          rows="7"
           placeholder="সংবাদের বিস্তারিত লিখুন..."
           required
         ></textarea>
@@ -309,7 +311,7 @@
 
 
 
-      <!-- Image URL -->
+      <!-- IMAGE URL -->
 
       <div class="form-group">
 
@@ -320,7 +322,6 @@
         <input
           type="url"
           id="newsImage"
-          name="image"
           placeholder="https://example.com/image.jpg"
         >
 
@@ -328,7 +329,7 @@
 
 
 
-      <!-- Save Button -->
+      <!-- SAVE BUTTON -->
 
       <button
         type="submit"
@@ -341,15 +342,6 @@
       </button>
 
 
-      <!-- Form Message -->
-
-      <p
-        id="formMessage"
-        class="form-message"
-        aria-live="polite"
-      ></p>
-
-
     </form>
 
 
@@ -358,13 +350,11 @@
 
 
   <!-- ==================================================
-       RECENT NEWS CARD
+       RECENT NEWS
   ================================================== -->
 
-  <section class="dashboard-card news-list-card">
+  <section class="dashboard-card news-section">
 
-
-    <!-- Section Header -->
 
     <div class="section-header">
 
@@ -387,16 +377,18 @@
 
 
 
-    <!-- News List -->
+    <!-- NEWS LIST -->
 
     <div
       id="newsList"
       class="news-grid"
     >
 
-      <div class="empty-message">
+      <div class="empty-news">
 
-        এখনো কোনো News যোগ করা হয়নি।
+        <p>
+          📰 এখনো কোনো News Publish করা হয়নি।
+        </p>
 
       </div>
 
@@ -411,7 +403,7 @@
 
 
 <!-- ==================================================
-     FIREBASE ADMIN DASHBOARD JAVASCRIPT
+     FIREBASE ADMIN DASHBOARD JS
 ================================================== -->
 
 <script
