@@ -1,11 +1,12 @@
 /* =====================================================
    Daily Sheen V7
-   Admin Dashboard CSS
-   Fully Responsive Professional Design
+   Admin Dashboard
+   Complete Responsive CSS
 ===================================================== */
 
+
 /* =====================================================
-   1. RESET
+   RESET
 ===================================================== */
 
 * {
@@ -14,17 +15,17 @@
   box-sizing: border-box;
 }
 
+
 html {
+  width: 100%;
+  min-height: 100%;
+
   scroll-behavior: smooth;
 }
 
-html,
-body {
-  width: 100%;
-  min-height: 100%;
-}
 
 body {
+  width: 100%;
   min-height: 100vh;
 
   font-family:
@@ -48,29 +49,37 @@ body {
 
 
 /* =====================================================
-   2. ADMIN HEADER
+   HEADER
 ===================================================== */
 
 .admin-header {
   width: 100%;
+
   min-height: 70px;
 
+  padding:
+    10px 25px;
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 
   gap: 20px;
 
-  padding: 10px 20px;
+  background:
+    rgba(255, 255, 255, 0.98);
 
-  background: rgba(255, 255, 255, 0.98);
-
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom:
+    1px solid rgba(0, 0, 0, 0.08);
 
   box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.15);
+    0 4px 20px
+    rgba(0, 0, 0, 0.12);
 
   position: sticky;
+
   top: 0;
 
   z-index: 1000;
@@ -78,26 +87,28 @@ body {
 
 
 /* =====================================================
-   3. ADMIN LOGO
+   BRAND
 ===================================================== */
 
-.admin-logo {
+.admin-brand {
   display: flex;
+
   align-items: center;
 
-  gap: 10px;
+  gap: 12px;
 
   min-width: 0;
-
-  overflow: hidden;
 }
 
-.admin-logo img {
-  width: 45px;
-  height: 45px;
 
-  min-width: 45px;
-  max-width: 45px;
+.admin-logo {
+  width: 48px;
+
+  height: 48px;
+
+  min-width: 48px;
+
+  max-width: 48px;
 
   object-fit: contain;
 
@@ -106,47 +117,45 @@ body {
   flex-shrink: 0;
 }
 
-.admin-logo div {
-  display: flex;
-  flex-direction: column;
 
-  gap: 2px;
-
+.brand-text {
   min-width: 0;
 }
 
-.admin-logo h2 {
+
+.brand-text h2 {
   color: #4b16b8;
 
-  font-size: 18px;
+  font-size: 20px;
 
   line-height: 1.2;
 
   white-space: nowrap;
 }
 
-.admin-logo p {
-  color: #666;
 
-  font-size: 11px;
+.brand-text p {
+  margin-top: 3px;
+
+  color: #777;
+
+  font-size: 12px;
 
   white-space: nowrap;
 }
 
 
 /* =====================================================
-   4. LOGOUT BUTTON
+   LOGOUT
 ===================================================== */
 
 .logout-btn {
-  border: none;
-  outline: none;
+  padding:
+    10px 18px;
 
-  padding: 10px 18px;
+  border: none;
 
   border-radius: 8px;
-
-  color: #fff;
 
   background:
     linear-gradient(
@@ -155,80 +164,92 @@ body {
       #f107a3
     );
 
+  color: #fff;
+
   font-size: 13px;
 
   font-weight: bold;
 
   cursor: pointer;
 
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-
   white-space: nowrap;
 
   flex-shrink: 0;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
+
 .logout-btn:hover {
-  transform: translateY(-2px);
+  transform:
+    translateY(-2px);
 
   box-shadow:
     0 7px 18px
     rgba(123, 47, 247, 0.35);
 }
 
+
 .logout-btn:active {
-  transform: scale(0.97);
+  transform:
+    scale(0.97);
 }
 
 
 /* =====================================================
-   5. MAIN DASHBOARD
+   MAIN DASHBOARD
 ===================================================== */
 
 .dashboard {
   width: 100%;
 
-  max-width: 1100px;
+  max-width: 1150px;
 
-  margin: 0 auto;
+  margin:
+    0 auto;
 
   padding:
-    25px 20px 60px;
+    30px 20px 60px;
 }
 
 
 /* =====================================================
-   6. WELCOME CARD
+   WELCOME
 ===================================================== */
 
 .welcome-card {
   width: 100%;
 
-  padding: 25px;
+  padding:
+    28px;
 
-  margin-bottom: 20px;
+  margin-bottom:
+    20px;
 
   background:
     rgba(255, 255, 255, 0.97);
 
-  border-radius: 16px;
+  border-radius:
+    16px;
 
   box-shadow:
     0 10px 30px
-    rgba(0, 0, 0, 0.15);
+    rgba(0, 0, 0, 0.14);
 }
+
 
 .welcome-card h1 {
   color: #4b16b8;
 
-  font-size: 26px;
+  font-size: 27px;
 
-  line-height: 1.3;
+  line-height: 1.4;
 
   margin-bottom: 8px;
 }
+
 
 .welcome-card p {
   color: #555;
@@ -240,28 +261,35 @@ body {
 
 
 /* =====================================================
-   7. DASHBOARD MESSAGE
+   MESSAGE
 ===================================================== */
 
-#dashboardMsg {
+.dashboard-message {
   width: 100%;
 
-  margin-bottom: 20px;
+  min-height: 0;
 
-  padding: 12px 15px;
+  margin-bottom: 15px;
 
-  border-radius: 8px;
+  padding:
+    0;
 
-  font-size: 14px;
+  border-radius:
+    8px;
 
-  text-align: center;
+  text-align:
+    center;
 
-  word-break: break-word;
+  font-size:
+    14px;
+
+  transition:
+    all 0.3s ease;
 }
 
 
 /* =====================================================
-   8. STATISTICS GRID
+   STATISTICS
 ===================================================== */
 
 .stats-grid {
@@ -278,177 +306,280 @@ body {
 }
 
 
-/* =====================================================
-   9. STAT CARD
-===================================================== */
-
 .stat-card {
   width: 100%;
 
-  padding: 20px 15px;
+  min-width: 0;
+
+  padding:
+    22px 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
 
   background:
     rgba(255, 255, 255, 0.97);
 
-  border-radius: 14px;
-
-  text-align: center;
+  border-radius:
+    14px;
 
   box-shadow:
     0 8px 25px
     rgba(0, 0, 0, 0.12);
 
+  overflow: hidden;
+
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
-
-  overflow: hidden;
 }
 
+
 .stat-card:hover {
-  transform: translateY(-4px);
+  transform:
+    translateY(-4px);
 
   box-shadow:
     0 14px 30px
     rgba(0, 0, 0, 0.18);
 }
 
-.stat-card h3 {
-  color: #666;
 
-  font-size: 14px;
+.stat-icon {
+  width: 48px;
 
-  margin-bottom: 8px;
+  height: 48px;
+
+  min-width: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    #f0e9ff;
+
+  border-radius:
+    12px;
+
+  font-size:
+    23px;
 }
 
-.stat-card .number {
-  color: #4b16b8;
 
-  font-size: 30px;
+.stat-info {
+  min-width: 0;
+}
 
-  font-weight: bold;
+
+.stat-info h3 {
+  color:
+    #666;
+
+  font-size:
+    13px;
+
+  margin-bottom:
+    5px;
+}
+
+
+.stat-info strong {
+  display:
+    block;
+
+  color:
+    #4b16b8;
+
+  font-size:
+    24px;
+
+  font-weight:
+    bold;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+.admin-email {
+  font-size:
+    12px !important;
+
+  line-height:
+    1.4;
 }
 
 
 /* =====================================================
-   10. GENERAL DASHBOARD CARD
+   GENERAL CARD
 ===================================================== */
 
 .dashboard-card {
   width: 100%;
 
-  padding: 25px;
+  padding:
+    25px;
 
-  margin-bottom: 20px;
+  margin-bottom:
+    20px;
 
   background:
     rgba(255, 255, 255, 0.97);
 
-  border-radius: 16px;
+  border-radius:
+    16px;
 
   box-shadow:
     0 8px 25px
     rgba(0, 0, 0, 0.12);
 
-  overflow: hidden;
+  overflow:
+    hidden;
 }
 
-.dashboard-card h2 {
-  color: #4b16b8;
 
-  font-size: 21px;
+.card-title h2,
+.section-header h2 {
+  color:
+    #4b16b8;
 
-  margin-bottom: 18px;
+  font-size:
+    21px;
+
+  line-height:
+    1.4;
 }
 
 
 /* =====================================================
-   11. ADD NEWS FORM
+   FORM
 ===================================================== */
 
-#newsForm {
-  width: 100%;
-}
-
-#newsForm label {
-  display: block;
-
-  margin-bottom: 6px;
-
-  color: #333;
-
-  font-size: 13px;
-
-  font-weight: bold;
-}
-
-#newsForm input,
-#newsForm textarea,
-#newsForm select {
-  display: block;
-
+.news-form {
   width: 100%;
 
-  max-width: 100%;
+  margin-top:
+    20px;
+}
 
-  padding: 12px 13px;
 
-  margin-bottom: 15px;
+.form-group {
+  width: 100%;
+
+  margin-bottom:
+    16px;
+}
+
+
+.form-group label {
+  display:
+    block;
+
+  margin-bottom:
+    7px;
+
+  color:
+    #333;
+
+  font-size:
+    14px;
+
+  font-weight:
+    bold;
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  display:
+    block;
+
+  width:
+    100%;
+
+  max-width:
+    100%;
+
+  padding:
+    13px 14px;
 
   border:
     1px solid #ddd;
 
-  border-radius: 8px;
+  border-radius:
+    9px;
 
-  background: #fff;
+  background:
+    #fff;
 
-  color: #222;
+  color:
+    #222;
 
-  font-family: inherit;
+  font-family:
+    inherit;
 
-  font-size: 14px;
+  font-size:
+    14px;
 
-  outline: none;
+  outline:
+    none;
 
   transition:
     border-color 0.3s ease,
     box-shadow 0.3s ease;
 }
 
-#newsForm input:focus,
-#newsForm textarea:focus,
-#newsForm select:focus {
-  border-color: #6a11cb;
+
+.form-group textarea {
+  min-height:
+    140px;
+
+  resize:
+    vertical;
+
+  line-height:
+    1.7;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color:
+    #6a11cb;
 
   box-shadow:
     0 0 0 3px
     rgba(106, 17, 203, 0.12);
 }
 
-#newsForm textarea {
-  min-height: 120px;
-
-  resize: vertical;
-
-  line-height: 1.6;
-}
-
 
 /* =====================================================
-   12. SAVE NEWS BUTTON
+   SAVE BUTTON
 ===================================================== */
 
-#newsForm button,
 .save-btn {
-  display: block;
+  display:
+    block;
 
-  width: 100%;
+  width:
+    100%;
 
-  padding: 13px 20px;
+  padding:
+    13px 20px;
 
-  border: none;
+  border:
+    none;
 
-  border-radius: 8px;
+  border-radius:
+    9px;
 
   background:
     linear-gradient(
@@ -457,564 +588,677 @@ body {
       #2575fc
     );
 
-  color: #fff;
+  color:
+    #fff;
 
-  font-size: 15px;
+  font-size:
+    15px;
 
-  font-weight: bold;
+  font-weight:
+    bold;
 
-  cursor: pointer;
+  cursor:
+    pointer;
 
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
 
-#newsForm button:hover,
+
 .save-btn:hover {
-  transform: translateY(-2px);
+  transform:
+    translateY(-2px);
 
   box-shadow:
     0 8px 20px
     rgba(37, 117, 252, 0.3);
 }
 
-#newsForm button:active,
-.save-btn:active {
-  transform: scale(0.98);
+
+.save-btn:disabled {
+  opacity:
+    0.7;
+
+  cursor:
+    not-allowed;
+
+  transform:
+    none;
 }
 
 
 /* =====================================================
-   13. RECENT NEWS SECTION
+   NEWS SECTION HEADER
 ===================================================== */
 
-.recent-news {
+.section-header {
   width: 100%;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    15px;
+
+  margin-bottom:
+    20px;
 }
 
-#newsList {
-  width: 100%;
 
-  display: grid;
+/* =====================================================
+   REFRESH BUTTON
+===================================================== */
+
+.refresh-btn {
+  padding:
+    9px 16px;
+
+  border:
+    none;
+
+  border-radius:
+    8px;
+
+  background:
+    #2575fc;
+
+  color:
+    #fff;
+
+  font-size:
+    13px;
+
+  font-weight:
+    bold;
+
+  cursor:
+    pointer;
+
+  white-space:
+    nowrap;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+
+.refresh-btn:hover {
+  background:
+    #1b5fc7;
+
+  transform:
+    translateY(-2px);
+}
+
+
+/* =====================================================
+   NEWS GRID
+===================================================== */
+
+.news-grid {
+  width:
+    100%;
+
+  display:
+    grid;
 
   grid-template-columns:
     repeat(2, minmax(0, 1fr));
 
-  gap: 20px;
+  gap:
+    20px;
+
+  align-items:
+    start;
 }
 
 
 /* =====================================================
-   14. NEWS ITEM
+   NEWS CARD
 ===================================================== */
 
 .news-item {
-  width: 100%;
+  width:
+    100%;
 
-  min-width: 0;
+  min-width:
+    0;
 
-  padding: 18px;
-
-  background: #fff;
+  background:
+    #fff;
 
   border:
-    1px solid #eee;
+    1px solid #e8e8e8;
 
-  border-radius: 12px;
+  border-radius:
+    13px;
+
+  overflow:
+    hidden;
 
   box-shadow:
     0 5px 15px
-    rgba(0, 0, 0, 0.07);
-
-  overflow: hidden;
+    rgba(0, 0, 0, 0.08);
 
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
 
+
 .news-item:hover {
-  transform: translateY(-4px);
+  transform:
+    translateY(-4px);
 
   box-shadow:
     0 10px 25px
-    rgba(0, 0, 0, 0.12);
-}
-
-.news-item h3 {
-  color: #4b16b8;
-
-  font-size: 18px;
-
-  line-height: 1.4;
-
-  margin-bottom: 8px;
-
-  overflow-wrap: anywhere;
-}
-
-.news-item p {
-  color: #555;
-
-  font-size: 14px;
-
-  line-height: 1.7;
-
-  margin-bottom: 10px;
-
-  overflow-wrap: anywhere;
-}
-
-.news-item small {
-  display: block;
-
-  color: #777;
-
-  font-size: 12px;
-
-  overflow-wrap: anywhere;
+    rgba(0, 0, 0, 0.13);
 }
 
 
 /* =====================================================
-   15. NEWS IMAGE
+   NEWS IMAGE
 ===================================================== */
 
-.news-item img {
-  display: block;
+.news-item-image {
+  display:
+    block;
 
-  width: 100%;
+  width:
+    100%;
 
-  max-width: 100%;
+  max-width:
+    100%;
 
-  height: 220px;
+  height:
+    220px;
 
-  object-fit: cover;
+  object-fit:
+    cover;
 
-  border-radius: 10px;
+  margin:
+    0;
 
-  margin-bottom: 15px;
+  border:
+    none;
 }
 
 
 /* =====================================================
-   16. DELETE BUTTON
+   NEWS CONTENT
 ===================================================== */
 
-.delete-btn {
-  display: block;
+.news-content {
+  width:
+    100%;
 
-  width: 100%;
+  padding:
+    18px;
+}
 
-  margin-top: 12px;
 
-  padding: 10px 15px;
+.news-category {
+  display:
+    inline-block;
 
-  border: none;
+  padding:
+    5px 10px;
 
-  border-radius: 8px;
+  margin-bottom:
+    9px;
 
-  background: #e53935;
+  background:
+    #eee5ff;
 
-  color: #fff;
+  color:
+    #4b16b8;
 
-  font-size: 14px;
+  border-radius:
+    20px;
 
-  font-weight: bold;
+  font-size:
+    11px;
 
-  cursor: pointer;
+  font-weight:
+    bold;
+}
+
+
+.news-content h3 {
+  margin:
+    0 0 10px;
+
+  color:
+    #222;
+
+  font-size:
+    18px;
+
+  line-height:
+    1.5;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+.news-content p {
+  margin:
+    0 0 12px;
+
+  color:
+    #555;
+
+  font-size:
+    14px;
+
+  line-height:
+    1.7;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+.news-date {
+  display:
+    block;
+
+  margin-bottom:
+    12px;
+
+  color:
+    #777;
+
+  font-size:
+    12px;
+}
+
+
+/* =====================================================
+   DELETE BUTTON
+===================================================== */
+
+.news-actions {
+  width:
+    100%;
+}
+
+
+.delete-news-btn {
+  width:
+    100%;
+
+  padding:
+    10px 15px;
+
+  border:
+    none;
+
+  border-radius:
+    8px;
+
+  background:
+    #e53935;
+
+  color:
+    #fff;
+
+  font-size:
+    13px;
+
+  font-weight:
+    bold;
+
+  cursor:
+    pointer;
 
   transition:
     background 0.3s ease,
     transform 0.3s ease;
 }
 
-.delete-btn:hover {
-  background: #c62828;
 
-  transform: translateY(-2px);
+.delete-news-btn:hover {
+  background:
+    #c62828;
+
+  transform:
+    translateY(-2px);
 }
 
 
 /* =====================================================
-   17. REFRESH BUTTON
-===================================================== */
-
-#refreshBtn {
-  display: inline-block;
-
-  padding: 9px 16px;
-
-  margin-bottom: 15px;
-
-  border: none;
-
-  border-radius: 7px;
-
-  background: #2575fc;
-
-  color: #fff;
-
-  font-size: 13px;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  transition:
-    background 0.3s ease,
-    transform 0.3s ease;
-}
-
-#refreshBtn:hover {
-  background: #1b5fc7;
-
-  transform: translateY(-2px);
-}
-
-
-/* =====================================================
-   18. EMPTY NEWS
+   EMPTY NEWS
 ===================================================== */
 
 .empty-news {
-  width: 100%;
+  width:
+    100%;
 
-  padding: 30px;
+  padding:
+    35px 20px;
 
-  text-align: center;
+  text-align:
+    center;
 
-  color: #777;
-
-  background: #fafafa;
-
-  border-radius: 10px;
+  background:
+    #fafafa;
 
   border:
     1px dashed #ccc;
+
+  border-radius:
+    10px;
+
+  color:
+    #777;
 }
 
-
-/* =====================================================
-   19. ADMIN EMAIL
-===================================================== */
-
-#adminEmail {
-  color: #4b16b8;
-
-  font-weight: bold;
-
-  overflow-wrap: anywhere;
-}
-
-
-/* =====================================================
-   20. LOADING
-===================================================== */
 
 .loading {
-  width: 100%;
+  width:
+    100%;
 
-  padding: 30px;
+  padding:
+    30px;
 
-  text-align: center;
+  text-align:
+    center;
 
-  color: #666;
+  color:
+    #666;
+}
 
-  font-size: 15px;
+
+.error-news {
+  width:
+    100%;
+
+  padding:
+    25px;
+
+  text-align:
+    center;
+
+  background:
+    #fff1f1;
+
+  border:
+    1px solid #ffcaca;
+
+  border-radius:
+    10px;
+
+  color:
+    #b71c1c;
+
+  overflow-wrap:
+    anywhere;
 }
 
 
 /* =====================================================
-   21. SUCCESS MESSAGE
-===================================================== */
-
-.success-message {
-  padding: 12px 15px;
-
-  color: #087f23;
-
-  background: #e8f5e9;
-
-  border-radius: 8px;
-
-  margin-bottom: 15px;
-}
-
-
-/* =====================================================
-   22. ERROR MESSAGE
-===================================================== */
-
-.error-message {
-  padding: 12px 15px;
-
-  color: #b71c1c;
-
-  background: #ffebee;
-
-  border-radius: 8px;
-
-  margin-bottom: 15px;
-}
-
-
-/* =====================================================
-   23. TABLET
+   TABLET
 ===================================================== */
 
 @media (max-width: 900px) {
 
   .dashboard {
-    max-width: 100%;
+    max-width:
+      100%;
 
     padding:
-      20px 15px 50px;
+      25px 15px 50px;
   }
 
-  #newsList {
-    grid-template-columns: 1fr;
+
+  .news-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
 }
 
 
 /* =====================================================
-   24. MOBILE
+   MOBILE
 ===================================================== */
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
 
   .admin-header {
-    width: 100%;
-
-    min-height: 60px;
-
     padding:
-      10px 12px;
+      9px 12px;
 
-    gap: 10px;
+    gap:
+      10px;
   }
+
 
   .admin-logo {
-    flex: 1;
+    width:
+      42px;
 
-    min-width: 0;
+    height:
+      42px;
+
+    min-width:
+      42px;
+
+    max-width:
+      42px;
   }
 
-  .admin-logo img {
-    width: 40px;
-    height: 40px;
 
-    min-width: 40px;
-    max-width: 40px;
+  .brand-text h2 {
+    font-size:
+      16px;
   }
 
-  .admin-logo h2 {
-    font-size: 16px;
+
+  .brand-text p {
+    font-size:
+      10px;
   }
 
-  .admin-logo p {
-    font-size: 10px;
-  }
 
   .logout-btn {
     padding:
-      8px 12px;
+      8px 11px;
 
-    font-size: 11px;
+    font-size:
+      11px;
   }
 
+
   .dashboard {
-    width: 100%;
-
-    max-width: 100%;
-
-    margin: 0;
+    width:
+      100%;
 
     padding:
       15px 10px 40px;
   }
 
+
   .welcome-card {
     padding:
       20px 15px;
 
-    border-radius: 12px;
+    border-radius:
+      12px;
   }
+
 
   .welcome-card h1 {
-    font-size: 21px;
+    font-size:
+      21px;
   }
+
 
   .welcome-card p {
-    font-size: 13px;
+    font-size:
+      13px;
   }
+
 
   .stats-grid {
-    width: 100%;
-
     grid-template-columns:
-      repeat(3, minmax(0, 1fr));
+      1fr;
 
-    gap: 8px;
+    gap:
+      12px;
   }
+
 
   .stat-card {
     padding:
-      15px 8px;
-
-    border-radius: 10px;
+      16px;
   }
 
-  .stat-card h3 {
-    font-size: 11px;
-  }
-
-  .stat-card .number {
-    font-size: 23px;
-  }
 
   .dashboard-card {
-    width: 100%;
-
     padding:
       18px 12px;
 
-    border-radius: 12px;
+    border-radius:
+      12px;
   }
 
-  .dashboard-card h2 {
-    font-size: 19px;
+
+  .section-header {
+    align-items:
+      flex-start;
   }
 
-  #newsForm input,
-  #newsForm textarea,
-  #newsForm select {
-    font-size: 14px;
 
+  .card-title h2,
+  .section-header h2 {
+    font-size:
+      19px;
+  }
+
+
+  .news-grid {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      15px;
+  }
+
+
+  .news-item-image {
+    height:
+      200px;
+  }
+
+
+  .news-content {
     padding:
-      11px 12px;
-  }
-
-  #newsForm textarea {
-    min-height: 120px;
-  }
-
-  #newsList {
-    width: 100%;
-
-    grid-template-columns: 1fr;
-
-    gap: 15px;
-  }
-
-  .news-item {
-    width: 100%;
-
-    padding: 12px;
-
-    border-radius: 10px;
-  }
-
-  .news-item img {
-    width: 100%;
-
-    height: auto;
-
-    max-height: 280px;
-
-    object-fit: cover;
-
-    border-radius: 8px;
-  }
-
-  .news-item h3 {
-    font-size: 17px;
-  }
-
-  .news-item p {
-    font-size: 13px;
+      15px;
   }
 
 }
 
 
 /* =====================================================
-   25. SMALL MOBILE
+   SMALL MOBILE
 ===================================================== */
 
-@media (max-width: 380px) {
+@media (max-width: 400px) {
 
   .admin-header {
     padding:
       8px 10px;
   }
 
-  .admin-logo img {
-    width: 36px;
-    height: 36px;
 
-    min-width: 36px;
-    max-width: 36px;
+  .admin-logo {
+    width:
+      38px;
+
+    height:
+      38px;
+
+    min-width:
+      38px;
+
+    max-width:
+      38px;
   }
 
-  .admin-logo h2 {
-    font-size: 14px;
+
+  .brand-text h2 {
+    font-size:
+      14px;
   }
 
-  .admin-logo p {
-    font-size: 9px;
+
+  .brand-text p {
+    font-size:
+      9px;
   }
+
 
   .logout-btn {
     padding:
-      7px 10px;
+      7px 9px;
 
-    font-size: 10px;
+    font-size:
+      10px;
   }
+
 
   .dashboard {
     padding:
       12px 8px 30px;
   }
 
+
   .welcome-card h1 {
-    font-size: 19px;
+    font-size:
+      19px;
   }
 
-  .stats-grid {
-    gap: 6px;
+
+  .news-item-image {
+    height:
+      180px;
   }
 
-  .stat-card {
-    padding:
-      13px 5px;
-  }
 
-  .stat-card h3 {
-    font-size: 10px;
-  }
-
-  .stat-card .number {
-    font-size: 20px;
+  .news-content h3 {
+    font-size:
+      17px;
   }
 
 }
 
 
 /* =====================================================
-   26. SCROLLBAR
+   SCROLLBAR
 ===================================================== */
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width:
+    8px;
 }
 
+
 ::-webkit-scrollbar-track {
-  background: #eee;
+  background:
+    #eee;
 }
+
 
 ::-webkit-scrollbar-thumb {
   background:
@@ -1023,71 +1267,11 @@ body {
       #2575fc
     );
 
-  border-radius: 10px;
+  border-radius:
+    10px;
 }
 
-/* ===== FORCE FIX FOR RECENT NEWS ===== */
-
-#newsList {
-  width: 100% !important;
-  max-width: 100% !important;
-
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-
-  gap: 20px !important;
-
-  overflow: hidden !important;
-}
-
-#newsList .news-item {
-  width: 100% !important;
-  max-width: 100% !important;
-
-  min-width: 0 !important;
-
-  padding: 20px !important;
-
-  background: #ffffff !important;
-
-  border-radius: 12px !important;
-
-  overflow: hidden !important;
-}
-
-#newsList .news-item img {
-  display: block !important;
-
-  width: 100% !important;
-  max-width: 100% !important;
-
-  height: 220px !important;
-
-  object-fit: cover !important;
-
-  border-radius: 10px !important;
-}
-
-
-/* Mobile */
-@media (max-width: 700px) {
-
-  #newsList {
-    grid-template-columns: 1fr !important;
-  }
-
-  #newsList .news-item {
-    width: 100% !important;
-  }
-
-  #newsList .news-item img {
-    width: 100% !important;
-    height: 200px !important;
-    object-fit: cover !important;
-  }
-
-}
 
 /* =====================================================
-   END OF ADMIN CSS
+   END
 ===================================================== */
