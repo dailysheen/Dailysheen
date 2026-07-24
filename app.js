@@ -1,16 +1,20 @@
 /* =====================================================
    Daily Sheen V7
-   FINAL app.js
-   Firebase News + Search + Category Filter
-   News Details + Dark Mode + Clock + Slider
+   app.js
+   Firebase Firestore News + Search + Category Filter
 ===================================================== */
 
 
 /* =====================================================
-   1. FIREBASE IMPORT
+   1. FIREBASE CONFIG
 ===================================================== */
 
 import { app } from "./firebase-config.js";
+
+
+/* =====================================================
+   2. FIREBASE FIRESTORE
+===================================================== */
 
 import {
   getFirestore,
@@ -22,115 +26,1036 @@ import {
 
 
 /* =====================================================
-   2. FIREBASE INITIALIZE
+   3. INITIALIZE FIRESTORE
 ===================================================== */
 
 const db = getFirestore(app);
 
 
 /* =====================================================
-   3. GLOBAL VARIABLES
-===================================================== */
-
-let allNews = [];
-
-let currentCategory = "all";
-
-let currentSearch = "";
-
-
-/* =====================================================
    4. HTML ELEMENTS
 ===================================================== */
 
-const darkBtn =
-  document.getElementById("darkBtn");
+const newsGrid =
+  document.getElementById("newsGrid");
 
-const searchInput =
+const newsLoading =
+  document.getElementById("newsLoading");
+
+const newsError =
+  document.getElementById("newsError");
+
+const emptyNews =
+  document.getElementById("emptyNews");
+
+const currentCategory =
+  document.getElementById("currentCategory");
+
+const searchMessage =
+  document.getElementById("searchMessage");
+
+const searchBox =
   document.getElementById("searchBox");
 
 const searchBtn =
   document.getElementById("searchBtn");
 
+const refreshNewsBtn =
+  document.getElementById("refreshNewsBtn");
+
+const retryBtn =
+  document.getElementById("retryBtn");
+
+const featuredGrid =
+  document.getElementById("featuredGrid");
+
+const darkBtn =
+  document.getElementById("darkBtn");
+
 const topBtn =
   document.getElementById("topBtn");
 
+const liveClock =
+  document.getElementById("liveClock");
+
+const liveDate =
+  document.getElementById("liveDate");
+
+const newsletterForm =
+  document.getElementById("newsletterForm");
+
 
 /* =====================================================
-   5. DARK MODE
+   5. GLOBAL NEWS DATA
 ===================================================== */
 
-function applyTheme() {
+let allNews = [];
 
-  const savedTheme =
-    localStorage.getItem("theme");
+let selectedCategory = "all";
 
-  if (
-    savedTheme === "dark"
-  ) {
+let currentSearch = "";
 
-    document.body.classList.add("dark");
 
-    if (darkBtn) {
+/* =====================================================
+   6. CATEGORY NAME
+===================================================== */
 
-      darkBtn.innerHTML =
-        "☀️ Light Mode";
+const categoryNames = {
+
+  all:
+    "সকল বিভাগের সর্বশেষ সংবাদ",
+
+  "বাংলাদেশ":
+    "বাংলাদেশের সর্বশেষ সংবাদ",
+
+  "আন্তর্জাতিক":
+    "আন্তর্জাতিক সর্বশেষ সংবাদ",
+
+  "রাজনীতি":
+    "রাজনীতি বিষয়ক সর্বশেষ সংবাদ",
+
+  "স্বাস্থ্য":
+    "স্বাস্থ্য বিষয়ক সর্বশেষ সংবাদ",
+
+  "রোগ ও চিকিৎসা":
+    "রোগ ও চিকিৎসা বিষয়ক সংবাদ",
+
+  "প্রযুক্তি":
+    "প্রযুক্তি বিষয়ক সর্বশেষ সংবাদ",
+
+  "খেলাধুলা":
+    "খেলাধুলার সর্বশেষ সংবাদ",
+
+  "চাকরি":
+    "চাকরির সর্বশেষ সংবাদ"
+
+};
+
+
+/* =====================================================
+   7. LOAD NEWS FROM FIRESTORE
+===================================================== */
+
+async function loadNews() {
+
+  /* Loading */
+
+  showLoading();
+
+
+  try {
+
+    console.log(
+      "Loading News From Firestore..."
+    );
+
+
+    /* ---------------------------------------------
+       Firestore Query
+    --------------------------------------------- */
+
+    const newsQuery = query(
+
+      collection(
+        db,
+        "news"
+      ),
+
+      orderBy(
+        "createdAt",
+        "desc"
+      )
+
+    );
+
+
+    /* ---------------------------------------------
+       Get Documents
+    --------------------------------------------- */
+
+    const snapshot =
+      await getDocs(
+        newsQuery
+      );
+
+
+    /* ---------------------------------------------
+       Convert Data
+    --------------------------------------------- */
+
+    allNews = [];
+
+
+    snapshot.forEach(
+      (docSnapshot) => {
+
+        const data =
+          docSnapshot.data();
+
+
+        allNews.push({
+
+          id:
+            docSnapshot.id,
+
+          category:
+            data.category || "",
+
+          title:
+            data.title || "শিরোনাম নেই",
+
+          description:
+            data.description || "",
+
+          image:
+            data.image || "",
+
+          createdAt:
+            data.createdAt || null,
+
+          createdBy:
+            data.createdBy || ""
+
+        });
+
+      }
+    );
+
+
+    console.log(
+      "Total News:",
+      allNews.length
+    );
+
+
+    /* ---------------------------------------------
+       Hide Loading
+    --------------------------------------------- */
+
+    hideLoading();
+
+
+    /* ---------------------------------------------
+       Check Empty
+    --------------------------------------------- */
+
+    if (
+      allNews.length === 0
+    ) {
+
+      showEmpty();
+
+      renderFeatured([]);
+
+      return;
 
     }
 
-  } else {
 
-    document.body.classList.remove("dark");
+    /* ---------------------------------------------
+       Render News
+    --------------------------------------------- */
 
-    if (darkBtn) {
+    renderNews();
 
-      darkBtn.innerHTML =
-        "🌙 Dark Mode";
 
-    }
+    /* ---------------------------------------------
+       Featured News
+    --------------------------------------------- */
+
+    renderFeatured(
+      allNews.slice(
+        0,
+        3
+      )
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Firestore News Load Error:",
+      error
+    );
+
+
+    hideLoading();
+
+
+    showNewsError(
+      error
+    );
 
   }
 
 }
 
 
-applyTheme();
+/* =====================================================
+   8. RENDER NEWS
+===================================================== */
+
+function renderNews() {
+
+  if (!newsGrid) {
+    return;
+  }
 
 
-if (darkBtn) {
+  /* ---------------------------------------------
+     Filter Category
+  --------------------------------------------- */
 
-  darkBtn.addEventListener(
+  let filteredNews =
+    allNews.filter(
+      (news) => {
+
+        if (
+          selectedCategory ===
+          "all"
+        ) {
+
+          return true;
+
+        }
+
+
+        return (
+          String(
+            news.category
+          ).trim() ===
+          String(
+            selectedCategory
+          ).trim()
+        );
+
+      }
+    );
+
+
+  /* ---------------------------------------------
+     Search Filter
+  --------------------------------------------- */
+
+  if (
+    currentSearch
+  ) {
+
+    filteredNews =
+      filteredNews.filter(
+        (news) => {
+
+          const searchableText = (
+
+            String(
+              news.title
+            ) +
+
+            " " +
+
+            String(
+              news.description
+            ) +
+
+            " " +
+
+            String(
+              news.category
+            )
+
+          ).toLowerCase();
+
+
+          return searchableText.includes(
+            currentSearch.toLowerCase()
+          );
+
+        }
+      );
+
+  }
+
+
+  /* ---------------------------------------------
+     Update Category Title
+  --------------------------------------------- */
+
+  if (currentCategory) {
+
+    currentCategory.textContent =
+      categoryNames[
+        selectedCategory
+      ] ||
+      "সর্বশেষ সংবাদ";
+
+  }
+
+
+  /* ---------------------------------------------
+     Search Message
+  --------------------------------------------- */
+
+  if (searchMessage) {
+
+    if (
+      currentSearch
+    ) {
+
+      searchMessage.textContent =
+        `🔍 "${currentSearch}" এর জন্য ${filteredNews.length}টি সংবাদ পাওয়া গেছে।`;
+
+    } else {
+
+      searchMessage.textContent =
+        "";
+
+    }
+
+  }
+
+
+  /* ---------------------------------------------
+     Empty Check
+  --------------------------------------------- */
+
+  if (
+    filteredNews.length === 0
+  ) {
+
+    newsGrid.innerHTML =
+      "";
+
+    showEmpty();
+
+    return;
+
+  }
+
+
+  hideEmpty();
+
+
+  /* ---------------------------------------------
+     Clear Old News
+  --------------------------------------------- */
+
+  newsGrid.innerHTML =
+    "";
+
+
+  /* ---------------------------------------------
+     Render Cards
+  --------------------------------------------- */
+
+  filteredNews.forEach(
+    (news) => {
+
+      const card =
+        createNewsCard(
+          news
+        );
+
+
+      newsGrid.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   9. CREATE NEWS CARD
+===================================================== */
+
+function createNewsCard(
+  news
+) {
+
+  const article =
+    document.createElement(
+      "article"
+    );
+
+
+  article.className =
+    "news-card";
+
+
+  /* ---------------------------------------------
+     Image
+  --------------------------------------------- */
+
+  const image =
+    document.createElement(
+      "img"
+    );
+
+
+  image.className =
+    "news-image";
+
+
+  image.alt =
+    news.title;
+
+
+  image.loading =
+    "lazy";
+
+
+  if (
+    news.image
+  ) {
+
+    image.src =
+      news.image;
+
+  } else {
+
+    image.src =
+      "assets/news1.jpg";
+
+  }
+
+
+  /* ---------------------------------------------
+     Image Error
+  --------------------------------------------- */
+
+  image.onerror =
+    function () {
+
+      this.src =
+        "assets/news1.jpg";
+
+    };
+
+
+  /* ---------------------------------------------
+     Content
+  --------------------------------------------- */
+
+  const content =
+    document.createElement(
+      "div"
+    );
+
+
+  content.className =
+    "news-card-content";
+
+
+  /* ---------------------------------------------
+     Category
+  --------------------------------------------- */
+
+  const category =
+    document.createElement(
+      "span"
+    );
+
+
+  category.className =
+    "news-category";
+
+
+  category.textContent =
+    news.category ||
+    "সাধারণ";
+
+
+  /* ---------------------------------------------
+     Title
+  --------------------------------------------- */
+
+  const title =
+    document.createElement(
+      "h3"
+    );
+
+
+  title.textContent =
+    news.title ||
+    "সংবাদের শিরোনাম";
+
+
+  /* ---------------------------------------------
+     Description
+  --------------------------------------------- */
+
+  const description =
+    document.createElement(
+      "p"
+    );
+
+
+  description.textContent =
+    news.description ||
+    "এই সংবাদের বিস্তারিত তথ্য শীঘ্রই প্রকাশ করা হবে।";
+
+
+  /* ---------------------------------------------
+     Date
+  --------------------------------------------- */
+
+  const date =
+    document.createElement(
+      "small"
+    );
+
+
+  date.className =
+    "news-date";
+
+
+  date.textContent =
+    "📅 " +
+    formatDate(
+      news.createdAt
+    );
+
+
+  /* ---------------------------------------------
+     Read More
+  --------------------------------------------- */
+
+  const readMore =
+    document.createElement(
+      "button"
+    );
+
+
+  readMore.type =
+    "button";
+
+
+  readMore.className =
+    "read-more-btn";
+
+
+  readMore.textContent =
+    "বিস্তারিত পড়ুন →";
+
+
+  readMore.addEventListener(
+    "click",
+    function () {
+
+      showFullNews(
+        news
+      );
+
+    }
+  );
+
+
+  /* ---------------------------------------------
+     Append Content
+  --------------------------------------------- */
+
+  content.appendChild(
+    category
+  );
+
+
+  content.appendChild(
+    title
+  );
+
+
+  content.appendChild(
+    description
+  );
+
+
+  content.appendChild(
+    date
+  );
+
+
+  content.appendChild(
+    readMore
+  );
+
+
+  /* ---------------------------------------------
+     Append Card
+  --------------------------------------------- */
+
+  article.appendChild(
+    image
+  );
+
+
+  article.appendChild(
+    content
+  );
+
+
+  return article;
+
+}
+
+
+/* =====================================================
+   10. SHOW FULL NEWS
+===================================================== */
+
+function showFullNews(
+  news
+) {
+
+  const modal =
+    document.createElement(
+      "div"
+    );
+
+
+  modal.className =
+    "news-modal";
+
+
+  modal.innerHTML = `
+
+    <div class="news-modal-overlay"></div>
+
+    <div class="news-modal-content">
+
+      <button
+        type="button"
+        class="news-modal-close"
+      >
+        ✕
+      </button>
+
+      <img
+        src="${safeImage(
+          news.image
+        )}"
+        alt=""
+        class="modal-news-image"
+      >
+
+      <span class="news-category">
+        ${escapeHTML(
+          news.category ||
+          "সাধারণ"
+        )}
+      </span>
+
+      <h2>
+        ${escapeHTML(
+          news.title
+        )}
+      </h2>
+
+      <small>
+        📅 ${formatDate(
+          news.createdAt
+        )}
+      </small>
+
+      <p>
+        ${escapeHTML(
+          news.description
+        )}
+      </p>
+
+    </div>
+
+  `;
+
+
+  document.body.appendChild(
+    modal
+  );
+
+
+  /* Close */
+
+  const closeBtn =
+    modal.querySelector(
+      ".news-modal-close"
+    );
+
+
+  const overlay =
+    modal.querySelector(
+      ".news-modal-overlay"
+    );
+
+
+  closeBtn.addEventListener(
     "click",
     () => {
 
-      document.body.classList.toggle(
-        "dark"
+      modal.remove();
+
+    }
+  );
+
+
+  overlay.addEventListener(
+    "click",
+    () => {
+
+      modal.remove();
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   11. FEATURED NEWS
+===================================================== */
+
+function renderFeatured(
+  newsItems
+) {
+
+  if (!featuredGrid) {
+    return;
+  }
+
+
+  featuredGrid.innerHTML =
+    "";
+
+
+  if (
+    newsItems.length === 0
+  ) {
+
+    featuredGrid.innerHTML = `
+
+      <div class="empty-featured">
+
+        <p>
+          ⭐ Featured News এখনো প্রকাশিত হয়নি।
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  newsItems.forEach(
+    (news) => {
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+
+      card.className =
+        "featured-card";
+
+
+      card.innerHTML = `
+
+        <img
+          src="${safeImage(
+            news.image
+          )}"
+          alt=""
+          loading="lazy"
+        >
+
+        <div class="featured-content">
+
+          <span class="news-category">
+            ${escapeHTML(
+              news.category ||
+              "সাধারণ"
+            )}
+          </span>
+
+          <h3>
+            ${escapeHTML(
+              news.title
+            )}
+          </h3>
+
+          <p>
+            ${escapeHTML(
+              news.description
+            )}
+          </p>
+
+        </div>
+
+      `;
+
+
+      featuredGrid.appendChild(
+        card
       );
 
+    }
+  );
+
+}
+
+
+/* =====================================================
+   12. CATEGORY MENU
+===================================================== */
+
+const categoryLinks =
+  document.querySelectorAll(
+    "[data-category]"
+  );
+
+
+categoryLinks.forEach(
+  (link) => {
+
+    link.addEventListener(
+      "click",
+      function (event) {
+
+        event.preventDefault();
+
+
+        const category =
+          this.dataset.category;
+
+
+        selectedCategory =
+          category ||
+          "all";
+
+
+        currentSearch =
+          "";
+
+
+        if (searchBox) {
+
+          searchBox.value =
+            "";
+
+        }
+
+
+        renderNews();
+
+
+        /* Scroll to News */
+
+        const newsSection =
+          document.getElementById(
+            "latestNewsSection"
+          );
+
+
+        if (newsSection) {
+
+          newsSection.scrollIntoView({
+
+            behavior:
+              "smooth",
+
+            block:
+              "start"
+
+          });
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
+/* =====================================================
+   13. SEARCH FUNCTION
+===================================================== */
+
+function performSearch() {
+
+  if (!searchBox) {
+    return;
+  }
+
+
+  currentSearch =
+    searchBox.value.trim();
+
+
+  renderNews();
+
+
+  const newsSection =
+    document.getElementById(
+      "latestNewsSection"
+    );
+
+
+  if (
+    newsSection &&
+    currentSearch
+  ) {
+
+    newsSection.scrollIntoView({
+
+      behavior:
+        "smooth",
+
+      block:
+        "start"
+
+    });
+
+  }
+
+}
+
+
+/* =====================================================
+   14. SEARCH BUTTON
+===================================================== */
+
+if (searchBtn) {
+
+  searchBtn.addEventListener(
+    "click",
+    performSearch
+  );
+
+}
+
+
+/* =====================================================
+   15. SEARCH ENTER KEY
+===================================================== */
+
+if (searchBox) {
+
+  searchBox.addEventListener(
+    "keydown",
+    function (event) {
 
       if (
-        document.body.classList.contains(
-          "dark"
-        )
+        event.key ===
+        "Enter"
       ) {
 
-        localStorage.setItem(
-          "theme",
-          "dark"
-        );
+        event.preventDefault();
 
-        darkBtn.innerHTML =
-          "☀️ Light Mode";
-
-      } else {
-
-        localStorage.setItem(
-          "theme",
-          "light"
-        );
-
-        darkBtn.innerHTML =
-          "🌙 Dark Mode";
+        performSearch();
 
       }
 
@@ -141,7 +1066,382 @@ if (darkBtn) {
 
 
 /* =====================================================
-   6. LIVE CLOCK
+   16. REFRESH NEWS
+===================================================== */
+
+if (refreshNewsBtn) {
+
+  refreshNewsBtn.addEventListener(
+    "click",
+    async function () {
+
+      await loadNews();
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   17. RETRY BUTTON
+===================================================== */
+
+if (retryBtn) {
+
+  retryBtn.addEventListener(
+    "click",
+    async function () {
+
+      await loadNews();
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   18. LOADING
+===================================================== */
+
+function showLoading() {
+
+  if (newsLoading) {
+
+    newsLoading.style.display =
+      "block";
+
+  }
+
+
+  if (newsError) {
+
+    newsError.style.display =
+      "none";
+
+  }
+
+
+  if (emptyNews) {
+
+    emptyNews.style.display =
+      "none";
+
+  }
+
+
+  if (newsGrid) {
+
+    newsGrid.innerHTML =
+      "";
+
+  }
+
+}
+
+
+function hideLoading() {
+
+  if (newsLoading) {
+
+    newsLoading.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =====================================================
+   19. EMPTY NEWS
+===================================================== */
+
+function showEmpty() {
+
+  if (emptyNews) {
+
+    emptyNews.style.display =
+      "block";
+
+  }
+
+}
+
+
+function hideEmpty() {
+
+  if (emptyNews) {
+
+    emptyNews.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =====================================================
+   20. FIREBASE ERROR
+===================================================== */
+
+function showNewsError(
+  error
+) {
+
+  if (newsError) {
+
+    newsError.style.display =
+      "block";
+
+  }
+
+
+  if (newsGrid) {
+
+    newsGrid.innerHTML =
+      "";
+
+  }
+
+
+  if (emptyNews) {
+
+    emptyNews.style.display =
+      "none";
+
+  }
+
+
+  console.error(
+    "Firebase Error:",
+    error
+  );
+
+}
+
+
+/* =====================================================
+   21. DATE FORMAT
+===================================================== */
+
+function formatDate(
+  timestamp
+) {
+
+  if (
+    !timestamp
+  ) {
+
+    return "সাম্প্রতিক";
+
+  }
+
+
+  try {
+
+    if (
+      typeof timestamp.toDate ===
+      "function"
+    ) {
+
+      return timestamp
+        .toDate()
+        .toLocaleString(
+          "bn-BD"
+        );
+
+    }
+
+
+    return new Date(
+      timestamp
+    ).toLocaleString(
+      "bn-BD"
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    return "সাম্প্রতিক";
+
+  }
+
+}
+
+
+/* =====================================================
+   22. SAFE IMAGE
+===================================================== */
+
+function safeImage(
+  image
+) {
+
+  if (
+    image &&
+    typeof image ===
+    "string"
+  ) {
+
+    return escapeAttribute(
+      image
+    );
+
+  }
+
+
+  return "assets/news1.jpg";
+
+}
+
+
+/* =====================================================
+   23. ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+  value
+) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(
+    value
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   24. ESCAPE ATTRIBUTE
+===================================================== */
+
+function escapeAttribute(
+  value
+) {
+
+  return String(
+    value
+  )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   25. DARK MODE
+===================================================== */
+
+if (darkBtn) {
+
+  darkBtn.addEventListener(
+    "click",
+    function () {
+
+      document.body.classList.toggle(
+        "dark"
+      );
+
+
+      const isDark =
+        document.body.classList.contains(
+          "dark"
+        );
+
+
+      if (isDark) {
+
+        darkBtn.textContent =
+          "☀️ Light Mode";
+
+        localStorage.setItem(
+          "theme",
+          "dark"
+        );
+
+      } else {
+
+        darkBtn.textContent =
+          "🌙 Dark Mode";
+
+        localStorage.setItem(
+          "theme",
+          "light"
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   26. LOAD SAVED THEME
+===================================================== */
+
+if (
+  localStorage.getItem(
+    "theme"
+  ) === "dark"
+) {
+
+  document.body.classList.add(
+    "dark"
+  );
+
+
+  if (darkBtn) {
+
+    darkBtn.textContent =
+      "☀️ Light Mode";
+
+  }
+
+}
+
+
+/* =====================================================
+   27. LIVE CLOCK
 ===================================================== */
 
 function updateClock() {
@@ -150,21 +1450,9 @@ function updateClock() {
     new Date();
 
 
-  const clock =
-    document.getElementById(
-      "liveClock"
-    );
+  if (liveClock) {
 
-
-  const date =
-    document.getElementById(
-      "liveDate"
-    );
-
-
-  if (clock) {
-
-    clock.textContent =
+    liveClock.textContent =
       now.toLocaleTimeString(
         "en-GB"
       );
@@ -172,16 +1460,25 @@ function updateClock() {
   }
 
 
-  if (date) {
+  if (liveDate) {
 
-    date.textContent =
+    liveDate.textContent =
       now.toLocaleDateString(
         "bn-BD",
         {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-          year: "numeric"
+
+          weekday:
+            "long",
+
+          day:
+            "numeric",
+
+          month:
+            "long",
+
+          year:
+            "numeric"
+
         }
       );
 
@@ -200,35 +1497,48 @@ setInterval(
 
 
 /* =====================================================
-   7. WEATHER DEMO
+   28. WEATHER DEMO
 ===================================================== */
 
 const weatherData = [
 
   {
-    temp: "31°C",
-    status: "☀️ Sunny"
+    temp:
+      "31°C",
+
+    status:
+      "☀️ Sunny"
   },
 
   {
-    temp: "29°C",
-    status: "⛅ Cloudy"
+    temp:
+      "29°C",
+
+    status:
+      "⛅ Cloudy"
   },
 
   {
-    temp: "27°C",
-    status: "🌧 Rain"
+    temp:
+      "27°C",
+
+    status:
+      "🌧️ Rain"
   },
 
   {
-    temp: "30°C",
-    status: "🌤 Partly Cloudy"
+    temp:
+      "30°C",
+
+    status:
+      "🌤️ Partly Cloudy"
   }
 
 ];
 
 
-let weatherIndex = 0;
+let weatherIndex =
+  0;
 
 
 function updateWeather() {
@@ -270,7 +1580,8 @@ function updateWeather() {
       weatherData.length
     ) {
 
-      weatherIndex = 0;
+      weatherIndex =
+        0;
 
     }
 
@@ -289,784 +1600,7 @@ setInterval(
 
 
 /* =====================================================
-   8. FIREBASE NEWS LOAD
-===================================================== */
-
-async function loadFirebaseNews() {
-
-  const newsContainer =
-    document.getElementById(
-      "firebaseNews"
-    );
-
-
-  if (!newsContainer) {
-
-    console.warn(
-      "firebaseNews container পাওয়া যায়নি।"
-    );
-
-    return;
-
-  }
-
-
-  newsContainer.innerHTML = `
-
-    <div class="news-loading">
-
-      ⏳ সংবাদ লোড হচ্ছে...
-
-    </div>
-
-  `;
-
-
-  try {
-
-    const newsQuery =
-      query(
-        collection(
-          db,
-          "news"
-        ),
-        orderBy(
-          "createdAt",
-          "desc"
-        )
-      );
-
-
-    const snapshot =
-      await getDocs(
-        newsQuery
-      );
-
-
-    allNews = [];
-
-
-    snapshot.forEach(
-      (newsDoc) => {
-
-        allNews.push({
-
-          id:
-            newsDoc.id,
-
-          ...newsDoc.data()
-
-        });
-
-      }
-    );
-
-
-    console.log(
-      "Firebase News:",
-      allNews
-    );
-
-
-    if (
-      allNews.length === 0
-    ) {
-
-      newsContainer.innerHTML = `
-
-        <div class="news-empty">
-
-          📰 এখনো কোনো সংবাদ প্রকাশ করা হয়নি।
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    renderNews();
-
-  } catch (error) {
-
-    console.error(
-      "Firebase News Load Error:",
-      error
-    );
-
-
-    newsContainer.innerHTML = `
-
-      <div class="news-error">
-
-        <h3>
-          ❌ সংবাদ লোড করা যায়নি
-        </h3>
-
-        <p>
-          Firebase Firestore সংযোগ পরীক্ষা করুন।
-        </p>
-
-        <small>
-          ${escapeHTML(
-            error.message
-          )}
-        </small>
-
-      </div>
-
-    `;
-
-  }
-
-}
-
-
-/* =====================================================
-   9. RENDER NEWS
-===================================================== */
-
-function renderNews() {
-
-  const newsContainer =
-    document.getElementById(
-      "firebaseNews"
-    );
-
-
-  if (!newsContainer) {
-
-    return;
-
-  }
-
-
-  let filteredNews =
-    [...allNews];
-
-
-  /* CATEGORY FILTER */
-
-  if (
-    currentCategory !==
-    "all"
-  ) {
-
-    filteredNews =
-      filteredNews.filter(
-        (news) =>
-
-          String(
-            news.category ||
-            ""
-          ).trim() ===
-          currentCategory
-
-      );
-
-  }
-
-
-  /* SEARCH FILTER */
-
-  if (
-    currentSearch
-  ) {
-
-    const searchText =
-      currentSearch.toLowerCase();
-
-
-    filteredNews =
-      filteredNews.filter(
-        (news) => {
-
-          const title =
-            String(
-              news.title ||
-              ""
-            ).toLowerCase();
-
-
-          const description =
-            String(
-              news.description ||
-              ""
-            ).toLowerCase();
-
-
-          const category =
-            String(
-              news.category ||
-              ""
-            ).toLowerCase();
-
-
-          return (
-
-            title.includes(
-              searchText
-            )
-
-            ||
-
-            description.includes(
-              searchText
-            )
-
-            ||
-
-            category.includes(
-              searchText
-            )
-
-          );
-
-        }
-      );
-
-  }
-
-
-  /* NO RESULT */
-
-  if (
-    filteredNews.length === 0
-  ) {
-
-    newsContainer.innerHTML = `
-
-      <div class="news-empty">
-
-        🔍 আপনার অনুসন্ধানের সাথে
-        কোনো সংবাদ পাওয়া যায়নি।
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  /* CREATE NEWS HTML */
-
-  newsContainer.innerHTML =
-    filteredNews
-      .map(
-        (news) =>
-          createNewsCard(
-            news
-          )
-      )
-      .join("");
-
-
-  /* ANIMATION */
-
-  document
-    .querySelectorAll(
-      "#firebaseNews .news-card"
-    )
-    .forEach(
-      (card) => {
-
-        card.style.opacity =
-          "0";
-
-        card.style.transform =
-          "translateY(20px)";
-
-
-        setTimeout(
-          () => {
-
-            card.style.opacity =
-              "1";
-
-            card.style.transform =
-              "translateY(0)";
-
-          },
-          50
-        );
-
-      }
-    );
-
-}
-
-
-/* =====================================================
-   10. CREATE NEWS CARD
-===================================================== */
-
-function createNewsCard(news) {
-
-  let dateText =
-    "সম্প্রতি প্রকাশিত";
-
-
-  if (
-    news.createdAt &&
-    typeof news.createdAt.toDate ===
-      "function"
-  ) {
-
-    dateText =
-      news.createdAt
-        .toDate()
-        .toLocaleDateString(
-          "bn-BD",
-          {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          }
-        );
-
-  }
-
-
-  const imageHTML =
-    news.image
-      ? `
-
-        <img
-
-          src="${escapeHTML(
-            news.image
-          )}"
-
-          alt="${escapeHTML(
-            news.title ||
-            "Daily Sheen News"
-          )}"
-
-          loading="lazy"
-
-          onerror="
-            this.style.display='none'
-          "
-
-        >
-
-      `
-      : `
-
-        <div class="no-news-image">
-
-          📰 Daily Sheen
-
-        </div>
-
-      `;
-
-
-  return `
-
-    <article
-      class="news-card"
-    >
-
-
-      ${imageHTML}
-
-
-      <div
-        class="news-card-content"
-      >
-
-
-        <span
-          class="news-category"
-        >
-
-          ${escapeHTML(
-            news.category ||
-            "সাধারণ"
-          )}
-
-        </span>
-
-
-        <h3>
-
-          ${escapeHTML(
-            news.title ||
-            "সংবাদের শিরোনাম"
-          )}
-
-        </h3>
-
-
-        <p>
-
-          ${escapeHTML(
-            news.description ||
-            ""
-          )}
-
-        </p>
-
-
-        <small>
-
-          📅 ${dateText}
-
-        </small>
-
-
-        <a
-
-          href="news-details.html?id=${encodeURIComponent(
-            news.id
-          )}"
-
-          class="read-more-btn"
-
-        >
-
-          বিস্তারিত পড়ুন →
-
-        </a>
-
-
-      </div>
-
-
-    </article>
-
-  `;
-
-}
-
-
-/* =====================================================
-   11. SEARCH FUNCTION
-===================================================== */
-
-function performSearch() {
-
-  if (!searchInput) {
-
-    return;
-
-  }
-
-
-  currentSearch =
-    searchInput.value.trim();
-
-
-  renderNews();
-
-
-  const newsSection =
-    document.getElementById(
-      "firebaseNews"
-    );
-
-
-  if (
-    newsSection &&
-    currentSearch
-  ) {
-
-    newsSection.scrollIntoView(
-      {
-        behavior: "smooth",
-        block: "start"
-      }
-    );
-
-  }
-
-}
-
-
-if (searchBtn) {
-
-  searchBtn.addEventListener(
-    "click",
-    performSearch
-  );
-
-}
-
-
-if (searchInput) {
-
-  searchInput.addEventListener(
-    "keyup",
-    (event) => {
-
-      if (
-        event.key ===
-        "Enter"
-      ) {
-
-        performSearch();
-
-      }
-
-    }
-  );
-
-}
-
-
-/* =====================================================
-   12. CATEGORY FILTER
-===================================================== */
-
-function filterByCategory(
-  category
-) {
-
-  currentCategory =
-    category;
-
-  renderNews();
-
-
-  const newsSection =
-    document.getElementById(
-      "firebaseNews"
-    );
-
-
-  if (newsSection) {
-
-    newsSection.scrollIntoView(
-      {
-        behavior: "smooth",
-        block: "start"
-      }
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   13. CATEGORY NAVIGATION
-===================================================== */
-
-document
-  .querySelectorAll(
-    "nav a"
-  )
-  .forEach(
-    (link) => {
-
-      link.addEventListener(
-        "click",
-        (event) => {
-
-          const href =
-            link.getAttribute(
-              "href"
-            );
-
-
-          if (
-            href &&
-            href.includes(
-              "?category="
-            )
-          {
-
-            event.preventDefault();
-
-
-            const category =
-              decodeURIComponent(
-                href.split(
-                  "?category="
-                )[1]
-              );
-
-
-            filterByCategory(
-              category
-            );
-
-          }
-
-        }
-      );
-
-    }
-  );
-
-
-/* =====================================================
-   14. CATEGORY CARDS
-===================================================== */
-
-document
-  .querySelectorAll(
-    ".category-card"
-  )
-  .forEach(
-    (card) => {
-
-      card.style.cursor =
-        "pointer";
-
-
-      card.addEventListener(
-        "click",
-        () => {
-
-          const category =
-            card.textContent
-              .replace(
-                /🇧🇩|🌍|🏛|🏥|💊|💻|⚽|💼/g,
-                ""
-              )
-              .trim();
-
-
-          filterByCategory(
-            category
-          );
-
-        }
-      );
-
-    }
-  );
-
-
-/* =====================================================
-   15. URL CATEGORY / SEARCH
-===================================================== */
-
-function readURLFilters() {
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  const category =
-    params.get(
-      "category"
-    );
-
-
-  const search =
-    params.get(
-      "search"
-    );
-
-
-  if (category) {
-
-    currentCategory =
-      category;
-
-  }
-
-
-  if (search) {
-
-    currentSearch =
-      search;
-
-
-    if (searchInput) {
-
-      searchInput.value =
-        search;
-
-    }
-
-  }
-
-}
-
-
-/* =====================================================
-   16. HERO SLIDER
-===================================================== */
-
-const heroImages = [
-
-  "assets/banner.png",
-
-  "assets/news1.jpg",
-
-  "assets/news2.jpg",
-
-  "assets/news3.jpg"
-
-];
-
-
-let heroIndex = 0;
-
-
-const heroBanner =
-  document.querySelector(
-    ".hero-banner"
-  );
-
-
-if (heroBanner) {
-
-  setInterval(
-    () => {
-
-      heroIndex++;
-
-
-      if (
-        heroIndex >=
-        heroImages.length
-      ) {
-
-        heroIndex = 0;
-
-      }
-
-
-      heroBanner.style.opacity =
-        "0.4";
-
-
-      setTimeout(
-        () => {
-
-          heroBanner.src =
-            heroImages[
-              heroIndex
-            ];
-
-
-          heroBanner.style.opacity =
-            "1";
-
-        },
-        200
-      );
-
-    },
-    4000
-  );
-
-}
-
-
-/* =====================================================
-   17. BACK TO TOP
+   29. BACK TO TOP
 ===================================================== */
 
 if (topBtn) {
@@ -1077,7 +1611,7 @@ if (topBtn) {
 
   window.addEventListener(
     "scroll",
-    () => {
+    function () {
 
       if (
         window.scrollY >
@@ -1100,14 +1634,17 @@ if (topBtn) {
 
   topBtn.addEventListener(
     "click",
-    () => {
+    function () {
 
-      window.scrollTo(
-        {
-          top: 0,
-          behavior: "smooth"
-        }
-      );
+      window.scrollTo({
+
+        top:
+          0,
+
+        behavior:
+          "smooth"
+
+      });
 
     }
   );
@@ -1116,20 +1653,14 @@ if (topBtn) {
 
 
 /* =====================================================
-   18. NEWSLETTER
+   30. NEWSLETTER
 ===================================================== */
-
-const newsletterForm =
-  document.querySelector(
-    ".newsletter form"
-  );
-
 
 if (newsletterForm) {
 
   newsletterForm.addEventListener(
     "submit",
-    (event) => {
+    function (event) {
 
       event.preventDefault();
 
@@ -1148,169 +1679,20 @@ if (newsletterForm) {
 
 
 /* =====================================================
-   19. BREAKING NEWS
+   31. INITIAL LOAD
 ===================================================== */
 
-const breakingText =
-  document.querySelector(
-    ".breaking-scroll marquee"
-  );
-
-
-const breakingNews = [
-
-  "বাংলাদেশের সর্বশেষ সংবাদ দেখুন Daily Sheen-এ",
-
-  "স্বাস্থ্য ও চিকিৎসা বিষয়ক নতুন তথ্য প্রকাশিত হয়েছে",
-
-  "প্রযুক্তির নতুন আপডেট জানতে আমাদের সাথে থাকুন",
-
-  "খেলাধুলার সর্বশেষ খবর এখন Daily Sheen-এ"
-
-];
-
-
-let breakingIndex = 0;
-
-
-if (breakingText) {
-
-  setInterval(
-    () => {
-
-      breakingIndex++;
-
-
-      if (
-        breakingIndex >=
-        breakingNews.length
-      ) {
-
-        breakingIndex = 0;
-
-      }
-
-
-      breakingText.textContent =
-        breakingNews[
-          breakingIndex
-        ];
-
-    },
-    7000
-  );
-
-}
+loadNews();
 
 
 /* =====================================================
-   20. CURRENT YEAR
+   32. CONSOLE
 ===================================================== */
-
-const copyright =
-  document.querySelector(
-    ".copyright"
-  );
-
-
-if (copyright) {
-
-  copyright.innerHTML =
-
-    `© ${new Date().getFullYear()}
-    Daily Sheen.
-    All Rights Reserved.`;
-
-}
-
-
-/* =====================================================
-   21. IMAGE LAZY LOAD
-===================================================== */
-
-document
-  .querySelectorAll(
-    "img"
-  )
-  .forEach(
-    (img) => {
-
-      if (
-        !img.hasAttribute(
-          "loading"
-        )
-      ) {
-
-        img.setAttribute(
-          "loading",
-          "lazy"
-        );
-
-      }
-
-    }
-  );
-
-
-/* =====================================================
-   22. ESCAPE HTML
-===================================================== */
-
-function escapeHTML(
-  value
-) {
-
-  if (
-    value === null ||
-    value === undefined
-  ) {
-
-    return "";
-
-  }
-
-
-  return String(
-    value
-  )
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-/* =====================================================
-   23. START APPLICATION
-===================================================== */
-
-readURLFilters();
-
-loadFirebaseNews();
-
 
 console.log(
-  "✅ Daily Sheen V7 Final App Loaded Successfully"
+  "✅ Daily Sheen V7 App Loaded"
+);
+
+console.log(
+  "🔥 Firestore News System Ready"
 );
