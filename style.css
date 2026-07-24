@@ -1317,3 +1317,57 @@ body.dark .news-share {
   border-color: #444;
 
 }
+
+/* ==================================================
+   NEWS READ MORE BUTTON
+================================================== */
+
+.read-more-btn {
+
+  display: inline-block;
+
+  margin-top: 10px;
+
+  padding: 9px 16px;
+
+  color: #fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6a11cb,
+      #2575fc
+    );
+
+  border-radius: 7px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+  transition: all 0.3s ease;
+
+}
+
+
+.read-more-btn:hover {
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 6px 15px
+    rgba(37, 117, 252, 0.3);
+
+}
+
+
+/* Dark Mode */
+
+body.dark .read-more-btn {
+
+  color: #fff;
+
+}
