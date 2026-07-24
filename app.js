@@ -1,386 +1,261 @@
 /* =====================================================
    Daily Sheen V7
-   Final App JS
-   Firebase News + Search + Category + Dark Mode
+   Final app.js
+   Firebase Firestore News + Category + Search
 ===================================================== */
 
-
-/* =====================================================
-   FIREBASE IMPORT
-===================================================== */
 
 import { app } from "./firebase-config.js";
 
+
 import {
-  getFirestore,
-  collection,
-  getDocs,
-  query,
-  orderBy
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    orderBy
 } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
+
 /* =====================================================
-   FIREBASE INITIALIZE
+   FIRESTORE
 ===================================================== */
 
 const db = getFirestore(app);
 
 
-/* =====================================================
-   HTML ELEMENTS
-===================================================== */
-
-const latestNewsGrid =
-  document.getElementById("latestNewsGrid");
-
-const featuredNewsGrid =
-  document.getElementById("featuredNewsGrid");
-
-const newsSectionTitle =
-  document.getElementById("newsSectionTitle");
-
-const newsSectionSubtitle =
-  document.getElementById("newsSectionSubtitle");
-
-const firebaseMessage =
-  document.getElementById("firebaseMessage");
-
-const searchBox =
-  document.getElementById("searchBox");
-
-const searchBtn =
-  document.getElementById("searchBtn");
-
-const darkBtn =
-  document.getElementById("darkBtn");
-
-const topBtn =
-  document.getElementById("topBtn");
-
-const refreshNewsBtn =
-  document.getElementById("refreshNewsBtn");
-
-const breakingText =
-  document.getElementById("breakingText");
-
 
 /* =====================================================
-   GLOBAL NEWS ARRAY
+   GLOBAL VARIABLES
 ===================================================== */
 
 let allNews = [];
 
 let currentCategory = "all";
 
-let currentSearch = "";
 
 
 /* =====================================================
-   ESCAPE HTML
+   HTML ELEMENTS
 ===================================================== */
 
-function escapeHTML(value) {
+const newsGrid =
+    document.getElementById(
+        "newsGrid"
+    );
 
-  if (
-    value === null ||
-    value === undefined
-  ) {
-    return "";
-  }
 
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+const newsMessage =
+    document.getElementById(
+        "newsMessage"
+    );
 
-}
+
+const newsSectionTitle =
+    document.getElementById(
+        "newsSectionTitle"
+    );
+
+
+const newsSectionSubtitle =
+    document.getElementById(
+        "newsSectionSubtitle"
+    );
+
+
+const refreshBtn =
+    document.getElementById(
+        "refreshBtn"
+    );
+
+
+const searchBox =
+    document.getElementById(
+        "searchBox"
+    );
+
+
+const searchBtn =
+    document.getElementById(
+        "searchBtn"
+    );
+
+
+const darkBtn =
+    document.getElementById(
+        "darkBtn"
+    );
+
+
+const topBtn =
+    document.getElementById(
+        "topBtn"
+    );
+
 
 
 /* =====================================================
-   SHOW MESSAGE
+   CATEGORY NAMES
 ===================================================== */
 
-function showFirebaseMessage(
-  message,
-  type = "info"
-) {
+const categoryNames = {
 
-  if (!firebaseMessage) {
-    return;
-  }
+    "all":
+        "সর্বশেষ সংবাদ",
 
-  firebaseMessage.style.display =
-    "block";
+    "বাংলাদেশ":
+        "বাংলাদেশ সংবাদ",
 
-  firebaseMessage.textContent =
-    message;
+    "আন্তর্জাতিক":
+        "আন্তর্জাতিক সংবাদ",
 
-  if (type === "error") {
+    "রাজনীতি":
+        "রাজনীতি সংবাদ",
 
-    firebaseMessage.style.color =
-      "#b71c1c";
+    "স্বাস্থ্য":
+        "স্বাস্থ্য সংবাদ",
 
-    firebaseMessage.style.background =
-      "#ffebee";
+    "রোগ ও চিকিৎসা":
+        "রোগ ও চিকিৎসা সংবাদ",
 
-  } else {
+    "প্রযুক্তি":
+        "প্রযুক্তি সংবাদ",
 
-    firebaseMessage.style.color =
-      "#555";
+    "খেলাধুলা":
+        "খেলাধুলা সংবাদ",
 
-    firebaseMessage.style.background =
-      "#fff";
+    "চাকরি":
+        "চাকরির সংবাদ"
 
-  }
+};
 
-}
 
 
 /* =====================================================
-   LOAD NEWS FROM FIREBASE
+   LOAD NEWS FROM FIRESTORE
 ===================================================== */
 
 async function loadNews() {
 
-  if (!latestNewsGrid) {
-    return;
-  }
 
-  latestNewsGrid.innerHTML = `
-    <div class="loading-news">
-      ⏳ Firebase থেকে সংবাদ লোড হচ্ছে...
-    </div>
-  `;
-
-  showFirebaseMessage(
-    "⏳ সংবাদ লোড হচ্ছে..."
-  );
-
-  try {
-
-    const newsQuery = query(
-      collection(
-        db,
-        "news"
-      ),
-      orderBy(
-        "createdAt",
-        "desc"
-      )
-    );
-
-
-    const snapshot =
-      await getDocs(
-        newsQuery
-      );
-
-
-    allNews = [];
-
-
-    snapshot.forEach(
-      (newsDoc) => {
-
-        const data =
-          newsDoc.data();
-
-
-        allNews.push({
-
-          id:
-            newsDoc.id,
-
-          category:
-            data.category || "",
-
-          title:
-            data.title || "",
-
-          description:
-            data.description || "",
-
-          image:
-            data.image || "",
-
-          createdAt:
-            data.createdAt || null
-
-        });
-
-      }
-    );
-
-
-    console.log(
-      "Firebase News Loaded:",
-      allNews.length
-    );
-
-
-    if (
-      allNews.length === 0
-    ) {
-
-      latestNewsGrid.innerHTML = `
-        <div class="no-news">
-          📰 এখনো কোনো সংবাদ প্রকাশ করা হয়নি।
-        </div>
-      `;
-
-      if (featuredNewsGrid) {
-
-        featuredNewsGrid.innerHTML = `
-          <div class="no-news">
-            ⭐ Featured News পাওয়া যায়নি।
-          </div>
-        `;
-
-      }
-
-      showFirebaseMessage(
-        "ℹ️ এখনো কোনো News Publish করা হয়নি।"
-      );
-
-      return;
-
+    if (!newsGrid) {
+        return;
     }
 
 
-    showFirebaseMessage(
-      `✅ মোট ${allNews.length}টি সংবাদ পাওয়া গেছে।`
-    );
+    newsGrid.innerHTML = `
 
+        <div class="loading-news">
 
-    renderNews();
+            ⏳ সংবাদ লোড হচ্ছে...
 
-    renderFeaturedNews();
-
-
-    updateBreakingNews();
-
-
-  } catch (error) {
-
-    console.error(
-      "Firebase News Error:",
-      error
-    );
-
-
-    latestNewsGrid.innerHTML = `
-
-      <div class="no-news">
-
-        ❌ সংবাদ লোড করা যায়নি।
-
-        <br><br>
-
-        <small>
-          Firebase Firestore সংযোগ বা Rules পরীক্ষা করুন।
-        </small>
-
-      </div>
+        </div>
 
     `;
 
 
-    if (featuredNewsGrid) {
+    hideMessage();
 
-      featuredNewsGrid.innerHTML = `
 
-        <div class="no-news">
+    try {
 
-          ❌ Featured News লোড করা যায়নি।
 
-        </div>
+        const newsQuery =
+            query(
 
-      `;
+                collection(
+                    db,
+                    "news"
+                ),
+
+                orderBy(
+                    "createdAt",
+                    "desc"
+                )
+
+            );
+
+
+        const snapshot =
+            await getDocs(
+                newsQuery
+            );
+
+
+        allNews = [];
+
+
+        snapshot.forEach(
+            (doc) => {
+
+
+                const data =
+                    doc.data();
+
+
+                allNews.push({
+
+                    id:
+                        doc.id,
+
+                    ...data
+
+                });
+
+
+            }
+        );
+
+
+        console.log(
+            "News Loaded:",
+            allNews.length
+        );
+
+
+        renderNews();
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Firestore Error:",
+            error
+        );
+
+
+        newsGrid.innerHTML = `
+
+            <div class="empty-news">
+
+                ❌ সংবাদ লোড করা যায়নি।
+
+                <br><br>
+
+                <small>
+
+                    Firebase Firestore সংযোগ পরীক্ষা করুন।
+
+                </small>
+
+            </div>
+
+        `;
+
+
+        showMessage(
+            "❌ Firebase Firestore সংযোগে সমস্যা হয়েছে।",
+            "error"
+        );
+
 
     }
 
-
-    showFirebaseMessage(
-      "❌ Firebase Firestore সংযোগে সমস্যা হয়েছে।",
-      "error"
-    );
-
-  }
-
 }
 
-
-/* =====================================================
-   FILTER NEWS
-===================================================== */
-
-function getFilteredNews() {
-
-  let filtered =
-    [...allNews];
-
-
-  /* CATEGORY */
-
-  if (
-    currentCategory !== "all"
-  ) {
-
-    filtered =
-      filtered.filter(
-        news =>
-
-        news.category.trim()
-          .toLowerCase()
-
-        ===
-
-        currentCategory.trim()
-          .toLowerCase()
-      );
-
-  }
-
-
-  /* SEARCH */
-
-  if (
-    currentSearch
-  ) {
-
-    filtered =
-      filtered.filter(
-        news => {
-
-          const text = (
-
-            news.title +
-            " " +
-            news.description +
-            " " +
-            news.category
-
-          )
-          .toLowerCase();
-
-
-          return text.includes(
-            currentSearch
-          );
-
-        }
-      );
-
-  }
-
-
-  return filtered;
-
-}
 
 
 /* =====================================================
@@ -389,733 +264,725 @@ function getFilteredNews() {
 
 function renderNews() {
 
-  if (!latestNewsGrid) {
-    return;
-  }
+
+    if (!newsGrid) {
+        return;
+    }
 
 
-  const filteredNews =
-    getFilteredNews();
+    const searchText =
+        searchBox
+            ? searchBox.value
+                .trim()
+                .toLowerCase()
+            : "";
 
 
-  if (
-    filteredNews.length === 0
-  ) {
-
-    latestNewsGrid.innerHTML = `
-
-      <div class="no-news">
-
-        🔍 এই ক্যাটাগরি বা সার্চের জন্য
-        কোনো সংবাদ পাওয়া যায়নি।
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+    let filteredNews =
+        [...allNews];
 
 
-  latestNewsGrid.innerHTML = "";
+
+    /* =========================
+       CATEGORY FILTER
+    ========================= */
+
+    if (
+        currentCategory !==
+        "all"
+    ) {
 
 
-  filteredNews.forEach(
-    (news) => {
+        filteredNews =
+            filteredNews.filter(
+                (news) => {
 
-      const card =
-        document.createElement(
-          "article"
-        );
-
-
-      card.className =
-        "news-card";
+                    const category =
+                        String(
+                            news.category ||
+                            ""
+                        ).trim();
 
 
-      let imageHTML = "";
+                    return (
+                        category ===
+                        currentCategory
+                    );
 
-
-      if (
-        news.image
-      ) {
-
-        imageHTML = `
-
-          <img
-            src="${escapeHTML(
-              news.image
-            )}"
-            alt="${escapeHTML(
-              news.title
-            )}"
-            loading="lazy"
-            onerror="this.style.display='none'"
-          >
-
-        `;
-
-      } else {
-
-        imageHTML = `
-
-          <div
-            style="
-              height:210px;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              background:linear-gradient(135deg,#6a11cb,#2575fc);
-              color:white;
-              font-size:40px;
-            "
-          >
-            📰
-          </div>
-
-        `;
-
-      }
-
-
-      let dateText =
-        "সাম্প্রতিক";
-
-
-      if (
-        news.createdAt &&
-        typeof news.createdAt.toDate
-          === "function"
-      ) {
-
-        dateText =
-          news.createdAt
-            .toDate()
-            .toLocaleString(
-              "bn-BD"
+                }
             );
 
-      }
+    }
 
 
-      card.innerHTML = `
 
-        ${imageHTML}
+    /* =========================
+       SEARCH FILTER
+    ========================= */
 
-        <div class="news-card-content">
-
-          <span class="news-category">
-
-            ${escapeHTML(
-              news.category ||
-              "সাধারণ"
-            )}
-
-          </span>
+    if (
+        searchText
+    ) {
 
 
-          <h3>
-
-            ${escapeHTML(
-              news.title ||
-              "সংবাদের শিরোনাম"
-            )}
-
-          </h3>
+        filteredNews =
+            filteredNews.filter(
+                (news) => {
 
 
-          <p>
-
-            ${escapeHTML(
-              news.description ||
-              ""
-            )}
-
-          </p>
+                    const title =
+                        String(
+                            news.title ||
+                            ""
+                        ).toLowerCase();
 
 
-          <div class="news-date">
-
-            📅 ${escapeHTML(
-              dateText
-            )}
-
-          </div>
-
-        </div>
-
-      `;
+                    const description =
+                        String(
+                            news.description ||
+                            ""
+                        ).toLowerCase();
 
 
-      latestNewsGrid.appendChild(
-        card
-      );
+                    const category =
+                        String(
+                            news.category ||
+                            ""
+                        ).toLowerCase();
+
+
+                    return (
+
+                        title.includes(
+                            searchText
+                        )
+
+                        ||
+
+                        description.includes(
+                            searchText
+                        )
+
+                        ||
+
+                        category.includes(
+                            searchText
+                        )
+
+                    );
+
+                }
+            );
 
     }
-  );
-
-}
 
 
-/* =====================================================
-   FEATURED NEWS
-===================================================== */
 
-function renderFeaturedNews() {
+    /* =========================
+       UPDATE TITLE
+    ========================= */
 
-  if (!featuredNewsGrid) {
-    return;
-  }
-
-
-  const featured =
-    allNews.slice(
-      0,
-      2
-    );
+    if (
+        newsSectionTitle
+    ) {
 
 
-  if (
-    featured.length === 0
-  ) {
+        if (
+            currentCategory ===
+            "all"
+        ) {
 
-    featuredNewsGrid.innerHTML = `
-      <div class="no-news">
-        ⭐ Featured News নেই।
-      </div>
-    `;
+            newsSectionTitle.textContent =
+                "📰 সর্বশেষ সংবাদ";
 
-    return;
+        } else {
 
-  }
+            newsSectionTitle.textContent =
+                "📰 " +
+                (
+                    categoryNames[
+                        currentCategory
+                    ] ||
+                    currentCategory
+                );
 
+        }
 
-  featuredNewsGrid.innerHTML = "";
-
-
-  featured.forEach(
-    (news) => {
-
-      const card =
-        document.createElement(
-          "article"
-        );
+    }
 
 
-      card.className =
-        "featured-card";
+
+    /* =========================
+       UPDATE SUBTITLE
+    ========================= */
+
+    if (
+        newsSectionSubtitle
+    ) {
 
 
-      const image =
-        news.image
-        ?
+        if (
+            searchText
+        ) {
 
-        `
+            newsSectionSubtitle.textContent =
 
-        <img
-          src="${escapeHTML(
-            news.image
-          )}"
-          alt="${escapeHTML(
-            news.title
-          )}"
-          loading="lazy"
-        >
+                `"${searchText}" এর জন্য ${filteredNews.length} টি সংবাদ পাওয়া গেছে`;
 
-        `
+        } else {
 
-        :
+            newsSectionSubtitle.textContent =
 
-        `
+                `${filteredNews.length} টি সংবাদ পাওয়া গেছে`;
 
-        <div
-          style="
-            height:260px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:linear-gradient(135deg,#6a11cb,#2575fc);
-            color:white;
-            font-size:50px;
-          "
-        >
-          📰
-        </div>
+        }
+
+    }
+
+
+
+    /* =========================
+       EMPTY RESULT
+    ========================= */
+
+    if (
+        filteredNews.length ===
+        0
+    ) {
+
+
+        newsGrid.innerHTML = `
+
+            <div class="empty-news">
+
+                📰 এই বিভাগে কোনো সংবাদ পাওয়া যায়নি।
+
+            </div>
 
         `;
 
 
-      card.innerHTML = `
-
-        ${image}
-
-        <div class="featured-content">
-
-          <span class="news-category">
-
-            ${escapeHTML(
-              news.category ||
-              "সাধারণ"
-            )}
-
-          </span>
-
-
-          <h3>
-
-            ${escapeHTML(
-              news.title
-            )}
-
-          </h3>
-
-
-          <p>
-
-            ${escapeHTML(
-              news.description
-            )}
-
-          </p>
-
-        </div>
-
-      `;
-
-
-      featuredNewsGrid.appendChild(
-        card
-      );
+        return;
 
     }
-  );
+
+
+
+    /* =========================
+       CREATE NEWS CARDS
+    ========================= */
+
+    newsGrid.innerHTML = "";
+
+
+    filteredNews.forEach(
+        (news) => {
+
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+
+            card.className =
+                "news-card";
+
+
+            /* IMAGE */
+
+            const image =
+                news.image
+                    ? escapeHTML(
+                        news.image
+                    )
+                    : "assets/news1.jpg";
+
+
+
+            /* TITLE */
+
+            const title =
+                escapeHTML(
+                    news.title ||
+                    "শিরোনাম নেই"
+                );
+
+
+
+            /* DESCRIPTION */
+
+            const description =
+                escapeHTML(
+                    news.description ||
+                    "সংবাদের বিস্তারিত তথ্য পাওয়া যায়নি।"
+                );
+
+
+
+            /* CATEGORY */
+
+            const category =
+                escapeHTML(
+                    news.category ||
+                    "সাধারণ"
+                );
+
+
+
+            /* DATE */
+
+            let dateText =
+                "সাম্প্রতিক";
+
+
+            if (
+                news.createdAt &&
+                typeof news.createdAt.toDate ===
+                "function"
+            ) {
+
+
+                try {
+
+
+                    dateText =
+                        news.createdAt
+                            .toDate()
+                            .toLocaleString(
+                                "bn-BD"
+                            );
+
+
+                } catch (
+                    error
+                ) {
+
+
+                    console.log(
+                        "Date Error:",
+                        error
+                    );
+
+
+                }
+
+            }
+
+
+
+            /* CARD HTML */
+
+            card.innerHTML = `
+
+                <img
+
+                    src="${image}"
+
+                    alt="${title}"
+
+                    loading="lazy"
+
+                    onerror="this.src='assets/news1.jpg'"
+
+                >
+
+
+                <div class="news-card-content">
+
+
+                    <span class="news-category">
+
+                        ${category}
+
+                    </span>
+
+
+                    <h3>
+
+                        ${title}
+
+                    </h3>
+
+
+                    <p>
+
+                        ${description}
+
+                    </p>
+
+
+                    <div class="news-date">
+
+                        📅 ${dateText}
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+
+            newsGrid.appendChild(
+                card
+            );
+
+
+        }
+    );
 
 }
+
 
 
 /* =====================================================
    CATEGORY MENU
 ===================================================== */
 
-document
-  .querySelectorAll(
-    "[data-category]"
-  )
-  .forEach(
-    (element) => {
-
-      element.addEventListener(
-        "click",
-        (event) => {
-
-          event.preventDefault();
+function selectCategory(
+    category
+) {
 
 
-          currentCategory =
-            element.dataset.category
-            || "all";
+    currentCategory =
+        category ||
+        "all";
 
 
-          currentSearch =
+    /* Clear Search */
+
+    if (
+        searchBox
+    ) {
+
+        searchBox.value =
             "";
 
-
-          if (searchBox) {
-
-            searchBox.value =
-              "";
-
-          }
-
-
-          /* Active Menu */
-
-          document
-            .querySelectorAll(
-              ".main-nav a[data-category]"
-            )
-            .forEach(
-              link => {
-
-                link.classList.remove(
-                  "active"
-                );
-
-              }
-            );
-
-
-          document
-            .querySelectorAll(
-              `.main-nav a[data-category="${currentCategory}"]`
-            )
-            .forEach(
-              link => {
-
-                link.classList.add(
-                  "active"
-                );
-
-              }
-            );
-
-
-          /* Title */
-
-          if (
-            newsSectionTitle
-          ) {
-
-            if (
-              currentCategory ===
-              "all"
-            ) {
-
-              newsSectionTitle.textContent =
-                "📰 সর্বশেষ সংবাদ";
-
-            } else {
-
-              newsSectionTitle.textContent =
-                `📰 ${currentCategory} সংবাদ`;
-
-            }
-
-          }
-
-
-          if (
-            newsSectionSubtitle
-          ) {
-
-            if (
-              currentCategory ===
-              "all"
-            ) {
-
-              newsSectionSubtitle.textContent =
-                "সকল বিভাগের সর্বশেষ সংবাদ";
-
-            } else {
-
-              newsSectionSubtitle.textContent =
-                `${currentCategory} বিভাগের সর্বশেষ সংবাদ`;
-
-            }
-
-          }
-
-
-          renderNews();
-
-
-          const newsSection =
-            document.getElementById(
-              "latestNewsGrid"
-            );
-
-
-          if (newsSection) {
-
-            newsSection.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-
-          }
-
-        }
-      );
-
     }
-  );
 
 
-/* =====================================================
-   CATEGORY CARDS
-===================================================== */
-
-document
-  .querySelectorAll(
-    ".category-card[data-category]"
-  )
-  .forEach(
-    (card) => {
-
-      card.addEventListener(
-        "click",
-        () => {
-
-          const category =
-            card.dataset.category;
+    renderNews();
 
 
-          currentCategory =
-            category;
+    /* Scroll News */
 
-
-          currentSearch =
-            "";
-
-
-          if (searchBox) {
-
-            searchBox.value =
-              "";
-
-          }
-
-
-          if (
-            newsSectionTitle
-          ) {
-
-            newsSectionTitle.textContent =
-              `📰 ${category} সংবাদ`;
-
-          }
-
-
-          if (
-            newsSectionSubtitle
-          ) {
-
-            newsSectionSubtitle.textContent =
-              `${category} বিভাগের সর্বশেষ সংবাদ`;
-
-          }
-
-
-          renderNews();
-
-
-          document
-            .getElementById(
-              "latestNewsGrid"
-            )
-            ?.scrollIntoView({
-              behavior: "smooth"
-            });
-
-        }
-      );
-
-    }
-  );
-
-
-/* =====================================================
-   SEARCH FUNCTION
-===================================================== */
-
-function performSearch() {
-
-  currentSearch =
-    searchBox
-      ? searchBox.value
-          .trim()
-          .toLowerCase()
-      : "";
-
-
-  currentCategory =
-    "all";
-
-
-  document
-    .querySelectorAll(
-      ".main-nav a[data-category]"
-    )
-    .forEach(
-      link => {
-
-        link.classList.remove(
-          "active"
+    const newsSection =
+        document.getElementById(
+            "news"
         );
 
-      }
+
+    if (
+        newsSection
+    ) {
+
+
+        setTimeout(
+            () => {
+
+                newsSection.scrollIntoView({
+
+                    behavior:
+                        "smooth",
+
+                    block:
+                        "start"
+
+                });
+
+            },
+            100
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   NAVIGATION CLICK
+===================================================== */
+
+document
+    .querySelectorAll(
+        "[data-category]"
+    )
+    .forEach(
+        (element) => {
+
+
+            element.addEventListener(
+                "click",
+                (event) => {
+
+
+                    event.preventDefault();
+
+
+                    const category =
+                        element.dataset.category;
+
+
+                    selectCategory(
+                        category
+                    );
+
+
+                }
+            );
+
+
+        }
     );
 
 
-  if (
-    newsSectionTitle
-  ) {
-
-    newsSectionTitle.textContent =
-      currentSearch
-
-      ?
-
-      `🔍 "${currentSearch}" - সার্চ ফলাফল`
-
-      :
-
-      "📰 সর্বশেষ সংবাদ";
-
-  }
-
-
-  if (
-    newsSectionSubtitle
-  ) {
-
-    newsSectionSubtitle.textContent =
-      "আপনার সার্চ অনুযায়ী সংবাদ";
-
-  }
-
-
-  renderNews();
-
-}
-
-
-/* Search Button */
-
-if (
-  searchBtn
-) {
-
-  searchBtn.addEventListener(
-    "click",
-    performSearch
-  );
-
-}
-
-
-/* Enter Search */
-
-if (
-  searchBox
-) {
-
-  searchBox.addEventListener(
-    "keydown",
-    (event) => {
-
-      if (
-        event.key ===
-        "Enter"
-      ) {
-
-        performSearch();
-
-      }
-
-    }
-  );
-
-}
-
 
 /* =====================================================
-   REFRESH NEWS
+   SEARCH BUTTON
 ===================================================== */
 
 if (
-  refreshNewsBtn
+    searchBtn
 ) {
 
-  refreshNewsBtn.addEventListener(
-    "click",
-    async () => {
 
-      await loadNews();
+    searchBtn.addEventListener(
+        "click",
+        () => {
 
-    }
-  );
+
+            renderNews();
+
+
+            const newsSection =
+                document.getElementById(
+                    "news"
+                );
+
+
+            if (
+                newsSection
+            ) {
+
+
+                newsSection.scrollIntoView({
+
+                    behavior:
+                        "smooth"
+
+                });
+
+            }
+
+
+        }
+    );
 
 }
+
+
+
+/* =====================================================
+   SEARCH ENTER
+===================================================== */
+
+if (
+    searchBox
+) {
+
+
+    searchBox.addEventListener(
+        "keydown",
+        (event) => {
+
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+
+                event.preventDefault();
+
+
+                renderNews();
+
+
+            }
+
+
+        }
+    );
+
+
+}
+
+
+
+/* =====================================================
+   LIVE SEARCH
+===================================================== */
+
+if (
+    searchBox
+) {
+
+
+    searchBox.addEventListener(
+        "input",
+        () => {
+
+
+            renderNews();
+
+
+        }
+    );
+
+
+}
+
+
+
+/* =====================================================
+   REFRESH
+===================================================== */
+
+if (
+    refreshBtn
+) {
+
+
+    refreshBtn.addEventListener(
+        "click",
+        async () => {
+
+
+            refreshBtn.disabled =
+                true;
+
+
+            refreshBtn.textContent =
+                "⏳ Loading...";
+
+
+            await loadNews();
+
+
+            refreshBtn.disabled =
+                false;
+
+
+            refreshBtn.textContent =
+                "🔄 Refresh";
+
+
+        }
+    );
+
+}
+
 
 
 /* =====================================================
    DARK MODE
 ===================================================== */
 
-if (
-  darkBtn
-) {
-
-  darkBtn.addEventListener(
-    "click",
-    () => {
-
-      document.body
-        .classList
-        .toggle(
-          "dark"
-        );
+function updateDarkButton() {
 
 
-      const isDark =
-        document.body
-          .classList
-          .contains(
+    if (
+        !darkBtn
+    ) {
+        return;
+    }
+
+
+    if (
+        document.body.classList.contains(
             "dark"
-          );
+        )
+    ) {
 
-
-      if (
-        isDark
-      ) {
 
         darkBtn.textContent =
-          "☀️ Light Mode";
+            "☀️ Light Mode";
 
 
-        localStorage.setItem(
-          "theme",
-          "dark"
-        );
+    } else {
 
-      } else {
 
         darkBtn.textContent =
-          "🌙 Dark Mode";
+            "🌙 Dark Mode";
 
-
-        localStorage.setItem(
-          "theme",
-          "light"
-        );
-
-      }
 
     }
-  );
 
 }
+
+
+
+if (
+    darkBtn
+) {
+
+
+    darkBtn.addEventListener(
+        "click",
+        () => {
+
+
+            document.body.classList.toggle(
+                "dark"
+            );
+
+
+            const isDark =
+                document.body.classList.contains(
+                    "dark"
+                );
+
+
+            localStorage.setItem(
+                "dailySheenTheme",
+                isDark
+                    ? "dark"
+                    : "light"
+            );
+
+
+            updateDarkButton();
+
+
+        }
+    );
+
+}
+
 
 
 /* Load Saved Theme */
 
 if (
-  localStorage.getItem(
-    "theme"
-  )
-  ===
-  "dark"
+    localStorage.getItem(
+        "dailySheenTheme"
+    ) ===
+    "dark"
 ) {
 
-  document.body
-    .classList
-    .add(
-      "dark"
+
+    document.body.classList.add(
+        "dark"
     );
 
 
-  if (
-    darkBtn
-  ) {
-
-    darkBtn.textContent =
-      "☀️ Light Mode";
-
-  }
-
 }
+
+
+updateDarkButton();
+
 
 
 /* =====================================================
@@ -1124,66 +991,74 @@ if (
 
 function updateClock() {
 
-  const clock =
-    document.getElementById(
-      "liveClock"
-    );
 
-  const date =
-    document.getElementById(
-      "liveDate"
-    );
+    const clock =
+        document.getElementById(
+            "liveClock"
+        );
 
 
-  const now =
-    new Date();
+    const date =
+        document.getElementById(
+            "liveDate"
+        );
 
 
-  if (
-    clock
-  ) {
-
-    clock.textContent =
-      now.toLocaleTimeString(
-        "en-GB"
-      );
-
-  }
+    const now =
+        new Date();
 
 
-  if (
-    date
-  ) {
+    if (
+        clock
+    ) {
 
-    date.textContent =
-      now.toLocaleDateString(
-        "bn-BD",
-        {
-          weekday:
-            "long",
 
-          day:
-            "numeric",
+        clock.textContent =
+            now.toLocaleTimeString(
+                "en-GB"
+            );
 
-          month:
-            "long",
+    }
 
-          year:
-            "numeric"
-        }
-      );
 
-  }
+    if (
+        date
+    ) {
+
+
+        date.textContent =
+            now.toLocaleDateString(
+                "bn-BD",
+                {
+
+                    weekday:
+                        "long",
+
+                    day:
+                        "numeric",
+
+                    month:
+                        "long",
+
+                    year:
+                        "numeric"
+
+                }
+            );
+
+    }
 
 }
 
 
+updateClock();
+
+
 setInterval(
-  updateClock,
-  1000
+    updateClock,
+    1000
 );
 
-updateClock();
 
 
 /* =====================================================
@@ -1192,97 +1067,107 @@ updateClock();
 
 const weatherData = [
 
-  {
-    temp:
-      "31°C",
+    {
+        temp:
+            "31°C",
 
-    status:
-      "☀️ Sunny"
-  },
+        status:
+            "☀️ Sunny"
+    },
 
-  {
-    temp:
-      "29°C",
+    {
+        temp:
+            "29°C",
 
-    status:
-      "⛅ Cloudy"
-  },
+        status:
+            "⛅ Cloudy"
+    },
 
-  {
-    temp:
-      "27°C",
+    {
+        temp:
+            "27°C",
 
-    status:
-      "🌧 Rain"
-  },
+        status:
+            "🌧 Rain"
+    },
 
-  {
-    temp:
-      "30°C",
+    {
+        temp:
+            "30°C",
 
-    status:
-      "🌤 Partly Cloudy"
-  }
+        status:
+            "🌤 Partly Cloudy"
+    }
 
 ];
 
 
 let weatherIndex =
-  0;
+    0;
+
 
 
 function updateWeather() {
 
-  const temp =
-    document.getElementById(
-      "weatherTemp"
-    );
 
-  const status =
-    document.getElementById(
-      "weatherStatus"
-    );
+    const temp =
+        document.getElementById(
+            "weatherTemp"
+        );
 
 
-  if (
-    temp &&
-    status
-  ) {
-
-    temp.textContent =
-      weatherData[
-        weatherIndex
-      ].temp;
-
-
-    status.textContent =
-      weatherData[
-        weatherIndex
-      ].status;
-
-
-    weatherIndex++;
+    const status =
+        document.getElementById(
+            "weatherStatus"
+        );
 
 
     if (
-      weatherIndex >=
-      weatherData.length
+        temp &&
+        status
     ) {
 
-      weatherIndex =
-        0;
+
+        temp.textContent =
+            weatherData[
+                weatherIndex
+            ].temp;
+
+
+        status.textContent =
+            weatherData[
+                weatherIndex
+            ].status;
+
+
+        weatherIndex++;
+
+
+        if (
+            weatherIndex >=
+            weatherData.length
+        ) {
+
+
+            weatherIndex =
+                0;
+
+
+        }
 
     }
-
-  }
 
 }
 
 
+updateWeather();
+
+
 setInterval(
-  updateWeather,
-  5000
+    updateWeather,
+    5000
 );
+
 
 
 /* =====================================================
@@ -1291,128 +1176,64 @@ setInterval(
 
 const heroImages = [
 
-  "assets/banner.png",
+    "assets/banner.png",
 
-  "assets/news1.jpg",
+    "assets/news1.jpg",
 
-  "assets/news2.jpg",
+    "assets/news2.jpg",
 
-  "assets/news3.jpg"
+    "assets/news3.jpg"
 
 ];
 
 
 let heroIndex =
-  0;
+    0;
 
 
 const heroBanner =
-  document.getElementById(
-    "heroBanner"
-  );
+    document.getElementById(
+        "heroBanner"
+    );
 
 
 if (
-  heroBanner
+    heroBanner
 ) {
 
-  setInterval(
-    () => {
 
-      heroIndex++;
-
-
-      if (
-        heroIndex >=
-        heroImages.length
-      ) {
-
-        heroIndex =
-          0;
-
-      }
-
-
-      heroBanner.style.opacity =
-        "0";
-
-
-      setTimeout(
+    setInterval(
         () => {
 
-          heroBanner.src =
-            heroImages[
-              heroIndex
-            ];
+
+            heroIndex++;
 
 
-          heroBanner.style.opacity =
-            "1";
+            if (
+                heroIndex >=
+                heroImages.length
+            ) {
+
+
+                heroIndex =
+                    0;
+
+
+            }
+
+
+            heroBanner.src =
+                heroImages[
+                    heroIndex
+                ];
+
 
         },
-        300
-      );
-
-    },
-    5000
-  );
+        5000
+    );
 
 }
 
-
-/* =====================================================
-   BREAKING NEWS
-===================================================== */
-
-const breakingNews =
-  [
-
-    "বাংলাদেশের সর্বশেষ সংবাদ দেখুন Daily Sheen-এ",
-
-    "স্বাস্থ্য ও চিকিৎসা বিষয়ক নতুন তথ্য প্রকাশিত হয়েছে",
-
-    "প্রযুক্তির নতুন আপডেট জানতে আমাদের সাথে থাকুন",
-
-    "খেলাধুলার সর্বশেষ খবর এখন Daily Sheen-এ"
-
-  ];
-
-
-let breakingIndex =
-  0;
-
-
-if (
-  breakingText
-) {
-
-  setInterval(
-    () => {
-
-      breakingIndex++;
-
-
-      if (
-        breakingIndex >=
-        breakingNews.length
-      ) {
-
-        breakingIndex =
-          0;
-
-      }
-
-
-      breakingText.textContent =
-        breakingNews[
-          breakingIndex
-        ];
-
-    },
-    6000
-  );
-
-}
 
 
 /* =====================================================
@@ -1420,62 +1241,197 @@ if (
 ===================================================== */
 
 window.addEventListener(
-  "scroll",
-  () => {
+    "scroll",
+    () => {
 
-    if (
-      window.scrollY >
-      400
-    ) {
 
-      if (
-        topBtn
-      ) {
+        if (
+            !topBtn
+        ) {
+            return;
+        }
 
-        topBtn.style.display =
-          "block";
 
-      }
+        if (
+            window.scrollY >
+            400
+        ) {
 
-    } else {
 
-      if (
-        topBtn
-      ) {
+            topBtn.style.display =
+                "block";
 
-        topBtn.style.display =
-          "none";
 
-      }
+        } else {
+
+
+            topBtn.style.display =
+                "none";
+
+
+        }
 
     }
-
-  }
 );
 
 
+
 if (
-  topBtn
+    topBtn
 ) {
 
-  topBtn.addEventListener(
-    "click",
-    () => {
 
-      window.scrollTo({
+    topBtn.addEventListener(
+        "click",
+        () => {
 
-        top:
-          0,
 
-        behavior:
-          "smooth"
+            window.scrollTo({
 
-      });
+                top:
+                    0,
 
-    }
-  );
+                behavior:
+                    "smooth"
+
+            });
+
+
+        }
+    );
 
 }
+
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    message,
+    type = "error"
+) {
+
+
+    if (
+        !newsMessage
+    ) {
+        return;
+    }
+
+
+    newsMessage.textContent =
+        message;
+
+
+    newsMessage.style.display =
+        "block";
+
+
+    if (
+        type ===
+        "success"
+    ) {
+
+
+        newsMessage.style.background =
+            "#e8f5e9";
+
+
+        newsMessage.style.color =
+            "#087f23";
+
+
+    } else {
+
+
+        newsMessage.style.background =
+            "#ffebee";
+
+
+        newsMessage.style.color =
+            "#c62828";
+
+
+    }
+
+}
+
+
+
+function hideMessage() {
+
+
+    if (
+        newsMessage
+    ) {
+
+
+        newsMessage.style.display =
+            "none";
+
+
+    }
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+
+    if (
+        value ===
+        null ||
+        value ===
+        undefined
+    ) {
+
+
+        return "";
+
+
+    }
+
+
+    return String(
+        value
+    )
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
 
 
 /* =====================================================
@@ -1483,10 +1439,8 @@ if (
 ===================================================== */
 
 console.log(
-  "✅ Daily Sheen V7 App Started"
+    "✅ Daily Sheen V7 App Started"
 );
 
-
-/* Firebase News Load */
 
 loadNews();
