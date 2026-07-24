@@ -1026,6 +1026,67 @@ body {
   border-radius: 10px;
 }
 
+/* ===== FORCE FIX FOR RECENT NEWS ===== */
+
+#newsList {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+  gap: 20px !important;
+
+  overflow: hidden !important;
+}
+
+#newsList .news-item {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  min-width: 0 !important;
+
+  padding: 20px !important;
+
+  background: #ffffff !important;
+
+  border-radius: 12px !important;
+
+  overflow: hidden !important;
+}
+
+#newsList .news-item img {
+  display: block !important;
+
+  width: 100% !important;
+  max-width: 100% !important;
+
+  height: 220px !important;
+
+  object-fit: cover !important;
+
+  border-radius: 10px !important;
+}
+
+
+/* Mobile */
+@media (max-width: 700px) {
+
+  #newsList {
+    grid-template-columns: 1fr !important;
+  }
+
+  #newsList .news-item {
+    width: 100% !important;
+  }
+
+  #newsList .news-item img {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover !important;
+  }
+
+}
 
 /* =====================================================
    END OF ADMIN CSS
