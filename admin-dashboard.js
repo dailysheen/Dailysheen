@@ -4,8 +4,9 @@
 // Firebase Authentication + Firestore News Management
 // ======================================================
 
+
 // ======================================================
-// Firebase App Configuration
+// Firebase App
 // ======================================================
 
 import { app } from "./firebase-config.js";
@@ -40,11 +41,14 @@ import {
 
 
 // ======================================================
-// Initialize Firebase Services
+// Initialize Firebase
 // ======================================================
 
-const auth = getAuth(app);
-const db = getFirestore(app);
+const auth =
+  getAuth(app);
+
+const db =
+  getFirestore(app);
 
 
 // ======================================================
@@ -80,67 +84,126 @@ const refreshBtn =
 // Message Function
 // ======================================================
 
-function showMessage(message, type = "success") {
+function showMessage(
+  message,
+  type = "success"
+) {
 
   if (!dashboardMsg) {
-    console.log(message);
+
+    console.log(
+      message
+    );
+
     return;
+
   }
 
-  dashboardMsg.textContent = message;
 
-  if (type === "error") {
-    dashboardMsg.style.color = "#ff5252";
+  dashboardMsg.textContent =
+    message;
+
+
+  dashboardMsg.style.padding =
+    "10px 15px";
+
+
+  if (
+    type === "error"
+  ) {
+
+    dashboardMsg.style.color =
+      "#b71c1c";
+
+    dashboardMsg.style.background =
+      "#ffebee";
+
   } else {
-    dashboardMsg.style.color = "#00c853";
+
+    dashboardMsg.style.color =
+      "#087f23";
+
+    dashboardMsg.style.background =
+      "#e8f5e9";
+
   }
+
 
   setTimeout(() => {
+
     if (dashboardMsg) {
-      dashboardMsg.textContent = "";
+
+      dashboardMsg.textContent =
+        "";
+
+      dashboardMsg.style.padding =
+        "0";
+
+      dashboardMsg.style.background =
+        "transparent";
+
     }
+
   }, 4000);
+
 }
 
 
 // ======================================================
-// Check Admin Login
+// Authentication State
 // ======================================================
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(
+  auth,
+  async (user) => {
 
-  if (!user) {
+    if (!user) {
 
-    console.log("No Admin Logged In");
+      console.log(
+        "No Admin Logged In"
+      );
 
-    // User login না করলে Admin Login Page-এ পাঠাবে
-    window.location.href = "admin-login.html";
 
-    return;
+      window.location.href =
+        "admin-login.html";
+
+
+      return;
+
+    }
+
+
+    // ================================================
+    // Admin Logged In
+    // ================================================
+
+    console.log(
+      "Admin Logged In:",
+      user.email
+    );
+
+
+    // ================================================
+    // Show Admin Email
+    // ================================================
+
+    if (adminEmail) {
+
+      adminEmail.textContent =
+        user.email ||
+        "Admin";
+
+    }
+
+
+    // ================================================
+    // Load News
+    // ================================================
+
+    await loadNews();
+
   }
-
-
-  // ====================================================
-  // Admin Logged In
-  // ====================================================
-
-  console.log(
-    "Admin Logged In:",
-    user.email
-  );
-
-
-  // Show Admin Email
-  if (adminEmail) {
-    adminEmail.textContent =
-      user.email || "Admin";
-  }
-
-
-  // Load News
-  await loadNews();
-
-});
+);
 
 
 // ======================================================
@@ -155,19 +218,21 @@ if (logoutBtn) {
 
       try {
 
-        await signOut(auth);
+        logoutBtn.disabled =
+          true;
 
-        showMessage(
-          "✅ Logout সফল হয়েছে",
-          "success"
+        logoutBtn.textContent =
+          "Logging out...";
+
+
+        await signOut(
+          auth
         );
 
-        setTimeout(() => {
 
-          window.location.href =
-            "admin.html";
+        window.location.href =
+          "admin-login.html";
 
-        }, 1000);
 
       } catch (error) {
 
@@ -176,10 +241,18 @@ if (logoutBtn) {
           error
         );
 
+
         showMessage(
           "❌ Logout করা যায়নি",
           "error"
         );
+
+
+        logoutBtn.disabled =
+          false;
+
+        logoutBtn.textContent =
+          "🚪 Logout";
 
       }
 
@@ -190,7 +263,7 @@ if (logoutBtn) {
 
 
 // ======================================================
-// Add News
+// ADD NEWS
 // ======================================================
 
 if (newsForm) {
@@ -202,9 +275,9 @@ if (newsForm) {
       event.preventDefault();
 
 
-      // ==================================================
-      // Get Form Values
-      // ==================================================
+      // ================================================
+      // Get Elements
+      // ================================================
 
       const categoryElement =
         document.getElementById(
@@ -227,24 +300,27 @@ if (newsForm) {
         );
 
 
-      // ==================================================
+      // ================================================
       // Get Values
-      // ==================================================
+      // ================================================
 
       const category =
         categoryElement
           ? categoryElement.value.trim()
           : "";
 
+
       const title =
         titleElement
           ? titleElement.value.trim()
           : "";
 
+
       const description =
         descriptionElement
           ? descriptionElement.value.trim()
           : "";
+
 
       const image =
         imageElement
@@ -252,9 +328,9 @@ if (newsForm) {
           : "";
 
 
-      // ==================================================
-      // Validate Form
-      // ==================================================
+      // ================================================
+      // Validate
+      // ================================================
 
       if (
         !category ||
@@ -268,16 +344,17 @@ if (newsForm) {
         );
 
         return;
+
       }
 
 
-      // ==================================================
-      // Button Loading
-      // ==================================================
+      // ================================================
+      // Submit Button
+      // ================================================
 
       const submitButton =
-        newsForm.querySelector(
-          'button[type="submit"]'
+        document.getElementById(
+          "saveNewsBtn"
         );
 
 
@@ -287,16 +364,16 @@ if (newsForm) {
           true;
 
         submitButton.textContent =
-          "Saving...";
+          "⏳ Saving...";
 
       }
 
 
       try {
 
-        // =================================================
-        // Add News to Firestore
-        // =================================================
+        // ==============================================
+        // Add Firestore Document
+        // ==============================================
 
         await addDoc(
           collection(
@@ -329,9 +406,9 @@ if (newsForm) {
         );
 
 
-        // =================================================
-        // Success Message
-        // =================================================
+        // ==============================================
+        // Success
+        // ==============================================
 
         showMessage(
           "✅ News সফলভাবে Publish হয়েছে",
@@ -339,16 +416,16 @@ if (newsForm) {
         );
 
 
-        // =================================================
-        // Clear Form
-        // =================================================
+        // ==============================================
+        // Reset Form
+        // ==============================================
 
         newsForm.reset();
 
 
-        // =================================================
+        // ==============================================
         // Reload News
-        // =================================================
+        // ==============================================
 
         await loadNews();
 
@@ -360,10 +437,13 @@ if (newsForm) {
           error
         );
 
+
         showMessage(
-          "❌ News Publish করা যায়নি",
+          "❌ News Publish করা যায়নি: " +
+          error.message,
           "error"
         );
+
 
       } finally {
 
@@ -386,43 +466,46 @@ if (newsForm) {
 
 
 // ======================================================
-// Load News From Firestore
+// LOAD NEWS
 // ======================================================
 
 async function loadNews() {
 
   if (!newsList) {
+
     return;
+
   }
 
 
   // ====================================================
-  // Loading Message
+  // Loading
   // ====================================================
 
   newsList.innerHTML = `
-    <p class="loading">
+    <div class="loading">
       ⏳ News Loading...
-    </p>
+    </div>
   `;
 
 
   try {
 
     // ==================================================
-    // Get News Collection
+    // Firestore Query
     // ==================================================
 
-    const newsQuery = query(
-      collection(
-        db,
-        "news"
-      ),
-      orderBy(
-        "createdAt",
-        "desc"
-      )
-    );
+    const newsQuery =
+      query(
+        collection(
+          db,
+          "news"
+        ),
+        orderBy(
+          "createdAt",
+          "desc"
+        )
+      );
 
 
     const snapshot =
@@ -432,7 +515,7 @@ async function loadNews() {
 
 
     // ==================================================
-    // Empty News Check
+    // Empty
     // ==================================================
 
     if (
@@ -441,20 +524,26 @@ async function loadNews() {
 
       newsList.innerHTML = `
         <div class="empty-news">
-          <p>📰 এখনো কোনো News Publish করা হয়নি।</p>
+          <p>
+            📰 এখনো কোনো News Publish করা হয়নি।
+          </p>
         </div>
       `;
 
 
       if (totalNews) {
+
         totalNews.textContent =
           "0";
+
       }
 
 
       if (totalCategories) {
+
         totalCategories.textContent =
           "0";
+
       }
 
 
@@ -472,10 +561,11 @@ async function loadNews() {
 
 
     // ==================================================
-    // Clear News List
+    // Clear List
     // ==================================================
 
-    newsList.innerHTML = "";
+    newsList.innerHTML =
+      "";
 
 
     // ==================================================
@@ -493,7 +583,10 @@ async function loadNews() {
           newsDoc.id;
 
 
-        // Add Category
+        // ==============================================
+        // Category
+        // ==============================================
+
         if (
           news.category
         ) {
@@ -505,25 +598,12 @@ async function loadNews() {
         }
 
 
-        // =================================================
-        // Create News Card
-        // =================================================
-
-        const card =
-          document.createElement(
-            "div"
-          );
-
-
-        card.className =
-          "news-admin-card";
-
-
-        // =================================================
+        // ==============================================
         // Image
-        // =================================================
+        // ==============================================
 
-        let imageHTML = "";
+        let imageHTML =
+          "";
 
 
         if (
@@ -532,13 +612,10 @@ async function loadNews() {
 
           imageHTML = `
             <img
-              src="${escapeHTML(
-                news.image
-              )}"
-              alt="${escapeHTML(
-                news.title || "News"
-              )}"
-              class="news-admin-image"
+              src="${escapeHTML(news.image)}"
+              alt="${escapeHTML(news.title || "News")}"
+              class="news-item-image"
+              loading="lazy"
               onerror="this.style.display='none'"
             >
           `;
@@ -546,9 +623,9 @@ async function loadNews() {
         }
 
 
-        // =================================================
+        // ==============================================
         // Date
-        // =================================================
+        // ==============================================
 
         let dateText =
           "Recently";
@@ -560,60 +637,102 @@ async function loadNews() {
             "function"
         ) {
 
-          const date =
-            news.createdAt.toDate();
+          try {
+
+            const date =
+              news.createdAt.toDate();
 
 
-          dateText =
-            date.toLocaleString(
-              "bn-BD"
+            dateText =
+              date.toLocaleString(
+                "bn-BD"
+              );
+
+          } catch (error) {
+
+            console.log(
+              "Date Error:",
+              error
             );
+
+          }
 
         }
 
 
-        // =================================================
+        // ==============================================
+        // Create Card
+        // ==============================================
+
+        const card =
+          document.createElement(
+            "article"
+          );
+
+
+        card.className =
+          "news-item";
+
+
+        // ==============================================
         // Card HTML
-        // =================================================
+        // ==============================================
 
         card.innerHTML = `
 
           ${imageHTML}
 
-          <div class="news-admin-content">
+          <div class="news-content">
 
             <span class="news-category">
+
               ${escapeHTML(
                 news.category ||
                 "Uncategorized"
               )}
+
             </span>
 
+
             <h3>
+
               ${escapeHTML(
                 news.title ||
                 "Untitled News"
               )}
+
             </h3>
 
+
             <p>
+
               ${escapeHTML(
                 news.description ||
                 ""
               )}
+
             </p>
 
-            <small>
-              📅 ${dateText}
+
+            <small class="news-date">
+
+              📅 ${escapeHTML(
+                dateText
+              )}
+
             </small>
+
 
             <div class="news-actions">
 
               <button
+                type="button"
                 class="delete-news-btn"
-                data-id="${newsId}"
+                data-id="${escapeHTML(newsId)}"
               >
+
                 🗑️ Delete
+
               </button>
 
             </div>
@@ -623,9 +742,9 @@ async function loadNews() {
         `;
 
 
-        // =================================================
-        // Add Card
-        // =================================================
+        // ==============================================
+        // Append Card
+        // ==============================================
 
         newsList.appendChild(
           card
@@ -636,7 +755,7 @@ async function loadNews() {
 
 
     // ==================================================
-    // Update Total News
+    // Update Statistics
     // ==================================================
 
     if (totalNews) {
@@ -647,10 +766,6 @@ async function loadNews() {
     }
 
 
-    // ==================================================
-    // Update Total Categories
-    // ==================================================
-
     if (totalCategories) {
 
       totalCategories.textContent =
@@ -660,11 +775,11 @@ async function loadNews() {
 
 
     // ==================================================
-    // Delete Button Events
+    // Delete Buttons
     // ==================================================
 
     const deleteButtons =
-      document.querySelectorAll(
+      newsList.querySelectorAll(
         ".delete-news-btn"
       );
 
@@ -700,7 +815,9 @@ async function loadNews() {
 
 
     newsList.innerHTML = `
+
       <div class="error-news">
+
         <p>
           ❌ News Load করা যায়নি।
         </p>
@@ -711,7 +828,9 @@ async function loadNews() {
             "Unknown Error"
           )}
         </small>
+
       </div>
+
     `;
 
 
@@ -726,7 +845,7 @@ async function loadNews() {
 
 
 // ======================================================
-// Delete News
+// DELETE NEWS
 // ======================================================
 
 async function deleteNews(
@@ -746,7 +865,7 @@ async function deleteNews(
 
 
   // ====================================================
-  // Confirm Delete
+  // Confirm
   // ====================================================
 
   const confirmed =
@@ -756,14 +875,16 @@ async function deleteNews(
 
 
   if (!confirmed) {
+
     return;
+
   }
 
 
   try {
 
     // ==================================================
-    // Delete Firestore Document
+    // Delete
     // ==================================================
 
     await deleteDoc(
@@ -786,7 +907,7 @@ async function deleteNews(
 
 
     // ==================================================
-    // Reload News
+    // Reload
     // ==================================================
 
     await loadNews();
@@ -801,7 +922,8 @@ async function deleteNews(
 
 
     showMessage(
-      "❌ News Delete করা যায়নি",
+      "❌ News Delete করা যায়নি: " +
+      error.message,
       "error"
     );
 
@@ -811,7 +933,7 @@ async function deleteNews(
 
 
 // ======================================================
-// Refresh News
+// REFRESH
 // ======================================================
 
 if (refreshBtn) {
@@ -820,7 +942,22 @@ if (refreshBtn) {
     "click",
     async () => {
 
+      refreshBtn.disabled =
+        true;
+
+      refreshBtn.textContent =
+        "⏳ Loading...";
+
+
       await loadNews();
+
+
+      refreshBtn.disabled =
+        false;
+
+      refreshBtn.textContent =
+        "🔄 Refresh";
+
 
       showMessage(
         "🔄 News List Refresh হয়েছে",
@@ -834,7 +971,7 @@ if (refreshBtn) {
 
 
 // ======================================================
-// Escape HTML
+// ESCAPE HTML
 // Security Function
 // ======================================================
 
@@ -855,22 +992,27 @@ function escapeHTML(
   return String(
     value
   )
+
     .replace(
       /&/g,
       "&amp;"
     )
+
     .replace(
       /</g,
       "&lt;"
     )
+
     .replace(
       />/g,
       "&gt;"
     )
+
     .replace(
       /"/g,
       "&quot;"
     )
+
     .replace(
       /'/g,
       "&#039;"
@@ -880,7 +1022,7 @@ function escapeHTML(
 
 
 // ======================================================
-// Console Message
+// Console
 // ======================================================
 
 console.log(
