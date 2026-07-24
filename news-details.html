@@ -3,24 +3,249 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-  <title>সংবাদের বিস্তারিত | Daily Sheen</title>
+<title>সংবাদ | Daily Sheen</title>
 
-  <meta
-    name="description"
-    content="Daily Sheen - সংবাদের বিস্তারিত"
-  >
+<meta
+  name="description"
+  content="Daily Sheen - বিস্তারিত সংবাদ"
+>
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+<link
+  rel="stylesheet"
+  href="style.css"
+>
+
+<style>
+
+/* =====================================
+   Daily Sheen V7
+   News Details Page
+===================================== */
+
+.news-details-page {
+
+  max-width: 1000px;
+
+  margin: 40px auto;
+
+  padding: 0 20px;
+
+}
+
+.news-details-card {
+
+  background: #ffffff;
+
+  border-radius: 18px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 10px 35px
+    rgba(0,0,0,0.12);
+
+}
+
+.news-details-category {
+
+  display: inline-block;
+
+  padding: 7px 14px;
+
+  margin-bottom: 15px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6a11cb,
+      #2575fc
+    );
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+}
+
+.news-details-title {
+
+  font-size: 36px;
+
+  line-height: 1.4;
+
+  color: #222;
+
+  margin-bottom: 15px;
+
+}
+
+.news-details-date {
+
+  color: #777;
+
+  font-size: 14px;
+
+  margin-bottom: 25px;
+
+}
+
+.news-details-image {
+
+  width: 100%;
+
+  max-height: 550px;
+
+  object-fit: cover;
+
+  border-radius: 15px;
+
+  margin-bottom: 25px;
+
+}
+
+.news-details-description {
+
+  color: #333;
+
+  font-size: 18px;
+
+  line-height: 2;
+
+  white-space: pre-line;
+
+}
+
+.back-home-btn {
+
+  display: inline-block;
+
+  margin-top: 30px;
+
+  padding: 12px 22px;
+
+  border-radius: 8px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6a11cb,
+      #2575fc
+    );
+
+  text-decoration: none;
+
+  font-weight: bold;
+
+}
+
+.back-home-btn:hover {
+
+  transform: translateY(-2px);
+
+}
+
+.news-loading {
+
+  text-align: center;
+
+  padding: 50px;
+
+  font-size: 18px;
+
+}
+
+.news-error {
+
+  text-align: center;
+
+  padding: 40px;
+
+  color: #c62828;
+
+}
+
+
+/* Dark Mode */
+
+body.dark .news-details-card {
+
+  background: #1e1e1e;
+
+}
+
+body.dark .news-details-title {
+
+  color: #ffffff;
+
+}
+
+body.dark .news-details-description {
+
+  color: #eeeeee;
+
+}
+
+body.dark .news-details-date {
+
+  color: #bbbbbb;
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .news-details-page {
+
+    margin: 20px auto;
+
+    padding: 0 12px;
+
+  }
+
+  .news-details-card {
+
+    padding: 20px 15px;
+
+  }
+
+  .news-details-title {
+
+    font-size: 25px;
+
+  }
+
+  .news-details-description {
+
+    font-size: 16px;
+
+    line-height: 1.8;
+
+  }
+
+  .news-details-image {
+
+    max-height: 350px;
+
+  }
+
+}
+
+</style>
 
 </head>
 
@@ -28,251 +253,138 @@
 <body>
 
 
-<!-- ==================================================
-     HEADER
-================================================== -->
+<!-- =================================
+     Header
+================================= -->
 
 <header>
 
-  <div class="top-header">
+<div class="top-header">
 
-    <div class="logo">
+<div class="logo">
 
-      <img
-        src="assets/logo.png"
-        alt="Daily Sheen Logo"
-      >
+<img
+src="assets/logo.png"
+alt="Daily Sheen Logo"
+>
 
-      <div>
+<div>
 
-        <h1>
-          Daily Sheen
-        </h1>
+<h1>Daily Sheen</h1>
 
-        <p>
-          Truth • Speed • Reliability
-        </p>
+<p>Truth • Speed • Reliability</p>
 
-      </div>
+</div>
 
-    </div>
+</div>
 
 
-    <div class="header-right">
+<div class="header-right">
 
-      <button
-        id="darkBtn"
-        type="button"
-      >
+<button id="darkBtn">
 
-        🌙 Dark Mode
+🌙 Dark Mode
 
-      </button>
+</button>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 
-  <!-- Navigation -->
+<!-- Navigation -->
 
-  <nav>
+<nav>
 
-    <a href="index.html">
-      হোম
-    </a>
+<a href="index.html">
+হোম
+</a>
 
-    <a href="index.html?category=বাংলাদেশ">
-      বাংলাদেশ
-    </a>
+<a href="index.html?category=বাংলাদেশ">
+বাংলাদেশ
+</a>
 
-    <a href="index.html?category=আন্তর্জাতিক">
-      আন্তর্জাতিক
-    </a>
+<a href="index.html?category=আন্তর্জাতিক">
+আন্তর্জাতিক
+</a>
 
-    <a href="index.html?category=রাজনীতি">
-      রাজনীতি
-    </a>
+<a href="index.html?category=রাজনীতি">
+রাজনীতি
+</a>
 
-    <a href="index.html?category=স্বাস্থ্য">
-      স্বাস্থ্য
-    </a>
+<a href="index.html?category=স্বাস্থ্য">
+স্বাস্থ্য
+</a>
 
-    <a href="index.html?category=রোগ ও চিকিৎসা">
-      রোগ ও চিকিৎসা
-    </a>
+<a href="index.html?category=রোগ ও চিকিৎসা">
+রোগ ও চিকিৎসা
+</a>
 
-    <a href="index.html?category=প্রযুক্তি">
-      প্রযুক্তি
-    </a>
+<a href="index.html?category=প্রযুক্তি">
+প্রযুক্তি
+</a>
 
-    <a href="index.html?category=খেলাধুলা">
-      খেলাধুলা
-    </a>
+<a href="index.html?category=খেলাধুলা">
+খেলাধুলা
+</a>
 
-    <a href="index.html?category=চাকরি">
-      চাকরি
-    </a>
+<a href="index.html?category=চাকরি">
+চাকরি
+</a>
 
-  </nav>
+</nav>
 
+
+<!-- Search -->
+
+<div class="search-box">
+
+<input
+type="text"
+id="searchBox"
+placeholder="সংবাদ খুঁজুন..."
+>
+
+<button id="searchBtn">
+
+🔍 Search
+
+</button>
+
+</div>
 
 </header>
 
 
-
-<!-- ==================================================
-     BREAKING NEWS
-================================================== -->
-
-<section class="breaking-news">
-
-  <div class="breaking-title">
-
-    🔴 Breaking News
-
-  </div>
-
-  <div class="breaking-scroll">
-
-    <marquee
-      behavior="scroll"
-      direction="left"
-      scrollamount="6"
-    >
-
-      Daily Sheen-এ আপনাকে স্বাগতম |
-      সর্বশেষ সংবাদ জানতে আমাদের সাথে থাকুন।
-
-    </marquee>
-
-  </div>
-
-</section>
-
-
-
-<!-- ==================================================
-     NEWS DETAILS
-================================================== -->
+<!-- =================================
+     News Details
+================================= -->
 
 <main class="news-details-page">
 
+<div
+  id="newsDetails"
+  class="news-details-card"
+>
 
-  <!-- Back Button -->
+<div class="news-loading">
 
-  <a
-    href="index.html"
-    class="back-home-btn"
-  >
+⏳ সংবাদ লোড হচ্ছে...
 
-    ← সকল সংবাদে ফিরে যান
+</div>
 
-  </a>
-
-
-  <!-- News Container -->
-
-  <article
-    id="newsDetails"
-    class="news-details"
-  >
-
-    <div class="news-loading">
-
-      ⏳ সংবাদ লোড হচ্ছে...
-
-    </div>
-
-  </article>
-
+</div>
 
 </main>
 
 
-
-<!-- ==================================================
-     FOOTER
-================================================== -->
-
-<footer>
-
-  <div class="footer-container">
-
-    <div>
-
-      <h3>
-        Daily Sheen
-      </h3>
-
-      <p>
-
-        বাংলাদেশ, আন্তর্জাতিক, স্বাস্থ্য,
-        প্রযুক্তি, খেলাধুলা ও চাকরির
-        বিশ্বস্ত সংবাদ।
-
-      </p>
-
-    </div>
-
-
-    <div>
-
-      <h3>
-        Quick Links
-      </h3>
-
-      <ul>
-
-        <li>
-          <a href="index.html">
-            Home
-          </a>
-        </li>
-
-        <li>
-          <a href="index.html?category=বাংলাদেশ">
-            বাংলাদেশ
-          </a>
-        </li>
-
-        <li>
-          <a href="index.html?category=স্বাস্থ্য">
-            স্বাস্থ্য
-          </a>
-        </li>
-
-        <li>
-          <a href="index.html?category=প্রযুক্তি">
-            প্রযুক্তি
-          </a>
-        </li>
-
-      </ul>
-
-    </div>
-
-  </div>
-
-
-  <div class="copyright">
-
-    © 2026 Daily Sheen.
-    All Rights Reserved.
-
-  </div>
-
-</footer>
-
-
-
-<!-- ==================================================
-     NEWS DETAILS JS
-================================================== -->
+<!-- =================================
+     Firebase News Details JS
+================================= -->
 
 <script
-  type="module"
-  src="news-details.js"
+type="module"
+src="news-details.js"
 ></script>
 
 
