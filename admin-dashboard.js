@@ -33,6 +33,7 @@ import {
   addDoc,
   getDocs,
   deleteDoc,
+  updateDoc
   doc,
   query,
   orderBy,
