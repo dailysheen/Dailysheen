@@ -1,156 +1,997 @@
+/* =====================================================
+   Daily Sheen V7
+   Admin Dashboard CSS
+   News Management + Edit + Delete
+===================================================== */
+
+
 /* ============================
-   Daily Sheen Dashboard CSS
+   RESET
 ============================ */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    background:#f4f6fb;
-    color:#333;
+
+body {
+
+    min-height: 100vh;
+
+    background:
+        #f4f6fb;
+
+    color:
+        #333;
+
+    font-family:
+        Arial,
+        "Noto Sans Bengali",
+        sans-serif;
+
+    overflow-x:
+        hidden;
 }
 
-.container{
-    width:90%;
-    max-width:1000px;
-    margin:40px auto;
+
+button,
+input,
+textarea,
+select {
+
+    font-family:
+        inherit;
+
 }
 
-h1{
-    text-align:center;
-    color:#6C63FF;
-    margin-bottom:30px;
+
+button {
+
+    cursor:
+        pointer;
+
 }
 
-.card{
-    background:#fff;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,.1);
+
+img {
+
+    max-width:
+        100%;
+
+    display:
+        block;
+
 }
+
+
+
+/* ============================
+   MAIN CONTAINER
+============================ */
+
+.container {
+
+    width:
+        90%;
+
+    max-width:
+        1100px;
+
+    margin:
+        40px auto;
+
+}
+
+
+
+/* ============================
+   MAIN TITLE
+============================ */
+
+h1 {
+
+    text-align:
+        center;
+
+    color:
+        #6C63FF;
+
+    margin-bottom:
+        30px;
+
+    font-size:
+        32px;
+
+}
+
+
+
+/* ============================
+   GENERAL CARD
+============================ */
+
+.card {
+
+    background:
+        #ffffff;
+
+    padding:
+        25px;
+
+    border-radius:
+        15px;
+
+    box-shadow:
+        0 10px 25px
+        rgba(
+            0,
+            0,
+            0,
+            0.10
+        );
+
+}
+
+
+
+/* ============================
+   FORM
+============================ */
 
 input,
-textarea{
-    width:100%;
-    padding:14px;
-    margin:12px 0;
-    border:1px solid #ddd;
-    border-radius:10px;
-    outline:none;
-    font-size:16px;
+textarea,
+select {
+
+    width:
+        100%;
+
+    padding:
+        14px;
+
+    margin:
+        12px 0;
+
+    border:
+        1px solid
+        #ddd;
+
+    border-radius:
+        10px;
+
+    outline:
+        none;
+
+    font-size:
+        16px;
+
+    background:
+        #ffffff;
+
+    color:
+        #333;
+
+    transition:
+        0.3s;
+
 }
 
-textarea{
-    min-height:180px;
-    resize:vertical;
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    border-color:
+        #6C63FF;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            108,
+            99,
+            255,
+            0.12
+        );
+
 }
 
-button{
-    background:#6C63FF;
-    color:#fff;
-    border:none;
-    padding:14px 24px;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:16px;
-    font-weight:bold;
-    transition:.3s;
+
+textarea {
+
+    min-height:
+        180px;
+
+    resize:
+        vertical;
+
 }
 
-button:hover{
-    background:#00C896;
+
+
+/* ============================
+   GENERAL BUTTON
+============================ */
+
+button {
+
+    background:
+        #6C63FF;
+
+    color:
+        #ffffff;
+
+    border:
+        none;
+
+    padding:
+        14px 24px;
+
+    border-radius:
+        10px;
+
+    font-size:
+        16px;
+
+    font-weight:
+        bold;
+
+    transition:
+        0.3s;
+
 }
 
-hr{
-    margin:40px 0;
-    border:none;
-    border-top:1px solid #ddd;
+
+button:hover {
+
+    background:
+        #00C896;
+
+    transform:
+        translateY(
+            -2px
+        );
+
 }
 
-h2{
-    margin-bottom:20px;
-    color:#444;
+
+button:disabled {
+
+    opacity:
+        0.6;
+
+    cursor:
+        not-allowed;
+
+    transform:
+        none;
+
 }
 
-#newsList{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:20px;
+
+
+/* ============================
+   HORIZONTAL LINE
+============================ */
+
+hr {
+
+    margin:
+        40px 0;
+
+    border:
+        none;
+
+    border-top:
+        1px solid
+        #ddd;
+
 }
 
-.news-card{
-    background:#fff;
-    border-radius:15px;
-    overflow:hidden;
-    box-shadow:0 8px 20px rgba(0,0,0,.1);
+
+
+/* ============================
+   HEADINGS
+============================ */
+
+h2 {
+
+    margin-bottom:
+        20px;
+
+    color:
+        #444;
+
 }
 
-.news-card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
+
+
+/* ============================
+   DASHBOARD MESSAGE
+============================ */
+
+#dashboardMsg {
+
+    margin:
+        15px 0;
+
+    border-radius:
+        8px;
+
+    line-height:
+        1.6;
+
+    transition:
+        0.3s;
+
 }
 
-.news-content{
-    padding:15px;
+
+
+/* ============================
+   NEWS LIST
+============================ */
+
+#newsList {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                280px,
+                1fr
+            )
+        );
+
+    gap:
+        20px;
+
 }
 
-.news-content h3{
-    margin-bottom:10px;
+
+
+/* ============================
+   NEWS CARD
+============================ */
+
+.news-card,
+.news-item {
+
+    background:
+        #ffffff;
+
+    border-radius:
+        15px;
+
+    overflow:
+        hidden;
+
+    box-shadow:
+        0 8px 20px
+        rgba(
+            0,
+            0,
+            0,
+            0.10
+        );
+
+    transition:
+        0.3s;
+
 }
 
-.news-content p{
-    color:#666;
-    margin-bottom:15px;
+
+.news-card:hover,
+.news-item:hover {
+
+    transform:
+        translateY(
+            -5px
+        );
+
+    box-shadow:
+        0 14px 30px
+        rgba(
+            0,
+            0,
+            0,
+            0.15
+        );
+
 }
 
-.news-actions{
-    display:flex;
-    gap:10px;
+
+
+/* ============================
+   NEWS IMAGE
+============================ */
+
+.news-card img,
+.news-item-image {
+
+    width:
+        100%;
+
+    height:
+        200px;
+
+    object-fit:
+        cover;
+
+    background:
+        #eeeeee;
+
 }
 
-.news-actions button{
-    flex:1;
+
+
+/* ============================
+   NEWS CONTENT
+============================ */
+
+.news-content {
+
+    padding:
+        18px;
+
 }
 
-.delete-btn{
-    background:#E53935;
+
+.news-content h3 {
+
+    margin:
+        10px 0;
+
+    color:
+        #333;
+
+    font-size:
+        19px;
+
+    line-height:
+        1.5;
+
 }
 
-.delete-btn:hover{
-    background:#C62828;
+
+.news-content p {
+
+    color:
+        #666;
+
+    margin-bottom:
+        15px;
+
+    line-height:
+        1.7;
+
 }
 
-.edit-btn{
-    background:#FF9800;
+
+
+/* ============================
+   NEWS CATEGORY
+============================ */
+
+.news-category {
+
+    display:
+        inline-block;
+
+    padding:
+        5px 12px;
+
+    border-radius:
+        20px;
+
+    color:
+        #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6a11cb,
+            #2575fc
+        );
+
+    font-size:
+        12px;
+
+    font-weight:
+        bold;
+
 }
 
-.edit-btn:hover{
-    background:#F57C00;
+
+
+/* ============================
+   NEWS DATE
+============================ */
+
+.news-date {
+
+    display:
+        block;
+
+    color:
+        #888;
+
+    font-size:
+        12px;
+
+    margin-top:
+        8px;
+
 }
 
-/* Responsive */
 
-@media(max-width:768px){
 
-.container{
-    width:95%;
+/* ============================
+   NEWS ACTIONS
+============================ */
+
+.news-actions {
+
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    margin-top:
+        18px;
+
 }
 
-h1{
-    font-size:28px;
+
+.news-actions button {
+
+    flex:
+        1;
+
+    padding:
+        10px 14px;
+
+    font-size:
+        14px;
+
 }
 
-button{
-    width:100%;
+
+
+/* ============================
+   EDIT BUTTON
+============================ */
+
+.edit-btn,
+.edit-news-btn {
+
+    background:
+        #FF9800;
+
+    color:
+        #ffffff;
+
 }
 
-.news-actions{
-    flex-direction:column;
+
+.edit-btn:hover,
+.edit-news-btn:hover {
+
+    background:
+        #F57C00;
+
 }
+
+
+
+/* ============================
+   DELETE BUTTON
+============================ */
+
+.delete-btn,
+.delete-news-btn {
+
+    background:
+        #E53935;
+
+    color:
+        #ffffff;
+
+}
+
+
+.delete-btn:hover,
+.delete-news-btn:hover {
+
+    background:
+        #C62828;
+
+}
+
+
+
+/* ============================
+   LOADING
+============================ */
+
+.loading {
+
+    grid-column:
+        1 / -1;
+
+    padding:
+        50px;
+
+    text-align:
+        center;
+
+    background:
+        #ffffff;
+
+    border-radius:
+        15px;
+
+    color:
+        #666;
+
+    font-size:
+        18px;
+
+}
+
+
+
+/* ============================
+   EMPTY NEWS
+============================ */
+
+.empty-news {
+
+    grid-column:
+        1 / -1;
+
+    padding:
+        50px;
+
+    text-align:
+        center;
+
+    background:
+        #ffffff;
+
+    border-radius:
+        15px;
+
+    color:
+        #777;
+
+}
+
+
+
+/* ============================
+   ERROR NEWS
+============================ */
+
+.error-news {
+
+    grid-column:
+        1 / -1;
+
+    padding:
+        30px;
+
+    text-align:
+        center;
+
+    background:
+        #ffebee;
+
+    color:
+        #c62828;
+
+    border-radius:
+        12px;
+
+}
+
+
+
+/* ============================
+   ADMIN EMAIL
+============================ */
+
+#adminEmail {
+
+    color:
+        #6C63FF;
+
+    font-weight:
+        bold;
+
+}
+
+
+
+/* ============================
+   REFRESH BUTTON
+============================ */
+
+#refreshBtn {
+
+    background:
+        #2575fc;
+
+}
+
+
+#refreshBtn:hover {
+
+    background:
+        #1565c0;
+
+}
+
+
+
+/* ============================
+   LOGOUT BUTTON
+============================ */
+
+#logoutBtn {
+
+    background:
+        #E53935;
+
+}
+
+
+#logoutBtn:hover {
+
+    background:
+        #C62828;
+
+}
+
+
+
+/* ============================
+   RESPONSIVE TABLET
+============================ */
+
+@media (
+    max-width: 768px
+) {
+
+    .container {
+
+        width:
+            95%;
+
+        margin:
+            25px auto;
+
+    }
+
+
+    h1 {
+
+        font-size:
+            28px;
+
+    }
+
+
+    .card {
+
+        padding:
+            20px;
+
+    }
+
+
+    #newsList {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+
+/* ============================
+   RESPONSIVE MOBILE
+============================ */
+
+@media (
+    max-width: 600px
+) {
+
+    .container {
+
+        width:
+            94%;
+
+        margin:
+            20px auto;
+
+    }
+
+
+    h1 {
+
+        font-size:
+            24px;
+
+        margin-bottom:
+            20px;
+
+    }
+
+
+    .card {
+
+        padding:
+            15px;
+
+    }
+
+
+    input,
+    textarea,
+    select {
+
+        font-size:
+            14px;
+
+        padding:
+            12px;
+
+    }
+
+
+    button {
+
+        width:
+            100%;
+
+        font-size:
+            14px;
+
+    }
+
+
+    .news-actions {
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .news-actions button {
+
+        width:
+            100%;
+
+    }
+
+
+    .news-card img,
+    .news-item-image {
+
+        height:
+            180px;
+
+    }
+
+
+    .news-content {
+
+        padding:
+            15px;
+
+    }
+
+
+    .news-content h3 {
+
+        font-size:
+            17px;
+
+    }
+
+}
+
+
+
+/* ============================
+   DARK MODE
+============================ */
+
+body.dark {
+
+    background:
+        #111827;
+
+    color:
+        #eeeeee;
+
+}
+
+
+body.dark .card,
+body.dark .news-card,
+body.dark .news-item,
+body.dark .loading,
+body.dark .empty-news {
+
+    background:
+        #1f2937;
+
+    color:
+        #eeeeee;
+
+}
+
+
+body.dark h2 {
+
+    color:
+        #ffffff;
+
+}
+
+
+body.dark .news-content h3 {
+
+    color:
+        #ffffff;
+
+}
+
+
+body.dark .news-content p {
+
+    color:
+        #cccccc;
+
+}
+
+
+body.dark input,
+body.dark textarea,
+body.dark select {
+
+    background:
+        #111827;
+
+    color:
+        #ffffff;
+
+    border-color:
+        #374151;
+
+}
+
+
+body.dark .news-date {
+
+    color:
+        #aaaaaa;
+
+}
+
+
+body.dark hr {
+
+    border-top-color:
+        #374151;
 
 }
