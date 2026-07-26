@@ -717,6 +717,12 @@ function renderNews() {
 
                     </div>
 
+   <a
+    href="news-details.html?id=${encodeURIComponent(news.id)}"
+    class="read-more-btn"
+>
+    বিস্তারিত পড়ুন →
+</a>
 
                     <button
                         class="read-more-btn"
