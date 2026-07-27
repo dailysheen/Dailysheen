@@ -3,249 +3,976 @@
 
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<title>সংবাদ | Daily Sheen</title>
+  <meta
+    name="description"
+    content="Daily Sheen - সর্বশেষ সংবাদ ও বিস্তারিত খবর"
+  >
 
-<meta
-  name="description"
-  content="Daily Sheen - বিস্তারিত সংবাদ"
->
+  <meta
+    name="theme-color"
+    content="#5b21b6"
+  >
 
-<link
-  rel="stylesheet"
-  href="style.css"
->
+  <title>সংবাদ | Daily Sheen</title>
 
-<style>
 
-/* =====================================
-   Daily Sheen V7
-   News Details Page
-===================================== */
+  <!-- =========================================
+       GOOGLE FONT
+  ========================================== -->
 
-.news-details-page {
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
 
-  max-width: 1000px;
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
-  margin: 40px auto;
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
 
-  padding: 0 20px;
 
-}
+  <!-- =========================================
+       MAIN WEBSITE CSS
+  ========================================== -->
 
-.news-details-card {
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
-  background: #ffffff;
 
-  border-radius: 18px;
+  <!-- =========================================
+       NEWS DETAILS CSS
+  ========================================== -->
 
-  padding: 30px;
+  <style>
 
-  box-shadow:
-    0 10px 35px
-    rgba(0,0,0,0.12);
+    /* =================================================
+       Daily Sheen V7
+       Professional News Details Page
+    ================================================= */
 
-}
 
-.news-details-category {
+    /* ================================================
+       RESET / BASE
+    ================================================ */
 
-  display: inline-block;
+    .details-page {
 
-  padding: 7px 14px;
+      width: 100%;
 
-  margin-bottom: 15px;
+      max-width: 1200px;
 
-  border-radius: 20px;
+      margin: 0 auto;
 
-  background:
-    linear-gradient(
-      135deg,
-      #6a11cb,
-      #2575fc
-    );
+      padding:
+        30px 20px 70px;
 
-  color: #ffffff;
+    }
 
-  font-size: 14px;
 
-  font-weight: bold;
+    /* ================================================
+       BREADCRUMB
+    ================================================ */
 
-}
+    .news-breadcrumb {
 
-.news-details-title {
+      display: flex;
 
-  font-size: 36px;
+      align-items: center;
 
-  line-height: 1.4;
+      flex-wrap: wrap;
 
-  color: #222;
+      gap: 8px;
 
-  margin-bottom: 15px;
+      margin-bottom: 22px;
 
-}
+      color: #777;
 
-.news-details-date {
+      font-size: 14px;
 
-  color: #777;
+    }
 
-  font-size: 14px;
 
-  margin-bottom: 25px;
+    .news-breadcrumb a {
 
-}
+      color: #5b21b6;
 
-.news-details-image {
+      text-decoration: none;
 
-  width: 100%;
+      font-weight: 600;
 
-  max-height: 550px;
+    }
 
-  object-fit: cover;
 
-  border-radius: 15px;
+    .news-breadcrumb a:hover {
 
-  margin-bottom: 25px;
+      text-decoration: underline;
 
-}
+    }
 
-.news-details-description {
 
-  color: #333;
+    .breadcrumb-separator {
 
-  font-size: 18px;
+      color: #aaa;
 
-  line-height: 2;
+    }
 
-  white-space: pre-line;
 
-}
+    /* ================================================
+       MAIN LAYOUT
+    ================================================ */
 
-.back-home-btn {
+    .details-layout {
 
-  display: inline-block;
+      display: grid;
 
-  margin-top: 30px;
+      grid-template-columns:
+        minmax(0, 1fr)
+        320px;
 
-  padding: 12px 22px;
+      gap: 28px;
 
-  border-radius: 8px;
+      align-items: start;
 
-  color: #ffffff;
+    }
 
-  background:
-    linear-gradient(
-      135deg,
-      #6a11cb,
-      #2575fc
-    );
 
-  text-decoration: none;
+    /* ================================================
+       ARTICLE CARD
+    ================================================ */
 
-  font-weight: bold;
+    .news-details-card {
 
-}
+      width: 100%;
 
-.back-home-btn:hover {
+      background: #ffffff;
 
-  transform: translateY(-2px);
+      border-radius: 18px;
 
-}
+      padding: 30px;
 
-.news-loading {
+      box-shadow:
+        0 10px 35px
+        rgba(0, 0, 0, 0.10);
 
-  text-align: center;
+      overflow: hidden;
 
-  padding: 50px;
+    }
 
-  font-size: 18px;
 
-}
+    /* ================================================
+       CATEGORY
+    ================================================ */
 
-.news-error {
+    .news-details-category {
 
-  text-align: center;
+      display: inline-flex;
 
-  padding: 40px;
+      align-items: center;
 
-  color: #c62828;
+      padding:
+        7px 14px;
 
-}
+      margin-bottom: 15px;
 
+      border-radius: 30px;
 
-/* Dark Mode */
+      background:
+        linear-gradient(
+          135deg,
+          #6a11cb,
+          #2575fc
+        );
 
-body.dark .news-details-card {
+      color: #fff;
 
-  background: #1e1e1e;
+      font-size: 13px;
 
-}
+      font-weight: 700;
 
-body.dark .news-details-title {
+    }
 
-  color: #ffffff;
 
-}
+    /* ================================================
+       TITLE
+    ================================================ */
 
-body.dark .news-details-description {
+    .news-details-title {
 
-  color: #eeeeee;
+      margin:
+        0 0 16px;
 
-}
+      color: #171717;
 
-body.dark .news-details-date {
+      font-size: 38px;
 
-  color: #bbbbbb;
+      font-weight: 800;
 
-}
+      line-height: 1.45;
 
+      letter-spacing: -0.3px;
 
-/* Mobile */
+      overflow-wrap: anywhere;
 
-@media (max-width: 600px) {
+    }
 
-  .news-details-page {
 
-    margin: 20px auto;
+    /* ================================================
+       META
+    ================================================ */
 
-    padding: 0 12px;
+    .news-details-meta {
 
-  }
+      display: flex;
 
-  .news-details-card {
+      align-items: center;
 
-    padding: 20px 15px;
+      flex-wrap: wrap;
 
-  }
+      gap: 16px;
 
-  .news-details-title {
+      padding-bottom: 20px;
 
-    font-size: 25px;
+      margin-bottom: 22px;
 
-  }
+      border-bottom:
+        1px solid #eeeeee;
 
-  .news-details-description {
+      color: #777;
 
-    font-size: 16px;
+      font-size: 13px;
 
-    line-height: 1.8;
+    }
 
-  }
 
-  .news-details-image {
+    .news-details-meta span {
 
-    max-height: 350px;
+      display: inline-flex;
 
-  }
+      align-items: center;
 
-}
+      gap: 5px;
 
-</style>
+    }
+
+
+    /* ================================================
+       FEATURED IMAGE
+    ================================================ */
+
+    .news-details-image-wrapper {
+
+      width: 100%;
+
+      margin-bottom: 25px;
+
+      border-radius: 15px;
+
+      overflow: hidden;
+
+      background: #f1f1f1;
+
+    }
+
+
+    .news-details-image {
+
+      display: block;
+
+      width: 100%;
+
+      max-height: 600px;
+
+      object-fit: cover;
+
+    }
+
+
+    /* ================================================
+       ARTICLE CONTENT
+    ================================================ */
+
+    .news-details-description {
+
+      color: #333;
+
+      font-size: 18px;
+
+      line-height: 2;
+
+      white-space: pre-line;
+
+      overflow-wrap: anywhere;
+
+    }
+
+
+    .news-details-description p {
+
+      margin-bottom: 18px;
+
+    }
+
+
+    /* ================================================
+       SHARE AREA
+    ================================================ */
+
+    .news-share-area {
+
+      display: flex;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+
+      padding-top: 25px;
+
+      margin-top: 30px;
+
+      border-top:
+        1px solid #eeeeee;
+
+    }
+
+
+    .news-share-title {
+
+      width: 100%;
+
+      margin-bottom: 4px;
+
+      color: #333;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+    }
+
+
+    .share-btn {
+
+      border: none;
+
+      border-radius: 8px;
+
+      padding:
+        10px 15px;
+
+      color: #fff;
+
+      font-family: inherit;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    }
+
+
+    .share-btn:hover {
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 6px 15px
+        rgba(0,0,0,0.15);
+
+    }
+
+
+    .share-facebook {
+
+      background: #1877f2;
+
+    }
+
+
+    .share-copy {
+
+      background: #555;
+
+    }
+
+
+    /* ================================================
+       BACK BUTTON
+    ================================================ */
+
+    .back-home-btn {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      margin-top: 28px;
+
+      padding:
+        11px 20px;
+
+      border-radius: 9px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6a11cb,
+          #2575fc
+        );
+
+      color: #fff;
+
+      text-decoration: none;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    }
+
+
+    .back-home-btn:hover {
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 7px 18px
+        rgba(37, 117, 252, 0.3);
+
+    }
+
+
+    /* ================================================
+       SIDEBAR
+    ================================================ */
+
+    .details-sidebar {
+
+      position: sticky;
+
+      top: 100px;
+
+    }
+
+
+    .sidebar-card {
+
+      background: #fff;
+
+      padding: 20px;
+
+      margin-bottom: 20px;
+
+      border-radius: 15px;
+
+      box-shadow:
+        0 8px 25px
+        rgba(0,0,0,0.08);
+
+    }
+
+
+    .sidebar-title {
+
+      position: relative;
+
+      padding-bottom: 10px;
+
+      margin-bottom: 15px;
+
+      color: #333;
+
+      font-size: 18px;
+
+      font-weight: 800;
+
+    }
+
+
+    .sidebar-title::after {
+
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+
+      bottom: 0;
+
+      width: 45px;
+
+      height: 3px;
+
+      border-radius: 5px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6a11cb,
+          #2575fc
+        );
+
+    }
+
+
+    /* ================================================
+       RELATED NEWS
+    ================================================ */
+
+    .related-news-list {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 14px;
+
+    }
+
+
+    .related-news-item {
+
+      display: flex;
+
+      gap: 10px;
+
+      padding-bottom: 12px;
+
+      border-bottom:
+        1px solid #eeeeee;
+
+    }
+
+
+    .related-news-item:last-child {
+
+      border-bottom: none;
+
+      padding-bottom: 0;
+
+    }
+
+
+    .related-news-image {
+
+      width: 85px;
+
+      height: 65px;
+
+      flex-shrink: 0;
+
+      object-fit: cover;
+
+      border-radius: 7px;
+
+      background: #eee;
+
+    }
+
+
+    .related-news-content {
+
+      min-width: 0;
+
+    }
+
+
+    .related-news-content h4 {
+
+      margin: 0 0 5px;
+
+      color: #333;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+
+      display:
+        -webkit-box;
+
+      -webkit-line-clamp: 2;
+
+      -webkit-box-orient: vertical;
+
+      overflow: hidden;
+
+    }
+
+
+    .related-news-content a {
+
+      color: inherit;
+
+      text-decoration: none;
+
+    }
+
+
+    .related-news-content a:hover h4 {
+
+      color: #5b21b6;
+
+    }
+
+
+    .related-news-date {
+
+      color: #888;
+
+      font-size: 10px;
+
+    }
+
+
+    /* ================================================
+       LOADING
+    ================================================ */
+
+    .news-loading {
+
+      min-height: 350px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-align: center;
+
+      color: #666;
+
+      font-size: 18px;
+
+    }
+
+
+    /* ================================================
+       ERROR
+    ================================================ */
+
+    .news-error {
+
+      padding: 60px 20px;
+
+      text-align: center;
+
+    }
+
+
+    .news-error h2 {
+
+      margin-bottom: 10px;
+
+      color: #c62828;
+
+      font-size: 22px;
+
+    }
+
+
+    .news-error p {
+
+      color: #777;
+
+      font-size: 14px;
+
+    }
+
+
+    /* ================================================
+       BACK TO TOP
+    ================================================ */
+
+    #detailsTopBtn {
+
+      position: fixed;
+
+      right: 20px;
+
+      bottom: 20px;
+
+      width: 45px;
+
+      height: 45px;
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6a11cb,
+          #2575fc
+        );
+
+      color: #fff;
+
+      font-size: 20px;
+
+      cursor: pointer;
+
+      z-index: 999;
+
+      box-shadow:
+        0 6px 18px
+        rgba(0,0,0,0.2);
+
+    }
+
+
+    /* ================================================
+       DARK MODE
+    ================================================ */
+
+    body.dark {
+
+      background: #111827;
+
+      color: #eee;
+
+    }
+
+
+    body.dark .news-details-card,
+
+    body.dark .sidebar-card {
+
+      background: #1f2937;
+
+      box-shadow:
+        0 10px 30px
+        rgba(0,0,0,0.3);
+
+    }
+
+
+    body.dark .news-details-title {
+
+      color: #fff;
+
+    }
+
+
+    body.dark .news-details-description {
+
+      color: #e5e7eb;
+
+    }
+
+
+    body.dark .news-details-meta,
+
+    body.dark .news-share-area,
+
+    body.dark .related-news-item {
+
+      border-color:
+        #374151;
+
+    }
+
+
+    body.dark .news-details-meta,
+
+    body.dark .related-news-date {
+
+      color: #bdbdbd;
+
+    }
+
+
+    body.dark .news-share-title,
+
+    body.dark .sidebar-title,
+
+    body.dark .related-news-content h4 {
+
+      color: #fff;
+
+    }
+
+
+    body.dark .news-breadcrumb {
+
+      color: #aaa;
+
+    }
+
+
+    body.dark .empty-related {
+
+      color: #bbb;
+
+    }
+
+
+    /* ================================================
+       RESPONSIVE
+    ================================================ */
+
+    @media (max-width: 950px) {
+
+      .details-layout {
+
+        grid-template-columns: 1fr;
+
+      }
+
+
+      .details-sidebar {
+
+        position: static;
+
+      }
+
+
+      .related-news-list {
+
+        display: grid;
+
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+      }
+
+    }
+
+
+    @media (max-width: 650px) {
+
+      .details-page {
+
+        padding:
+          20px 12px 50px;
+
+      }
+
+
+      .news-details-card {
+
+        padding:
+          20px 15px;
+
+        border-radius:
+          13px;
+
+      }
+
+
+      .news-details-title {
+
+        font-size:
+          25px;
+
+        line-height:
+          1.5;
+
+      }
+
+
+      .news-details-description {
+
+        font-size:
+          16px;
+
+        line-height:
+          1.9;
+
+      }
+
+
+      .news-details-image {
+
+        max-height:
+          350px;
+
+      }
+
+
+      .news-details-meta {
+
+        gap:
+          10px;
+
+      }
+
+
+      .related-news-list {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .share-btn {
+
+        flex:
+          1;
+
+      }
+
+    }
+
+
+    @media (max-width: 400px) {
+
+      .news-details-title {
+
+        font-size:
+          22px;
+
+      }
+
+
+      .news-details-description {
+
+        font-size:
+          15px;
+
+      }
+
+    }
+
+  </style>
 
 </head>
 
@@ -253,138 +980,291 @@ body.dark .news-details-date {
 <body>
 
 
-<!-- =================================
-     Header
-================================= -->
+<!-- =================================================
+     HEADER
+================================================== -->
 
 <header>
 
-<div class="top-header">
+  <div class="top-header">
 
-<div class="logo">
+    <div class="logo">
 
-<img
-src="assets/logo.png"
-alt="Daily Sheen Logo"
->
+      <a href="index.html">
 
-<div>
+        <img
+          src="assets/logo.png"
+          alt="Daily Sheen Logo"
+        >
 
-<h1>Daily Sheen</h1>
-
-<p>Truth • Speed • Reliability</p>
-
-</div>
-
-</div>
+      </a>
 
 
-<div class="header-right">
+      <div>
 
-<button id="darkBtn">
+        <h1>
+          Daily Sheen
+        </h1>
 
-🌙 Dark Mode
+        <p>
+          Truth • Speed • Reliability
+        </p>
 
-</button>
+      </div>
 
-</div>
-
-</div>
-
-
-<!-- Navigation -->
-
-<nav>
-
-<a href="index.html">
-হোম
-</a>
-
-<a href="index.html?category=বাংলাদেশ">
-বাংলাদেশ
-</a>
-
-<a href="index.html?category=আন্তর্জাতিক">
-আন্তর্জাতিক
-</a>
-
-<a href="index.html?category=রাজনীতি">
-রাজনীতি
-</a>
-
-<a href="index.html?category=স্বাস্থ্য">
-স্বাস্থ্য
-</a>
-
-<a href="index.html?category=রোগ ও চিকিৎসা">
-রোগ ও চিকিৎসা
-</a>
-
-<a href="index.html?category=প্রযুক্তি">
-প্রযুক্তি
-</a>
-
-<a href="index.html?category=খেলাধুলা">
-খেলাধুলা
-</a>
-
-<a href="index.html?category=চাকরি">
-চাকরি
-</a>
-
-</nav>
+    </div>
 
 
-<!-- Search -->
+    <div class="header-right">
 
-<div class="search-box">
+      <button
+        id="darkBtn"
+        type="button"
+      >
 
-<input
-type="text"
-id="searchBox"
-placeholder="সংবাদ খুঁজুন..."
->
+        🌙 Dark Mode
 
-<button id="searchBtn">
+      </button>
 
-🔍 Search
+    </div>
 
-</button>
+  </div>
 
-</div>
+
+  <!-- ==========================================
+       NAVIGATION
+  =========================================== -->
+
+  <nav>
+
+    <a href="index.html">
+      হোম
+    </a>
+
+    <a href="index.html?category=বাংলাদেশ">
+      বাংলাদেশ
+    </a>
+
+    <a href="index.html?category=আন্তর্জাতিক">
+      আন্তর্জাতিক
+    </a>
+
+    <a href="index.html?category=রাজনীতি">
+      রাজনীতি
+    </a>
+
+    <a href="index.html?category=স্বাস্থ্য">
+      স্বাস্থ্য
+    </a>
+
+    <a href="index.html?category=রোগ ও চিকিৎসা">
+      রোগ ও চিকিৎসা
+    </a>
+
+    <a href="index.html?category=প্রযুক্তি">
+      প্রযুক্তি
+    </a>
+
+    <a href="index.html?category=খেলাধুলা">
+      খেলাধুলা
+    </a>
+
+    <a href="index.html?category=চাকরি">
+      চাকরি
+    </a>
+
+  </nav>
+
+
+  <!-- ==========================================
+       SEARCH
+  =========================================== -->
+
+  <div class="search-box">
+
+    <input
+      type="text"
+      id="searchBox"
+      placeholder="সংবাদ খুঁজুন..."
+      autocomplete="off"
+    >
+
+    <button
+      id="searchBtn"
+      type="button"
+    >
+
+      🔍 Search
+
+    </button>
+
+  </div>
 
 </header>
 
 
-<!-- =================================
-     News Details
-================================= -->
 
-<main class="news-details-page">
+<!-- =================================================
+     MAIN
+================================================== -->
 
-<div
-  id="newsDetails"
-  class="news-details-card"
->
+<main class="details-page">
 
-<div class="news-loading">
 
-⏳ সংবাদ লোড হচ্ছে...
+  <!-- ==========================================
+       BREADCRUMB
+  =========================================== -->
 
-</div>
+  <div class="news-breadcrumb">
 
-</div>
+    <a href="index.html">
+      হোম
+    </a>
+
+    <span class="breadcrumb-separator">
+      /
+    </span>
+
+    <span>
+      সংবাদ বিস্তারিত
+    </span>
+
+  </div>
+
+
+
+  <!-- ==========================================
+       LAYOUT
+  =========================================== -->
+
+  <div class="details-layout">
+
+
+    <!-- ========================================
+         MAIN ARTICLE
+    ========================================= -->
+
+    <article
+      id="newsDetails"
+      class="news-details-card"
+    >
+
+      <div class="news-loading">
+
+        ⏳ সংবাদ লোড হচ্ছে...
+
+      </div>
+
+    </article>
+
+
+
+    <!-- ========================================
+         SIDEBAR
+    ========================================= -->
+
+    <aside class="details-sidebar">
+
+
+      <!-- RELATED NEWS -->
+
+      <div class="sidebar-card">
+
+        <h3 class="sidebar-title">
+
+          📰 আরও সংবাদ
+
+        </h3>
+
+
+        <div
+          id="relatedNews"
+          class="related-news-list"
+        >
+
+          <div class="news-loading">
+
+            ⏳ লোড হচ্ছে...
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- QUICK NAVIGATION -->
+
+      <div class="sidebar-card">
+
+        <h3 class="sidebar-title">
+
+          🔗 দ্রুত লিংক
+
+        </h3>
+
+
+        <div class="quick-links">
+
+          <a href="index.html">
+            🏠 হোম
+          </a>
+
+          <a href="index.html?category=বাংলাদেশ">
+            🇧🇩 বাংলাদেশ
+          </a>
+
+          <a href="index.html?category=আন্তর্জাতিক">
+            🌍 আন্তর্জাতিক
+          </a>
+
+          <a href="index.html?category=স্বাস্থ্য">
+            ❤️ স্বাস্থ্য
+          </a>
+
+          <a href="index.html?category=প্রযুক্তি">
+            💻 প্রযুক্তি
+          </a>
+
+          <a href="index.html?category=খেলাধুলা">
+            ⚽ খেলাধুলা
+          </a>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+  </div>
 
 </main>
 
 
-<!-- =================================
-     Firebase News Details JS
-================================= -->
+
+<!-- =================================================
+     BACK TO TOP
+================================================== -->
+
+<button
+  id="detailsTopBtn"
+  type="button"
+  aria-label="Back to top"
+>
+
+  ↑
+
+</button>
+
+
+
+<!-- =================================================
+     NEWS DETAILS JS
+================================================== -->
 
 <script
-type="module"
-src="news-details.js"
+  type="module"
+  src="news-details.js"
 ></script>
 
 
