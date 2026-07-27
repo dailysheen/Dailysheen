@@ -1,49 +1,127 @@
-// ==========================================
+// ======================================================
 // Daily Sheen V7
-// News Details Page
+// Professional News Details Page
 // Firebase Firestore
-// ==========================================
+// Related News + Share + Copy Link
+// Dark Mode + Search + Back To Top
+// ======================================================
+
+
+// ======================================================
+// Firebase App
+// ======================================================
 
 import { app } from "./firebase-config.js";
+
+
+// ======================================================
+// Firebase Firestore
+// ======================================================
 
 import {
   getFirestore,
   doc,
-  getDoc
+  getDoc,
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  limit
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-const db = getFirestore(app);
+// ======================================================
+// Initialize Firestore
+// ======================================================
+
+const db =
+  getFirestore(app);
 
 
-// ==========================================
-// HTML Element
-// ==========================================
+// ======================================================
+// HTML ELEMENTS
+// ======================================================
 
 const newsDetails =
-  document.getElementById("newsDetails");
+  document.getElementById(
+    "newsDetails"
+  );
 
 
-// ==========================================
-// Get News ID
-// URL Example:
+const relatedNews =
+  document.getElementById(
+    "relatedNews"
+  );
+
+
+const darkBtn =
+  document.getElementById(
+    "darkBtn"
+  );
+
+
+const searchBtn =
+  document.getElementById(
+    "searchBtn"
+  );
+
+
+const searchBox =
+  document.getElementById(
+    "searchBox"
+  );
+
+
+const detailsTopBtn =
+  document.getElementById(
+    "detailsTopBtn"
+  );
+
+
+// ======================================================
+// GET NEWS ID
+//
+// Example:
 // news-details.html?id=ABC123
-// ==========================================
+// ======================================================
 
 const urlParams =
   new URLSearchParams(
     window.location.search
   );
 
+
 const newsId =
-  urlParams.get("id");
+  urlParams.get(
+    "id"
+  );
 
 
-// ==========================================
-// Load News
-// ==========================================
+// ======================================================
+// GLOBAL NEWS DATA
+// ======================================================
+
+let currentNews = null;
+
+
+// ======================================================
+// DEFAULT IMAGE
+// ======================================================
+
+const defaultImage =
+  "assets/news1.jpg";
+
+
+// ======================================================
+// LOAD NEWS DETAILS
+// ======================================================
 
 async function loadNewsDetails() {
+
+
+  // ====================================================
+  // Check News ID
+  // ====================================================
 
   if (!newsId) {
 
@@ -56,7 +134,19 @@ async function loadNewsDetails() {
   }
 
 
+  // ====================================================
+  // Show Loading
+  // ====================================================
+
+  showLoading();
+
+
   try {
+
+
+    // ==================================================
+    // News Document Reference
+    // ==================================================
 
     const newsRef =
       doc(
@@ -66,13 +156,23 @@ async function loadNewsDetails() {
       );
 
 
+    // ==================================================
+    // Get News
+    // ==================================================
+
     const newsSnapshot =
       await getDoc(
         newsRef
       );
 
 
-    if (!newsSnapshot.exists()) {
+    // ==================================================
+    // Check Exists
+    // ==================================================
+
+    if (
+      !newsSnapshot.exists()
+    ) {
 
       showError(
         "❌ সংবাদটি পাওয়া যায়নি।"
@@ -83,16 +183,40 @@ async function loadNewsDetails() {
     }
 
 
-    const news =
-      newsSnapshot.data();
+    // ==================================================
+    // News Data
+    // ==================================================
 
+    currentNews = {
+
+      id:
+        newsSnapshot.id,
+
+      ...newsSnapshot.data()
+
+    };
+
+
+    // ==================================================
+    // Display Main News
+    // ==================================================
 
     displayNews(
-      news
+      currentNews
+    );
+
+
+    // ==================================================
+    // Load Related News
+    // ==================================================
+
+    await loadRelatedNews(
+      currentNews
     );
 
 
   } catch (error) {
+
 
     console.error(
       "News Details Error:",
@@ -109,93 +233,231 @@ async function loadNewsDetails() {
 }
 
 
-// ==========================================
-// Display News
-// ==========================================
+// ======================================================
+// DISPLAY MAIN NEWS
+// ======================================================
 
-function displayNews(news) {
+function displayNews(
+  news
+) {
 
-  let dateText =
-    "সম্প্রতি প্রকাশিত";
+
+  // ====================================================
+  // CATEGORY
+  // ====================================================
+
+  const category =
+    news.category ||
+    "সাধারণ";
 
 
-  if (
-    news.createdAt &&
-    typeof news.createdAt.toDate ===
-      "function"
-  ) {
+  // ====================================================
+  // TITLE
+  // ====================================================
 
-    dateText =
+  const title =
+    news.title ||
+    "সংবাদের শিরোনাম";
+
+
+  // ====================================================
+  // DESCRIPTION
+  // ====================================================
+
+  const description =
+    news.description ||
+    "সংবাদের বিস্তারিত তথ্য পাওয়া যায়নি।";
+
+
+  // ====================================================
+  // DATE
+  // ====================================================
+
+  const dateText =
+    formatDate(
       news.createdAt
-        .toDate()
-        .toLocaleString(
-          "bn-BD"
-        );
-
-  }
+    );
 
 
-  const imageHTML =
-    news.image
-      ? `
-        <img
-          src="${escapeHTML(news.image)}"
-          alt="${escapeHTML(
-            news.title || "Daily Sheen News"
-          )}"
-          class="news-details-image"
-          onerror="this.style.display='none'"
-        >
-      `
-      : "";
+  // ====================================================
+  // IMAGE
+  // ====================================================
 
+  const image =
+    news.image ||
+    defaultImage;
+
+
+  // ====================================================
+  // PAGE TITLE
+  // ====================================================
+
+  document.title =
+    title +
+    " | Daily Sheen";
+
+
+  // ====================================================
+  // MAIN ARTICLE
+  // ====================================================
 
   newsDetails.innerHTML = `
 
+    <!-- ==========================================
+         CATEGORY
+    =========================================== -->
+
     <span class="news-details-category">
 
+      🏷️
       ${escapeHTML(
-        news.category ||
-        "সাধারণ"
+        category
       )}
 
     </span>
 
 
+    <!-- ==========================================
+         TITLE
+    =========================================== -->
+
     <h1 class="news-details-title">
 
       ${escapeHTML(
-        news.title ||
-        "সংবাদের শিরোনাম"
+        title
       )}
 
     </h1>
 
 
-    <div class="news-details-date">
+    <!-- ==========================================
+         META
+    =========================================== -->
 
-      📅 প্রকাশিত:
-      ${dateText}
+    <div class="news-details-meta">
+
+      <span>
+
+        📅
+
+        প্রকাশিত:
+
+        ${escapeHTML(
+          dateText
+        )}
+
+      </span>
+
+
+      <span>
+
+        📰
+
+        Daily Sheen
+
+      </span>
 
     </div>
 
 
-    ${imageHTML}
+    <!-- ==========================================
+         FEATURED IMAGE
+    =========================================== -->
 
+    <div class="news-details-image-wrapper">
+
+      <img
+
+        src="${escapeHTML(
+          image
+        )}"
+
+        alt="${escapeHTML(
+          title
+        )}"
+
+        class="news-details-image"
+
+        loading="eager"
+
+        onerror="
+          this.onerror=null;
+          this.src='${defaultImage}';
+        "
+
+      >
+
+    </div>
+
+
+    <!-- ==========================================
+         ARTICLE CONTENT
+    =========================================== -->
 
     <div class="news-details-description">
 
-      ${escapeHTML(
-        news.description ||
-        "সংবাদের বিস্তারিত তথ্য পাওয়া যায়নি।"
+      ${formatDescription(
+        description
       )}
 
     </div>
 
 
+    <!-- ==========================================
+         SHARE
+    =========================================== -->
+
+    <div class="news-share-area">
+
+      <div class="news-share-title">
+
+        📤 সংবাদটি শেয়ার করুন
+
+      </div>
+
+
+      <button
+
+        type="button"
+
+        class="share-btn share-facebook"
+
+        id="facebookShareBtn"
+
+      >
+
+        Facebook
+
+      </button>
+
+
+      <button
+
+        type="button"
+
+        class="share-btn share-copy"
+
+        id="copyLinkBtn"
+
+      >
+
+        🔗 Copy Link
+
+      </button>
+
+    </div>
+
+
+    <!-- ==========================================
+         BACK BUTTON
+    =========================================== -->
+
     <a
+
       href="index.html"
+
       class="back-home-btn"
+
     >
 
       ← সকল সংবাদে ফিরে যান
@@ -205,38 +467,654 @@ function displayNews(news) {
   `;
 
 
-  // Update Page Title
+  // ====================================================
+  // SHARE BUTTON EVENTS
+  // ====================================================
 
-  if (news.title) {
+  setupShareButtons();
 
-    document.title =
-      news.title +
-      " | Daily Sheen";
+}
+
+
+// ======================================================
+// FORMAT DESCRIPTION
+// ======================================================
+
+function formatDescription(
+  description
+) {
+
+
+  if (
+    !description
+  ) {
+
+    return `
+      <p>
+        সংবাদের বিস্তারিত তথ্য পাওয়া যায়নি।
+      </p>
+    `;
+
+  }
+
+
+  // ====================================================
+  // Escape HTML
+  // ====================================================
+
+  const safeText =
+    escapeHTML(
+      description
+    );
+
+
+  // ====================================================
+  // Preserve Line Break
+  // ====================================================
+
+  return safeText
+    .split(
+      "\n"
+    )
+    .map(
+      (paragraph) => {
+
+        if (
+          !paragraph.trim()
+        ) {
+
+          return "";
+
+        }
+
+
+        return `
+          <p>
+            ${paragraph}
+          </p>
+        `;
+
+      }
+    )
+    .join(
+      ""
+    );
+
+}
+
+
+// ======================================================
+// LOAD RELATED NEWS
+// ======================================================
+
+async function loadRelatedNews(
+  current
+) {
+
+
+  if (
+    !relatedNews
+  ) {
+
+    return;
+
+  }
+
+
+  relatedNews.innerHTML = `
+
+    <div class="news-loading">
+
+      ⏳ আরও সংবাদ লোড হচ্ছে...
+
+    </div>
+
+  `;
+
+
+  try {
+
+
+    // ==================================================
+    // First Try:
+    // Same Category News
+    // ==================================================
+
+    let relatedQuery =
+      query(
+
+        collection(
+          db,
+          "news"
+        ),
+
+        orderBy(
+          "createdAt",
+          "desc"
+        ),
+
+        limit(
+          10
+        )
+
+      );
+
+
+    const snapshot =
+      await getDocs(
+        relatedQuery
+      );
+
+
+    let relatedList = [];
+
+
+    snapshot.forEach(
+      (newsDoc) => {
+
+
+        // ==============================================
+        // Exclude Current News
+        // ==============================================
+
+        if (
+          newsDoc.id ===
+          current.id
+        ) {
+
+          return;
+
+        }
+
+
+        const news =
+          newsDoc.data();
+
+
+        // ==============================================
+        // Same Category
+        // ==============================================
+
+        if (
+          current.category &&
+          news.category ===
+            current.category
+        ) {
+
+          relatedList.push({
+
+            id:
+              newsDoc.id,
+
+            ...news
+
+          });
+
+        }
+
+      }
+    );
+
+
+    // ==================================================
+    // If Same Category Less Than 4
+    // Add Other News
+    // ==================================================
+
+    if (
+      relatedList.length <
+      4
+    ) {
+
+
+      snapshot.forEach(
+        (newsDoc) => {
+
+
+          if (
+            newsDoc.id ===
+            current.id
+          ) {
+
+            return;
+
+          }
+
+
+          const alreadyAdded =
+            relatedList.some(
+              (item) =>
+                item.id ===
+                newsDoc.id
+            );
+
+
+          if (
+            alreadyAdded
+          ) {
+
+            return;
+
+          }
+
+
+          relatedList.push({
+
+            id:
+              newsDoc.id,
+
+            ...newsDoc.data()
+
+          });
+
+        }
+      );
+
+    }
+
+
+    // ==================================================
+    // Maximum 5 Related News
+    // ==================================================
+
+    relatedList =
+      relatedList.slice(
+        0,
+        5
+      );
+
+
+    // ==================================================
+    // Render Related News
+    // ==================================================
+
+    renderRelatedNews(
+      relatedList
+    );
+
+
+  } catch (error) {
+
+
+    console.error(
+      "Related News Error:",
+      error
+    );
+
+
+    relatedNews.innerHTML = `
+
+      <div class="empty-related">
+
+        📰 এই মুহূর্তে আরও সংবাদ পাওয়া যাচ্ছে না।
+
+      </div>
+
+    `;
 
   }
 
 }
 
 
-// ==========================================
-// Error Message
-// ==========================================
+// ======================================================
+// RENDER RELATED NEWS
+// ======================================================
 
-function showError(message) {
+function renderRelatedNews(
+  newsList
+) {
+
+
+  if (
+    !relatedNews
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !newsList ||
+    newsList.length ===
+      0
+  ) {
+
+    relatedNews.innerHTML = `
+
+      <div class="empty-related">
+
+        📰 এই বিভাগে অন্য কোনো সংবাদ নেই।
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  relatedNews.innerHTML =
+    "";
+
+
+  newsList.forEach(
+    (news) => {
+
+
+      const image =
+        news.image ||
+        defaultImage;
+
+
+      const title =
+        news.title ||
+        "সংবাদের শিরোনাম";
+
+
+      const date =
+        formatDate(
+          news.createdAt
+        );
+
+
+      const item =
+        document.createElement(
+          "article"
+        );
+
+
+      item.className =
+        "related-news-item";
+
+
+      item.innerHTML = `
+
+        <a
+
+          href="news-details.html?id=${encodeURIComponent(
+            news.id
+          )}"
+
+        >
+
+          <img
+
+            src="${escapeHTML(
+              image
+            )}"
+
+            alt="${escapeHTML(
+              title
+            )}"
+
+            class="related-news-image"
+
+            loading="lazy"
+
+            onerror="
+              this.onerror=null;
+              this.src='${defaultImage}';
+            "
+
+          >
+
+        </a>
+
+
+        <div class="related-news-content">
+
+          <a
+
+            href="news-details.html?id=${encodeURIComponent(
+              news.id
+            )}"
+
+          >
+
+            <h4>
+
+              ${escapeHTML(
+                title
+              )}
+
+            </h4>
+
+          </a>
+
+
+          <div class="related-news-date">
+
+            📅
+            ${escapeHTML(
+              date
+            )}
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      relatedNews.appendChild(
+        item
+      );
+
+    }
+  );
+
+}
+
+
+// ======================================================
+// SHARE BUTTONS
+// ======================================================
+
+function setupShareButtons() {
+
+
+  const facebookShareBtn =
+    document.getElementById(
+      "facebookShareBtn"
+    );
+
+
+  const copyLinkBtn =
+    document.getElementById(
+      "copyLinkBtn"
+    );
+
+
+  // ====================================================
+  // FACEBOOK SHARE
+  // ====================================================
+
+  if (
+    facebookShareBtn
+  ) {
+
+    facebookShareBtn.addEventListener(
+      "click",
+      () => {
+
+
+        const shareURL =
+          encodeURIComponent(
+            window.location.href
+          );
+
+
+        const facebookURL =
+          "https://www.facebook.com/sharer/sharer.php?u=" +
+          shareURL;
+
+
+        window.open(
+
+          facebookURL,
+
+          "_blank",
+
+          "width=600,height=500"
+
+        );
+
+      }
+    );
+
+  }
+
+
+  // ====================================================
+  // COPY LINK
+  // ====================================================
+
+  if (
+    copyLinkBtn
+  ) {
+
+    copyLinkBtn.addEventListener(
+      "click",
+      async () => {
+
+
+        try {
+
+
+          await navigator.clipboard.writeText(
+
+            window.location.href
+
+          );
+
+
+          copyLinkBtn.textContent =
+            "✅ Link Copied";
+
+
+          setTimeout(
+            () => {
+
+              copyLinkBtn.textContent =
+                "🔗 Copy Link";
+
+            },
+            2000
+          );
+
+
+        } catch (
+          error
+        ) {
+
+
+          console.error(
+            "Copy Link Error:",
+            error
+          );
+
+
+          // ==================================================
+          // Fallback
+          // ==================================================
+
+          const tempInput =
+            document.createElement(
+              "input"
+            );
+
+
+          tempInput.value =
+            window.location.href;
+
+
+          document.body.appendChild(
+            tempInput
+          );
+
+
+          tempInput.select();
+
+
+          document.execCommand(
+            "copy"
+          );
+
+
+          tempInput.remove();
+
+
+          copyLinkBtn.textContent =
+            "✅ Link Copied";
+
+
+          setTimeout(
+            () => {
+
+              copyLinkBtn.textContent =
+                "🔗 Copy Link";
+
+            },
+            2000
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+}
+
+
+// ======================================================
+// ERROR MESSAGE
+// ======================================================
+
+function showError(
+  message
+) {
+
+
+  if (
+    !newsDetails
+  ) {
+
+    return;
+
+  }
+
 
   newsDetails.innerHTML = `
 
     <div class="news-error">
 
       <h2>
-        ${message}
+
+        ${escapeHTML(
+          message
+        )}
+
       </h2>
 
-      <br>
+
+      <p>
+
+        দুঃখিত, আপনার অনুরোধ করা সংবাদটি প্রদর্শন করা সম্ভব হয়নি।
+
+      </p>
+
 
       <a
+
         href="index.html"
+
         class="back-home-btn"
+
       >
 
         ← হোম পেজে ফিরে যান
@@ -247,14 +1125,167 @@ function showError(message) {
 
   `;
 
+
+  if (
+    relatedNews
+  ) {
+
+    relatedNews.innerHTML = "";
+
+  }
+
 }
 
 
-// ==========================================
-// Escape HTML
-// ==========================================
+// ======================================================
+// LOADING
+// ======================================================
 
-function escapeHTML(value) {
+function showLoading() {
+
+
+  if (
+    newsDetails
+  ) {
+
+    newsDetails.innerHTML = `
+
+      <div class="news-loading">
+
+        ⏳ সংবাদ লোড হচ্ছে...
+
+      </div>
+
+    `;
+
+  }
+
+
+  if (
+    relatedNews
+  ) {
+
+    relatedNews.innerHTML = `
+
+      <div class="news-loading">
+
+        ⏳ লোড হচ্ছে...
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+// ======================================================
+// FORMAT DATE
+// ======================================================
+
+function formatDate(
+  timestamp
+) {
+
+
+  if (
+    !timestamp
+  ) {
+
+    return "সাম্প্রতিক প্রকাশিত";
+
+  }
+
+
+  try {
+
+
+    // ==================================================
+    // Firebase Timestamp
+    // ==================================================
+
+    if (
+      typeof timestamp.toDate ===
+      "function"
+    ) {
+
+      return timestamp
+        .toDate()
+        .toLocaleString(
+          "bn-BD"
+        );
+
+    }
+
+
+    // ==================================================
+    // JavaScript Date
+    // ==================================================
+
+    if (
+      timestamp instanceof Date
+    ) {
+
+      return timestamp
+        .toLocaleString(
+          "bn-BD"
+        );
+
+    }
+
+
+    // ==================================================
+    // String / Number
+    // ==================================================
+
+    const date =
+      new Date(
+        timestamp
+      );
+
+
+    if (
+      !isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return date
+        .toLocaleString(
+          "bn-BD"
+        );
+
+    }
+
+
+  } catch (
+    error
+  ) {
+
+
+    console.log(
+      "Date Format Error:",
+      error
+    );
+
+  }
+
+
+  return "সাম্প্রতিক প্রকাশিত";
+
+}
+
+
+// ======================================================
+// ESCAPE HTML
+// Security Function
+// ======================================================
+
+function escapeHTML(
+  value
+) {
+
 
   if (
     value === null ||
@@ -266,7 +1297,9 @@ function escapeHTML(value) {
   }
 
 
-  return String(value)
+  return String(
+    value
+  )
 
     .replace(
       /&/g,
@@ -296,52 +1329,78 @@ function escapeHTML(value) {
 }
 
 
-// ==========================================
-// Dark Mode
-// ==========================================
+// ======================================================
+// DARK MODE
+// ======================================================
 
-const darkBtn =
-  document.getElementById(
-    "darkBtn"
-  );
+function updateDarkButton() {
 
 
-if (darkBtn) {
+  if (
+    !darkBtn
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    document.body.classList.contains(
+      "dark"
+    )
+  ) {
+
+    darkBtn.textContent =
+      "☀️ Light Mode";
+
+  } else {
+
+    darkBtn.textContent =
+      "🌙 Dark Mode";
+
+  }
+
+}
+
+
+// ======================================================
+// DARK MODE CLICK
+// ======================================================
+
+if (
+  darkBtn
+) {
+
 
   darkBtn.addEventListener(
     "click",
     () => {
+
 
       document.body.classList.toggle(
         "dark"
       );
 
 
-      if (
+      const isDark =
         document.body.classList.contains(
           "dark"
-        )
-      ) {
-
-        darkBtn.innerHTML =
-          "☀️ Light Mode";
-
-        localStorage.setItem(
-          "theme",
-          "dark"
         );
 
-      } else {
 
-        darkBtn.innerHTML =
-          "🌙 Dark Mode";
+      localStorage.setItem(
 
-        localStorage.setItem(
-          "theme",
-          "light"
-        );
+        "dailySheenTheme",
 
-      }
+        isDark
+          ? "dark"
+          : "light"
+
+      );
+
+
+      updateDarkButton();
 
     }
   );
@@ -349,56 +1408,51 @@ if (darkBtn) {
 }
 
 
-// Restore Theme
+// ======================================================
+// RESTORE DARK MODE
+// ======================================================
 
 if (
   localStorage.getItem(
-    "theme"
-  ) === "dark"
+    "dailySheenTheme"
+  ) ===
+  "dark"
 ) {
+
 
   document.body.classList.add(
     "dark"
   );
 
-
-  if (darkBtn) {
-
-    darkBtn.innerHTML =
-      "☀️ Light Mode";
-
-  }
-
 }
 
 
-// ==========================================
-// Search
-// ==========================================
-
-const searchBtn =
-  document.getElementById(
-    "searchBtn"
-  );
+updateDarkButton();
 
 
-const searchBox =
-  document.getElementById(
-    "searchBox"
-  );
+// ======================================================
+// SEARCH
+// ======================================================
 
+if (
+  searchBtn
+) {
 
-if (searchBtn) {
 
   searchBtn.addEventListener(
     "click",
     () => {
 
+
       const keyword =
-        searchBox.value.trim();
+        searchBox
+          ? searchBox.value.trim()
+          : "";
 
 
-      if (!keyword) {
+      if (
+        !keyword
+      ) {
 
         return;
 
@@ -406,7 +1460,9 @@ if (searchBtn) {
 
 
       window.location.href =
+
         "index.html?search=" +
+
         encodeURIComponent(
           keyword
         );
@@ -417,18 +1473,36 @@ if (searchBtn) {
 }
 
 
-if (searchBox) {
+// ======================================================
+// SEARCH ENTER
+// ======================================================
+
+if (
+  searchBox
+) {
+
 
   searchBox.addEventListener(
-    "keyup",
+    "keydown",
     (event) => {
+
 
       if (
         event.key ===
         "Enter"
       ) {
 
-        searchBtn.click();
+
+        event.preventDefault();
+
+
+        if (
+          searchBtn
+        ) {
+
+          searchBtn.click();
+
+        }
 
       }
 
@@ -438,13 +1512,80 @@ if (searchBox) {
 }
 
 
-// ==========================================
-// Start
-// ==========================================
+// ======================================================
+// BACK TO TOP
+// ======================================================
 
-loadNewsDetails();
+window.addEventListener(
+  "scroll",
+  () => {
 
+
+    if (
+      !detailsTopBtn
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      window.scrollY >
+      400
+    ) {
+
+      detailsTopBtn.style.display =
+        "flex";
+
+    } else {
+
+      detailsTopBtn.style.display =
+        "none";
+
+    }
+
+  }
+);
+
+
+// ======================================================
+// BACK TO TOP CLICK
+// ======================================================
+
+if (
+  detailsTopBtn
+) {
+
+
+  detailsTopBtn.addEventListener(
+    "click",
+    () => {
+
+
+      window.scrollTo({
+
+        top:
+          0,
+
+        behavior:
+          "smooth"
+
+      });
+
+    }
+  );
+
+}
+
+
+// ======================================================
+// START APPLICATION
+// ======================================================
 
 console.log(
-  "✅ Daily Sheen News Details Loaded"
+  "✅ Daily Sheen V7 Professional News Details Started"
 );
+
+
+loadNewsDetails();
