@@ -1571,3 +1571,548 @@ body.dark .read-more-btn {
     color: #ffffff;
 
 }
+
+/* =====================================================
+   Daily Sheen V7
+   PROFESSIONAL NEWS DETAILS PAGE
+===================================================== */
+
+
+/* =====================================================
+   NEWS DETAILS PAGE
+===================================================== */
+
+.news-details-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px 15px 70px;
+    background: #f5f7fc;
+}
+
+
+/* =====================================================
+   MAIN DETAILS CONTAINER
+===================================================== */
+
+.news-details-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+
+/* =====================================================
+   NEWS DETAILS CARD
+===================================================== */
+
+#newsDetails {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.10);
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   CATEGORY
+===================================================== */
+
+.news-details-category {
+    display: inline-block;
+
+    padding: 7px 15px;
+
+    margin-bottom: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6a11cb,
+            #2575fc
+        );
+
+    color: #ffffff;
+
+    border-radius: 30px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    line-height: 1.4;
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.news-details-title {
+    margin: 0 0 15px;
+
+    color: #222222;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    line-height: 1.45;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+.news-details-date {
+    margin-bottom: 25px;
+
+    color: #777777;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   NEWS IMAGE
+===================================================== */
+
+.news-details-image {
+    display: block;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    height: auto;
+
+    max-height: 550px;
+
+    object-fit: cover;
+
+    margin: 0 auto 30px;
+
+    border-radius: 16px;
+
+    background: #eeeeee;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.10);
+}
+
+
+/* =====================================================
+   NEWS DESCRIPTION / CONTENT
+===================================================== */
+
+.news-details-description {
+    width: 100%;
+
+    color: #333333;
+
+    font-size: 17px;
+
+    line-height: 2;
+
+    text-align: justify;
+
+    overflow-wrap: anywhere;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   BACK HOME BUTTON
+===================================================== */
+
+.back-home-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-top: 35px;
+
+    padding: 12px 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6a11cb,
+            #2575fc
+        );
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        opacity 0.3s ease;
+}
+
+
+.back-home-btn:hover {
+    color: #ffffff;
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(37, 117, 252, 0.30);
+}
+
+
+.back-home-btn:active {
+    transform:
+        scale(0.97);
+}
+
+
+/* =====================================================
+   ERROR MESSAGE
+===================================================== */
+
+.news-error {
+    width: 100%;
+
+    padding: 50px 25px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.10);
+}
+
+
+.news-error h2 {
+    margin-bottom: 15px;
+
+    color: #d32f2f;
+
+    font-size: 22px;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   LOADING STATE
+===================================================== */
+
+.news-loading {
+    width: 100%;
+
+    padding: 60px 20px;
+
+    text-align: center;
+
+    color: #6a11cb;
+
+    font-size: 17px;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+body.dark .news-details-page {
+    background:
+        #101116;
+}
+
+
+body.dark #newsDetails {
+    background:
+        #1b1d24;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0, 0, 0, 0.40);
+}
+
+
+body.dark .news-details-title {
+    color:
+        #ffffff;
+}
+
+
+body.dark .news-details-date {
+    color:
+        #aaaaaa;
+}
+
+
+body.dark .news-details-description {
+    color:
+        #dddddd;
+}
+
+
+body.dark .news-error {
+    background:
+        #1b1d24;
+}
+
+
+body.dark .news-error h2 {
+    color:
+        #ff6b6b;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .news-details-page {
+        padding:
+            25px 12px 50px;
+    }
+
+
+    #newsDetails {
+        padding:
+            22px;
+
+        border-radius:
+            15px;
+    }
+
+
+    .news-details-title {
+        font-size:
+            27px;
+
+        line-height:
+            1.5;
+    }
+
+
+    .news-details-description {
+        font-size:
+            16px;
+
+        line-height:
+            1.9;
+
+        text-align:
+            left;
+    }
+
+
+    .news-details-image {
+        max-height:
+            450px;
+
+        border-radius:
+            12px;
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .news-details-page {
+        padding:
+            15px 8px 40px;
+    }
+
+
+    #newsDetails {
+        padding:
+            18px 15px;
+
+        border-radius:
+            12px;
+    }
+
+
+    .news-details-category {
+        padding:
+            6px 12px;
+
+        font-size:
+            11px;
+    }
+
+
+    .news-details-title {
+        font-size:
+            23px;
+
+        line-height:
+            1.5;
+
+        margin-bottom:
+            12px;
+    }
+
+
+    .news-details-date {
+        margin-bottom:
+            18px;
+
+        font-size:
+            11px;
+    }
+
+
+    .news-details-image {
+        width:
+            100%;
+
+        max-height:
+            300px;
+
+        margin-bottom:
+            20px;
+
+        border-radius:
+            10px;
+    }
+
+
+    .news-details-description {
+        font-size:
+            15px;
+
+        line-height:
+            1.9;
+
+        text-align:
+            left;
+    }
+
+
+    .back-home-btn {
+        width:
+            100%;
+
+        margin-top:
+            25px;
+
+        padding:
+            12px 15px;
+
+        font-size:
+            13px;
+    }
+
+
+    .news-error {
+        padding:
+            40px 15px;
+    }
+
+
+    .news-error h2 {
+        font-size:
+            18px;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 400px) {
+
+    .news-details-page {
+        padding:
+            10px 6px 30px;
+    }
+
+
+    #newsDetails {
+        padding:
+            15px 12px;
+
+        border-radius:
+            10px;
+    }
+
+
+    .news-details-title {
+        font-size:
+            20px;
+    }
+
+
+    .news-details-description {
+        font-size:
+            14px;
+
+        line-height:
+            1.85;
+    }
+
+
+    .news-details-image {
+        max-height:
+            230px;
+    }
+
+}
+
+
+/* =====================================================
+   IMAGE ERROR FALLBACK
+===================================================== */
+
+.news-details-image[src=""] {
+    display:
+        none;
+}
+
+
+/* =====================================================
+   TEXT SELECTION
+===================================================== */
+
+.news-details-title,
+.news-details-description {
+    user-select:
+        text;
+}
+
+
+/* =====================================================
+   END NEWS DETAILS V7 CSS
+===================================================== */
