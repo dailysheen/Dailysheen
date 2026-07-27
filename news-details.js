@@ -1197,4 +1197,56 @@ function escapeHTML(
         value
     )
 
-       
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// =====================================================
+// ESCAPE ATTRIBUTE
+// =====================================================
+
+function escapeAttribute(
+    value
+) {
+
+    return escapeHTML(
+        value
+    );
+
+}
+
+
+// =====================================================
+// START
+// =====================================================
+
+console.log(
+    "✅ Daily Sheen V7 Professional News Details Started"
+);
+
+
+loadNewsDetails();
