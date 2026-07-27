@@ -1,25 +1,8 @@
 // ======================================================
 // Daily Sheen V7
 // Admin Dashboard
-// Part 1 + Part 2 + Part 3 + Part 4
-//
-// Firebase Authentication
-// Firestore News Management
-//
-// Features:
-// 1. Admin Authentication Protection
-// 2. Admin Logout
-// 3. Add / Publish News
-// 4. Edit / Update News
-// 5. Cancel Edit
-// 6. Delete News
-// 7. Refresh News
-// 8. Total News Statistics
-// 9. Total Categories Statistics
-// 10. Image URL Support
-// 11. Created By Support
-// 12. Firestore Timestamp
-// 13. HTML Escape Security
+// Firebase Authentication + Firestore
+// Add + Edit + Update + Delete News
 // ======================================================
 
 
@@ -42,7 +25,7 @@ import {
 
 
 // ======================================================
-// FIREBASE FIRESTORE
+// FIRESTORE
 // ======================================================
 
 import {
@@ -50,8 +33,8 @@ import {
   collection,
   addDoc,
   getDocs,
-  deleteDoc,
   updateDoc,
+  deleteDoc,
   doc,
   query,
   orderBy,
@@ -63,11 +46,9 @@ import {
 // INITIALIZE FIREBASE
 // ======================================================
 
-const auth =
-  getAuth(app);
+const auth = getAuth(app);
 
-const db =
-  getFirestore(app);
+const db = getFirestore(app);
 
 
 // ======================================================
@@ -75,51 +56,47 @@ const db =
 // ======================================================
 
 const newsForm =
-  document.getElementById(
-    "newsForm"
-  );
+  document.getElementById("newsForm");
 
 
 const newsList =
-  document.getElementById(
-    "newsList"
-  );
+  document.getElementById("newsList");
 
 
 const totalNews =
-  document.getElementById(
-    "totalNews"
-  );
+  document.getElementById("totalNews");
 
 
 const totalCategories =
-  document.getElementById(
-    "totalCategories"
-  );
+  document.getElementById("totalCategories");
 
 
 const adminEmail =
-  document.getElementById(
-    "adminEmail"
-  );
+  document.getElementById("adminEmail");
 
 
 const dashboardMsg =
-  document.getElementById(
-    "dashboardMsg"
-  );
+  document.getElementById("dashboardMsg");
 
 
 const logoutBtn =
-  document.getElementById(
-    "logoutBtn"
-  );
+  document.getElementById("logoutBtn");
 
 
 const refreshBtn =
-  document.getElementById(
-    "refreshBtn"
-  );
+  document.getElementById("refreshBtn");
+
+
+const saveNewsBtn =
+  document.getElementById("saveNewsBtn");
+
+
+const cancelEditBtn =
+  document.getElementById("cancelEditBtn");
+
+
+const formTitle =
+  document.getElementById("formTitle");
 
 
 // ======================================================
@@ -127,43 +104,32 @@ const refreshBtn =
 // ======================================================
 
 const categoryElement =
-  document.getElementById(
-    "newsCategory"
-  );
+  document.getElementById("newsCategory");
 
 
 const titleElement =
-  document.getElementById(
-    "newsTitle"
-  );
+  document.getElementById("newsTitle");
 
 
 const descriptionElement =
-  document.getElementById(
-    "newsDescription"
-  );
+  document.getElementById("newsDescription");
 
 
 const imageElement =
-  document.getElementById(
-    "newsImage"
-  );
-
-
-const submitButton =
-  document.getElementById(
-    "saveNewsBtn"
-  );
+  document.getElementById("newsImage");
 
 
 // ======================================================
-// EDIT STATE
+// GLOBAL VARIABLES
 // ======================================================
 
-// null = Add Mode
-// News ID = Edit Mode
 
-let editingNewsId = null;
+// Edit Mode
+let editNewsId = null;
+
+
+// Prevent multiple auth loads
+let currentUser = null;
 
 
 // ======================================================
@@ -177,9 +143,7 @@ function showMessage(
 
   if (!dashboardMsg) {
 
-    console.log(
-      message
-    );
+    console.log(message);
 
     return;
 
@@ -198,6 +162,10 @@ function showMessage(
     "8px";
 
 
+  dashboardMsg.style.margin =
+    "15px 0";
+
+
   if (
     type === "error"
   ) {
@@ -208,7 +176,9 @@ function showMessage(
     dashboardMsg.style.background =
       "#ffebee";
 
-  } else {
+  }
+
+  else {
 
     dashboardMsg.style.color =
       "#087f23";
@@ -250,9 +220,9 @@ onAuthStateChanged(
   auth,
   async (user) => {
 
-    // ================================================
-    // USER NOT LOGGED IN
-    // ================================================
+    // ==============================================
+    // NOT LOGGED IN
+    // ==============================================
 
     if (!user) {
 
@@ -270,9 +240,13 @@ onAuthStateChanged(
     }
 
 
-    // ================================================
+    // ==============================================
     // ADMIN LOGGED IN
-    // ================================================
+    // ==============================================
+
+    currentUser =
+      user;
+
 
     console.log(
       "Admin Logged In:",
@@ -280,9 +254,9 @@ onAuthStateChanged(
     );
 
 
-    // ================================================
+    // ==============================================
     // SHOW ADMIN EMAIL
-    // ================================================
+    // ==============================================
 
     if (adminEmail) {
 
@@ -293,9 +267,9 @@ onAuthStateChanged(
     }
 
 
-    // ================================================
+    // ==============================================
     // LOAD NEWS
-    // ================================================
+    // ==============================================
 
     await loadNews();
 
@@ -320,7 +294,7 @@ if (logoutBtn) {
 
 
         logoutBtn.textContent =
-          "Logging out...";
+          "⏳ Logging out...";
 
 
         await signOut(
@@ -332,7 +306,9 @@ if (logoutBtn) {
           "admin-login.html";
 
 
-      } catch (error) {
+      }
+
+      catch (error) {
 
         console.error(
           "Logout Error:",
@@ -341,7 +317,7 @@ if (logoutBtn) {
 
 
         showMessage(
-          "❌ Logout করা যায়নি",
+          "❌ Logout করা যায়নি।",
           "error"
         );
 
@@ -362,8 +338,7 @@ if (logoutBtn) {
 
 
 // ======================================================
-// NEWS FORM
-// ADD + EDIT
+// ADD / UPDATE NEWS
 // ======================================================
 
 if (newsForm) {
@@ -375,9 +350,9 @@ if (newsForm) {
       event.preventDefault();
 
 
-      // ================================================
+      // ==============================================
       // GET VALUES
-      // ================================================
+      // ==============================================
 
       const category =
         categoryElement
@@ -403,9 +378,9 @@ if (newsForm) {
           : "";
 
 
-      // ================================================
+      // ==============================================
       // VALIDATION
-      // ================================================
+      // ==============================================
 
       if (
         !category ||
@@ -414,196 +389,326 @@ if (newsForm) {
       ) {
 
         showMessage(
-          "⚠️ Category, Title এবং Description পূরণ করুন",
+          "⚠️ Category, Title এবং Description পূরণ করুন।",
           "error"
         );
-
 
         return;
 
       }
 
 
-      // ================================================
-      // BUTTON LOADING
-      // ================================================
+      // ==============================================
+      // CHECK LOGIN
+      // ==============================================
 
-      if (submitButton) {
+      if (!currentUser) {
 
-        submitButton.disabled =
-          true;
+        showMessage(
+          "❌ Admin Login পাওয়া যায়নি। আবার Login করুন।",
+          "error"
+        );
 
-
-        submitButton.textContent =
-          editingNewsId
-            ? "⏳ Updating..."
-            : "⏳ Saving...";
+        return;
 
       }
 
 
-      try {
+      // ==============================================
+      // DISABLE BUTTON
+      // ==============================================
 
-        // ==============================================
-        // EDIT / UPDATE MODE
-        // ==============================================
+      if (saveNewsBtn) {
 
-        if (editingNewsId) {
+        saveNewsBtn.disabled =
+          true;
 
-          const newsRef =
-            doc(
-              db,
-              "news",
-              editingNewsId
-            );
+      }
 
 
-          await updateDoc(
-            newsRef,
-            {
+      // =================================================
+      // EDIT MODE
+      // =================================================
 
-              category:
-                category,
+      if (editNewsId) {
 
-              title:
-                title,
-
-              description:
-                description,
-
-              image:
-                image,
-
-              updatedAt:
-                serverTimestamp(),
-
-              updatedBy:
-                auth.currentUser
-                  ? auth.currentUser.email
-                  : "Admin"
-
-            }
-          );
-
-
-          // ============================================
-          // UPDATE SUCCESS
-          // ============================================
-
-          showMessage(
-            "✅ News সফলভাবে Update হয়েছে",
-            "success"
-          );
-
-
-          // ============================================
-          // RESET EDIT MODE
-          // ============================================
-
-          resetEditMode();
-
-
-        } else {
-
-          // ============================================
-          // ADD / PUBLISH MODE
-          // ============================================
-
-          await addDoc(
-            collection(
-              db,
-              "news"
-            ),
-            {
-
-              category:
-                category,
-
-              title:
-                title,
-
-              description:
-                description,
-
-              image:
-                image,
-
-              createdAt:
-                serverTimestamp(),
-
-              createdBy:
-                auth.currentUser
-                  ? auth.currentUser.email
-                  : "Admin"
-
-            }
-          );
-
-
-          // ============================================
-          // ADD SUCCESS
-          // ============================================
-
-          showMessage(
-            "✅ News সফলভাবে Publish হয়েছে",
-            "success"
-          );
-
-
-          // ============================================
-          // RESET FORM
-          // ============================================
-
-          newsForm.reset();
-
-        }
-
-
-        // ==============================================
-        // RELOAD NEWS
-        // ==============================================
-
-        await loadNews();
-
-
-      } catch (error) {
-
-        console.error(
-          "Save / Update News Error:",
-          error
+        await updateNews(
+          editNewsId,
+          category,
+          title,
+          description,
+          image
         );
 
+      }
 
-        showMessage(
-          "❌ News Save করা যায়নি: " +
-          error.message,
-          "error"
+
+      // =================================================
+      // ADD MODE
+      // =================================================
+
+      else {
+
+        await addNews(
+          category,
+          title,
+          description,
+          image
         );
-
-
-      } finally {
-
-        // ==============================================
-        // BUTTON RESET
-        // ==============================================
-
-        if (submitButton) {
-
-          submitButton.disabled =
-            false;
-
-
-          submitButton.textContent =
-            editingNewsId
-              ? "✏️ Update News"
-              : "💾 Save News";
-
-        }
 
       }
 
     }
   );
+
+}
+
+
+// ======================================================
+// ADD NEWS
+// ======================================================
+
+async function addNews(
+  category,
+  title,
+  description,
+  image
+) {
+
+  try {
+
+    // ==============================================
+    // BUTTON LOADING
+    // ==============================================
+
+    if (saveNewsBtn) {
+
+      saveNewsBtn.textContent =
+        "⏳ Publishing...";
+
+    }
+
+
+    // ==============================================
+    // FIRESTORE ADD
+    // ==============================================
+
+    await addDoc(
+      collection(
+        db,
+        "news"
+      ),
+      {
+
+        category:
+          category,
+
+        title:
+          title,
+
+        description:
+          description,
+
+        image:
+          image,
+
+        createdAt:
+          serverTimestamp(),
+
+        updatedAt:
+          serverTimestamp(),
+
+        createdBy:
+          currentUser.email ||
+          "Admin"
+
+      }
+    );
+
+
+    // ==============================================
+    // SUCCESS
+    // ==============================================
+
+    showMessage(
+      "✅ News সফলভাবে Publish হয়েছে।",
+      "success"
+    );
+
+
+    // ==============================================
+    // RESET FORM
+    // ==============================================
+
+    resetNewsForm();
+
+
+    // ==============================================
+    // RELOAD
+    // ==============================================
+
+    await loadNews();
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Add News Error:",
+      error
+    );
+
+
+    showMessage(
+      "❌ News Publish করা যায়নি: " +
+      error.message,
+      "error"
+    );
+
+  }
+
+  finally {
+
+    if (saveNewsBtn) {
+
+      saveNewsBtn.disabled =
+        false;
+
+      saveNewsBtn.textContent =
+        "💾 Save News";
+
+    }
+
+  }
+
+}
+
+
+// ======================================================
+// UPDATE NEWS
+// ======================================================
+
+async function updateNews(
+  newsId,
+  category,
+  title,
+  description,
+  image
+) {
+
+  try {
+
+    // ==============================================
+    // BUTTON LOADING
+    // ==============================================
+
+    if (saveNewsBtn) {
+
+      saveNewsBtn.textContent =
+        "⏳ Updating...";
+
+    }
+
+
+    // ==============================================
+    // NEWS DOCUMENT
+    // ==============================================
+
+    const newsRef =
+      doc(
+        db,
+        "news",
+        newsId
+      );
+
+
+    // ==============================================
+    // UPDATE FIRESTORE
+    // ==============================================
+
+    await updateDoc(
+      newsRef,
+      {
+
+        category:
+          category,
+
+        title:
+          title,
+
+        description:
+          description,
+
+        image:
+          image,
+
+        updatedAt:
+          serverTimestamp(),
+
+        updatedBy:
+          currentUser.email ||
+          "Admin"
+
+      }
+    );
+
+
+    // ==============================================
+    // SUCCESS
+    // ==============================================
+
+    showMessage(
+      "✅ News সফলভাবে Update হয়েছে।",
+      "success"
+    );
+
+
+    // ==============================================
+    // RESET FORM
+    // ==============================================
+
+    resetNewsForm();
+
+
+    // ==============================================
+    // RELOAD NEWS
+    // ==============================================
+
+    await loadNews();
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Update News Error:",
+      error
+    );
+
+
+    showMessage(
+      "❌ News Update করা যায়নি: " +
+      error.message,
+      "error"
+    );
+
+  }
+
+  finally {
+
+    if (saveNewsBtn) {
+
+      saveNewsBtn.disabled =
+        false;
+
+      saveNewsBtn.textContent =
+        "💾 Save News";
+
+    }
+
+  }
 
 }
 
@@ -621,9 +726,9 @@ async function loadNews() {
   }
 
 
-  // ====================================================
+  // ==============================================
   // LOADING
-  // ====================================================
+  // ==============================================
 
   newsList.innerHTML = `
 
@@ -638,13 +743,12 @@ async function loadNews() {
 
   try {
 
-    // ==================================================
-    // FIRESTORE QUERY
-    // ==================================================
+    // ==============================================
+    // QUERY
+    // ==============================================
 
     const newsQuery =
       query(
-
         collection(
           db,
           "news"
@@ -654,13 +758,8 @@ async function loadNews() {
           "createdAt",
           "desc"
         )
-
       );
 
-
-    // ==================================================
-    // GET DATA
-    // ==================================================
 
     const snapshot =
       await getDocs(
@@ -668,9 +767,9 @@ async function loadNews() {
       );
 
 
-    // ==================================================
-    // EMPTY NEWS
-    // ==================================================
+    // ==============================================
+    // EMPTY
+    // ==============================================
 
     if (
       snapshot.empty
@@ -712,32 +811,28 @@ async function loadNews() {
     }
 
 
-    // ==================================================
+    // ==============================================
     // CATEGORY SET
-    // ==================================================
+    // ==============================================
 
     const categories =
       new Set();
 
 
-    // ==================================================
-    // CLEAR LIST
-    // ==================================================
+    // ==============================================
+    // CLEAR
+    // ==============================================
 
     newsList.innerHTML =
       "";
 
 
-    // ==================================================
+    // ==============================================
     // LOOP NEWS
-    // ==================================================
+    // ==============================================
 
     snapshot.forEach(
       (newsDoc) => {
-
-        // ==============================================
-        // NEWS DATA
-        // ==============================================
 
         const news =
           newsDoc.data();
@@ -747,9 +842,9 @@ async function loadNews() {
           newsDoc.id;
 
 
-        // ==============================================
+        // ==========================================
         // CATEGORY
-        // ==============================================
+        // ==========================================
 
         if (
           news.category
@@ -762,9 +857,9 @@ async function loadNews() {
         }
 
 
-        // ==============================================
+        // ==========================================
         // IMAGE
-        // ==============================================
+        // ==========================================
 
         let imageHTML =
           "";
@@ -802,12 +897,12 @@ async function loadNews() {
         }
 
 
-        // ==============================================
+        // ==========================================
         // DATE
-        // ==============================================
+        // ==========================================
 
         let dateText =
-          "Recently";
+          "সম্প্রতি প্রকাশিত";
 
 
         if (
@@ -818,17 +913,16 @@ async function loadNews() {
 
           try {
 
-            const date =
-              news.createdAt.toDate();
-
-
             dateText =
-              date.toLocaleString(
-                "bn-BD"
-              );
+              news.createdAt
+                .toDate()
+                .toLocaleString(
+                  "bn-BD"
+                );
 
+          }
 
-          } catch (error) {
+          catch (error) {
 
             console.log(
               "Date Error:",
@@ -840,9 +934,9 @@ async function loadNews() {
         }
 
 
-        // ==============================================
+        // ==========================================
         // CREATE CARD
-        // ==============================================
+        // ==========================================
 
         const card =
           document.createElement(
@@ -854,9 +948,9 @@ async function loadNews() {
           "news-item";
 
 
-        // ==============================================
+        // ==========================================
         // CARD HTML
-        // ==============================================
+        // ==========================================
 
         card.innerHTML = `
 
@@ -870,7 +964,7 @@ async function loadNews() {
 
               ${escapeHTML(
                 news.category ||
-                "Uncategorized"
+                "সাধারণ"
               )}
 
             </span>
@@ -880,7 +974,7 @@ async function loadNews() {
 
               ${escapeHTML(
                 news.title ||
-                "Untitled News"
+                "শিরোনাম নেই"
               )}
 
             </h3>
@@ -912,7 +1006,7 @@ async function loadNews() {
 
                 type="button"
 
-                class="edit-news-btn"
+                class="edit-btn"
 
                 data-id="${escapeHTML(
                   newsId
@@ -929,7 +1023,7 @@ async function loadNews() {
 
                 type="button"
 
-                class="delete-news-btn"
+                class="delete-btn"
 
                 data-id="${escapeHTML(
                   newsId
@@ -950,9 +1044,9 @@ async function loadNews() {
         `;
 
 
-        // ==============================================
-        // APPEND CARD
-        // ==============================================
+        // ==========================================
+        // APPEND
+        // ==========================================
 
         newsList.appendChild(
           card
@@ -962,9 +1056,9 @@ async function loadNews() {
     );
 
 
-    // ==================================================
-    // UPDATE STATISTICS
-    // ==================================================
+    // ==============================================
+    // STATISTICS
+    // ==============================================
 
     if (totalNews) {
 
@@ -982,13 +1076,13 @@ async function loadNews() {
     }
 
 
-    // ==================================================
+    // ==============================================
     // EDIT BUTTONS
-    // ==================================================
+    // ==============================================
 
     const editButtons =
       newsList.querySelectorAll(
-        ".edit-news-btn"
+        ".edit-btn"
       );
 
 
@@ -1004,8 +1098,7 @@ async function loadNews() {
 
 
             startEditNews(
-              newsId,
-              snapshot
+              newsId
             );
 
           }
@@ -1015,13 +1108,13 @@ async function loadNews() {
     );
 
 
-    // ==================================================
+    // ==============================================
     // DELETE BUTTONS
-    // ==================================================
+    // ==============================================
 
     const deleteButtons =
       newsList.querySelectorAll(
-        ".delete-news-btn"
+        ".delete-btn"
       );
 
 
@@ -1047,7 +1140,9 @@ async function loadNews() {
     );
 
 
-  } catch (error) {
+  }
+
+  catch (error) {
 
     console.error(
       "Load News Error:",
@@ -1081,7 +1176,7 @@ async function loadNews() {
 
 
     showMessage(
-      "❌ Firestore থেকে News Load করা যায়নি",
+      "❌ Firestore থেকে News Load করা যায়নি।",
       "error"
     );
 
@@ -1095,85 +1190,141 @@ async function loadNews() {
 // ======================================================
 
 function startEditNews(
-  newsId,
-  snapshot
+  newsId
 ) {
 
-  if (
-    !newsId ||
-    !snapshot
-  ) {
-
-    return;
-
-  }
-
-
-  // ====================================================
-  // FIND NEWS
-  // ====================================================
-
-  let selectedNews =
-    null;
-
-
-  snapshot.forEach(
-    (newsDoc) => {
-
-      if (
-        newsDoc.id ===
-        newsId
-      ) {
-
-        selectedNews = {
-
-          id:
-            newsDoc.id,
-
-          ...newsDoc.data()
-
-        };
-
-      }
-
-    }
-  );
-
-
-  // ====================================================
-  // NEWS NOT FOUND
-  // ====================================================
-
-  if (!selectedNews) {
+  if (!newsId) {
 
     showMessage(
-      "❌ News পাওয়া যায়নি",
+      "❌ News ID পাওয়া যায়নি।",
       "error"
     );
 
+    return;
+
+  }
+
+
+  // ==============================================
+  // FIND NEWS
+  // ==============================================
+
+  const newsCard =
+    newsList.querySelector(
+      `[data-id="${CSS.escape(
+        newsId
+      )}"]`
+    );
+
+
+  if (!newsCard) {
+
+    showMessage(
+      "❌ News Card পাওয়া যায়নি।",
+      "error"
+    );
 
     return;
 
   }
 
 
-  // ====================================================
-  // SET EDITING ID
-  // ====================================================
+  // ==============================================
+  // FIND CARD CONTENT
+  // ==============================================
 
-  editingNewsId =
-    selectedNews.id;
+  const card =
+    newsCard.closest(
+      ".news-item"
+    );
 
 
-  // ====================================================
+  if (!card) {
+
+    showMessage(
+      "❌ News Card পাওয়া যায়নি।",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  // ==============================================
+  // GET NEWS DATA
+  // ==============================================
+
+  const category =
+    card
+      .querySelector(
+        ".news-category"
+      )
+      ?.textContent
+      .trim() ||
+      "";
+
+
+  const title =
+    card
+      .querySelector(
+        "h3"
+      )
+      ?.textContent
+      .trim() ||
+      "";
+
+
+  const description =
+    card
+      .querySelector(
+        "p"
+      )
+      ?.textContent
+      .trim() ||
+      "";
+
+
+  // ==============================================
+  // IMAGE URL
+  // ==============================================
+
+  let image = "";
+
+
+  const imageElement =
+    card.querySelector(
+      ".news-item-image"
+    );
+
+
+  if (
+    imageElement &&
+    imageElement.src
+  ) {
+
+    image =
+      imageElement.src;
+
+  }
+
+
+  // ==============================================
+  // SET EDIT MODE
+  // ==============================================
+
+  editNewsId =
+    newsId;
+
+
+  // ==============================================
   // FILL FORM
-  // ====================================================
+  // ==============================================
 
   if (categoryElement) {
 
     categoryElement.value =
-      selectedNews.category ||
-      "";
+      category;
 
   }
 
@@ -1181,8 +1332,7 @@ function startEditNews(
   if (titleElement) {
 
     titleElement.value =
-      selectedNews.title ||
-      "";
+      title;
 
   }
 
@@ -1190,8 +1340,7 @@ function startEditNews(
   if (descriptionElement) {
 
     descriptionElement.value =
-      selectedNews.description ||
-      "";
+      description;
 
   }
 
@@ -1199,34 +1348,50 @@ function startEditNews(
   if (imageElement) {
 
     imageElement.value =
-      selectedNews.image ||
-      "";
+      image;
 
   }
 
 
-  // ====================================================
-  // CHANGE BUTTON
-  // ====================================================
+  // ==============================================
+  // UPDATE FORM TITLE
+  // ==============================================
 
-  if (submitButton) {
+  if (formTitle) {
 
-    submitButton.textContent =
-      "✏️ Update News";
+    formTitle.textContent =
+      "✏️ Edit News";
 
   }
 
 
-  // ====================================================
-  // ADD CANCEL BUTTON
-  // ====================================================
+  // ==============================================
+  // UPDATE SAVE BUTTON
+  // ==============================================
 
-  createCancelEditButton();
+  if (saveNewsBtn) {
+
+    saveNewsBtn.textContent =
+      "💾 Update News";
+
+  }
 
 
-  // ====================================================
+  // ==============================================
+  // SHOW CANCEL BUTTON
+  // ==============================================
+
+  if (cancelEditBtn) {
+
+    cancelEditBtn.style.display =
+      "inline-block";
+
+  }
+
+
+  // ==============================================
   // SCROLL TO FORM
-  // ====================================================
+  // ==============================================
 
   if (newsForm) {
 
@@ -1242,108 +1407,50 @@ function startEditNews(
 
   }
 
-
-  showMessage(
-    "✏️ Edit Mode চালু হয়েছে। News পরিবর্তন করে Update করুন।",
-    "success"
-  );
-
 }
 
 
 // ======================================================
-// CREATE CANCEL EDIT BUTTON
+// CANCEL EDIT
 // ======================================================
 
-function createCancelEditButton() {
+if (cancelEditBtn) {
 
-  // ====================================================
-  // IF ALREADY EXISTS
-  // ====================================================
-
-  let cancelButton =
-    document.getElementById(
-      "cancelEditBtn"
-    );
-
-
-  if (
-    cancelButton
-  ) {
-
-    cancelButton.style.display =
-      "inline-block";
-
-
-    return;
-
-  }
-
-
-  // ====================================================
-  // CREATE BUTTON
-  // ====================================================
-
-  cancelButton =
-    document.createElement(
-      "button"
-    );
-
-
-  cancelButton.type =
-    "button";
-
-
-  cancelButton.id =
-    "cancelEditBtn";
-
-
-  cancelButton.textContent =
-    "❌ Cancel Edit";
-
-
-  cancelButton.style.marginLeft =
-    "10px";
-
-
-  cancelButton.addEventListener(
+  cancelEditBtn.addEventListener(
     "click",
     () => {
 
-      resetEditMode();
+      resetNewsForm();
+
+
+      showMessage(
+        "✖️ Edit Cancel করা হয়েছে।",
+        "success"
+      );
 
     }
   );
 
-
-  // ====================================================
-  // ADD AFTER SAVE BUTTON
-  // ====================================================
-
-  if (submitButton) {
-
-    submitButton.parentNode.appendChild(
-      cancelButton
-    );
-
-  }
-
 }
 
 
 // ======================================================
-// RESET EDIT MODE
+// RESET FORM
 // ======================================================
 
-function resetEditMode() {
+function resetNewsForm() {
 
-  editingNewsId =
+  // ==============================================
+  // RESET EDIT ID
+  // ==============================================
+
+  editNewsId =
     null;
 
 
-  // ====================================================
+  // ==============================================
   // RESET FORM
-  // ====================================================
+  // ==============================================
 
   if (newsForm) {
 
@@ -1352,33 +1459,37 @@ function resetEditMode() {
   }
 
 
-  // ====================================================
-  // RESET SUBMIT BUTTON
-  // ====================================================
+  // ==============================================
+  // FORM TITLE
+  // ==============================================
 
-  if (submitButton) {
+  if (formTitle) {
 
-    submitButton.textContent =
+    formTitle.textContent =
+      "➕ Add New News";
+
+  }
+
+
+  // ==============================================
+  // SAVE BUTTON
+  // ==============================================
+
+  if (saveNewsBtn) {
+
+    saveNewsBtn.textContent =
       "💾 Save News";
 
   }
 
 
-  // ====================================================
-  // HIDE CANCEL BUTTON
-  // ====================================================
+  // ==============================================
+  // CANCEL BUTTON
+  // ==============================================
 
-  const cancelButton =
-    document.getElementById(
-      "cancelEditBtn"
-    );
+  if (cancelEditBtn) {
 
-
-  if (
-    cancelButton
-  ) {
-
-    cancelButton.style.display =
+    cancelEditBtn.style.display =
       "none";
 
   }
@@ -1397,23 +1508,22 @@ async function deleteNews(
   if (!newsId) {
 
     showMessage(
-      "❌ News ID পাওয়া যায়নি",
+      "❌ News ID পাওয়া যায়নি।",
       "error"
     );
-
 
     return;
 
   }
 
 
-  // ====================================================
+  // ==============================================
   // CONFIRM
-  // ====================================================
+  // ==============================================
 
   const confirmed =
     confirm(
-      "আপনি কি এই News টি Delete করতে চান?"
+      "আপনি কি নিশ্চিতভাবে এই News টি Delete করতে চান?"
     );
 
 
@@ -1426,9 +1536,9 @@ async function deleteNews(
 
   try {
 
-    // ==================================================
-    // DELETE
-    // ==================================================
+    // ==============================================
+    // DELETE DOCUMENT
+    // ==============================================
 
     await deleteDoc(
       doc(
@@ -1439,41 +1549,43 @@ async function deleteNews(
     );
 
 
-    // ==================================================
+    // ==============================================
     // IF EDITING DELETED NEWS
-    // ==================================================
+    // ==============================================
 
     if (
-      editingNewsId ===
+      editNewsId ===
       newsId
     ) {
 
-      resetEditMode();
+      resetNewsForm();
 
     }
 
 
-    // ==================================================
+    // ==============================================
     // SUCCESS
-    // ==================================================
+    // ==============================================
 
     showMessage(
-      "✅ News Delete হয়েছে",
+      "🗑️ News সফলভাবে Delete হয়েছে।",
       "success"
     );
 
 
-    // ==================================================
+    // ==============================================
     // RELOAD
-    // ==================================================
+    // ==============================================
 
     await loadNews();
 
 
-  } catch (error) {
+  }
+
+  catch (error) {
 
     console.error(
-      "Delete Error:",
+      "Delete News Error:",
       error
     );
 
@@ -1490,7 +1602,7 @@ async function deleteNews(
 
 
 // ======================================================
-// REFRESH
+// REFRESH NEWS
 // ======================================================
 
 if (refreshBtn) {
@@ -1499,42 +1611,29 @@ if (refreshBtn) {
     "click",
     async () => {
 
-      try {
-
-        refreshBtn.disabled =
-          true;
+      refreshBtn.disabled =
+        true;
 
 
-        refreshBtn.textContent =
-          "⏳ Loading...";
+      refreshBtn.textContent =
+        "⏳ Loading...";
 
 
-        await loadNews();
+      await loadNews();
 
 
-        showMessage(
-          "🔄 News List Refresh হয়েছে",
-          "success"
-        );
+      refreshBtn.disabled =
+        false;
 
 
-      } catch (error) {
-
-        console.error(
-          "Refresh Error:",
-          error
-        );
-
-      } finally {
-
-        refreshBtn.disabled =
-          false;
+      refreshBtn.textContent =
+        "🔄 Refresh";
 
 
-        refreshBtn.textContent =
-          "🔄 Refresh";
-
-      }
+      showMessage(
+        "🔄 News List Refresh হয়েছে।",
+        "success"
+      );
 
     }
   );
@@ -1544,7 +1643,6 @@ if (refreshBtn) {
 
 // ======================================================
 // ESCAPE HTML
-// SECURITY FUNCTION
 // ======================================================
 
 function escapeHTML(
@@ -1598,5 +1696,5 @@ function escapeHTML(
 // ======================================================
 
 console.log(
-  "✅ Daily Sheen V7 Admin Dashboard Loaded Successfully"
+  "✅ Daily Sheen V7 Admin Dashboard Loaded"
 );
