@@ -671,51 +671,40 @@ function renderNews() {
             ========================= */
 
             card.innerHTML = `
+    <img
+        src="${image}"
+        alt="${title}"
+        loading="lazy"
+        onerror="this.src='assets/news1.jpg'"
+    >
 
-                <img
-                    src="${escapeHTML(image)}"
-                    alt="${escapeHTML(title)}"
-                    loading="lazy"
-                    onerror="
-                        this.onerror=null;
-                        this.src='assets/news1.jpg';
-                    "
-                >
+    <div class="news-card-content">
 
+        <span class="news-category">
+            ${category}
+        </span>
 
-                <div class="news-card-content">
+        <h3>
+            ${title}
+        </h3>
 
+        <p>
+            ${description}
+        </p>
 
-                    <span class="news-category">
+        <div class="news-date">
+            📅 ${dateText}
+        </div>
 
-                        ${escapeHTML(category)}
+        <a
+            href="news-details.html?id=${encodeURIComponent(news.id)}"
+            class="read-more-btn"
+        >
+            বিস্তারিত পড়ুন →
+        </a>
 
-                    </span>
-
-
-                    <h3>
-
-                        ${escapeHTML(title)}
-
-                    </h3>
-
-
-                    <p>
-
-                        ${escapeHTML(
-                            createShortDescription(
-                                description
-                            )
-                        )}
-
-                    </p>
-
-
-                    <div class="news-date">
-
-                        📅 ${escapeHTML(dateText)}
-
-                    </div>
+    </div>
+`;
 
    <a
     href="news-details.html?id=${encodeURIComponent(news.id)}"
